@@ -13,9 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { cn, formatDate } from "@/lib/utils";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
-import { useMemo } from "react";
+
 
 
 export const InspectionColumns: ColumnDef<Inspection>[] = [
@@ -73,7 +71,7 @@ export const InspectionColumns: ColumnDef<Inspection>[] = [
     },
     cell: ({ row }) => {
       const getIsExecuted = row.getValue("isExecuted") || "";
-      const isExecuted = useMemo(() => getIsExecuted === "ejecutada" , [getIsExecuted]);
+      const isExecuted =  getIsExecuted === "ejecutada"
 
       return (
         <Badge className={cn("bg-slate-500", isExecuted && "bg-emerald-700")}>
