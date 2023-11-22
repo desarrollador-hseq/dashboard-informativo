@@ -13,6 +13,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { db } from "@/lib/db";
+import axios from "axios";
+
+const getdata = async () => {
+  const {data} = await axios.get("/api/parameters/formation")
+
+  return data;
+}
+
+
+const threshold = getdata();
+
 
 export const collaboratorColumns: ColumnDef<Collaborator>[] = [
   {
@@ -84,17 +96,17 @@ export const collaboratorColumns: ColumnDef<Collaborator>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Formación
+          Evaluación
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
       const numPerc = row.getValue("percentage") || 0;
-      const isFormed = numPerc === 100 ? true : false;
+      const onFormation = numPerc === 0 ? true : false;
 
       return (
-        <Badge className="relative w-[150px] bg-slate-200 p-0 overflow-hidden text-center h-6">
+        <Badge className={cn("relative w-[120px] rounded-sm p-0 overflow-hidden text-center h-6 bg-slate-200 hover:bg-slate-900 ")}>
           <div
             style={{
               display: "flex",
@@ -103,15 +115,15 @@ export const collaboratorColumns: ColumnDef<Collaborator>[] = [
               whiteSpace: "nowrap",
               textAlign: "center",
             }}
-            className={cn("bg-secondary/60", isFormed && "bg-emerald-700 ")}
+            className={cn("bg-secondary/60", numPerc  && "bg-slate-400")}
           ></div>
           <span
             className={cn(
-              `absolute m-auto left-0 right-0 text-slate-900 font-bold`,
-              isFormed && "text-white"
+              `absolute m-auto left-0 right-0 text-white font-bold`,
+              onFormation && "text-slate-900 hover:text-white"
             )}
           >
-            {isFormed ? "completada" : "en proceso"}
+            {!onFormation ? numPerc + " %" : "en formación"}
           </span>
         </Badge>
       );

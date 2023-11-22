@@ -14,10 +14,12 @@ import { collaboratorColumns } from "@/app/admin/colaboradores/_components/colla
 
 interface CollaboratorsReportsProps {
   collaborators: Collaborator[];
+  threshold: number;
 }
 
 export const CollaboratorsReports = ({
   collaborators,
+  threshold,
 }: CollaboratorsReportsProps) => {
   const { date } = useDashboard();
 
@@ -31,6 +33,7 @@ export const CollaboratorsReports = ({
             (!date.to || startDate <= date.to)
           );
         });
+
   return (
     <div className="w-full flex flex-col justify-center p-2 mb-6">
       <div className="w-full grid grid-cols-3 h-16 place-content-center">
@@ -48,13 +51,13 @@ export const CollaboratorsReports = ({
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
         <div>
-          <CollaboratorsKpi collaborators={filteredCollaborators} />
+          <CollaboratorsKpi threshold={threshold} collaborators={filteredCollaborators} />
         </div>
+        {/* <div>
+          <PercentagePie  collaborators={filteredCollaborators} />
+        </div> */}
         <div>
-          <PercentagePie collaborators={filteredCollaborators} />
-        </div>
-        <div>
-          <CollaboratorFormed collaborators={filteredCollaborators} />
+          <CollaboratorFormed  threshold={threshold}  collaborators={filteredCollaborators} />
         </div>
         <div>
           <CollaboratorsCity collaborators={filteredCollaborators} />

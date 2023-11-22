@@ -8,17 +8,19 @@ import { useDashboard } from "@/components/providers/dashboard-provider";
 
 interface CollaboratorsReportsProps {
   collaborators: Collaborator[];
+  threshold: number
 }
 
 export const CollaboratorFormed = ({
   collaborators,
+  threshold
 }: CollaboratorsReportsProps) => {
 
 
 
   const countFormedCollaborators = () => {
     return collaborators.reduce((count, collaborator) => {
-      if (collaborator.percentage === 100 && collaborator.evaluationPass) {
+      if (collaborator.percentage >= threshold) {
         return count + 1;
       }
       return count;
@@ -29,40 +31,51 @@ export const CollaboratorFormed = ({
   const totalCount = collaborators.length;
   const notFormedCount = totalCount - formedCount;
 
+  const formedCountValue = (formedCount / totalCount) * 100
+  const notFormedCountValue = 100 - formedCountValue;
+
   const chartData = [
-    { value: formedCount, name: 'Colaboradores Formados' },
-    { value: notFormedCount, name: 'Colaboradores No Formados' }
+    { value: formedCountValue.toFixed(0) , name: 'Formados' },
+    { value: notFormedCountValue.toFixed(0) , name: 'En formación' }
   ];
 
   const options = {
     tooltip: {
       trigger: "item",
+      formatter: "{b}: {d}%"
     },
     legend: {
-      top: "5%",
-      left: "center",
+      show: false,
+      top: "0%",
+      left: "center",   
     },
     series: [
       {
+        name: "",
         type: "pie",
         radius: ["50%", "70%"],
         avoidLabelOverlap: false,
         label: {
-          show: false,
-          position: "center",
+          show: true,
+
+          formatter(param: any) {
+            // correct the percentage
+            return param.name + ' (' + param.value + '%)';
+          }
         },
         emphasis: {
           label: {
             show: true,
-            fontSize: 30,
+            fontSize: 14,
             fontWeight: "bold",
           },
         },
         labelLine: {
-          show: false,
+          show: true,
         },
         data:  collaborators.length !== 0 ? chartData : [],
         color: ["#cf5a40", "#6e7f98"], 
+    
       },
     ],
     title: {

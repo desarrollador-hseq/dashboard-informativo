@@ -5,16 +5,18 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 interface CollaboratorsReportsProps {
   collaborators: Collaborator[];
+  threshold: number;
 }
 
 export const CollaboratorsKpi = ({
   collaborators,
+  threshold
 }: CollaboratorsReportsProps) => {
   
 
   const countFormedCollaborators = () => {
     return collaborators.reduce((count, collaborator) => {
-      if (collaborator.percentage === 100 && collaborator.evaluationPass) {
+      if (collaborator.percentage >= threshold ) {
         return count + 1;
       }
       return count;

@@ -11,7 +11,6 @@ datasource db {
   relationMode = "prisma"
 }
 
-
 model User {
   id String @id @default(uuid())
 
@@ -32,34 +31,41 @@ enum Role {
 model Collaborator {
   id String @id @default(uuid())
 
-  name      String
-  lastname  String?
-  docType  DocType @default(CC)
-  numDoc    String   @unique
-  city    String
-  startDate DateTime
-  endDate   DateTime
-  percentage Float @default(0.0)
+  name       String
+  lastname   String?
+  docType    DocType  @default(CC)
+  numDoc     String   @unique
+  city       String
+  startDate  DateTime
+  endDate    DateTime
+  percentage Float    @default(0.0)
 
-  evaluationPass Boolean @default(false)
+  // evaluationPass Boolean @default(false)
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FormationParameters {
+  id String @id @default(uuid())
+
+  threshold Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 enum DocType {
   CC
-  TI 
+  TI
   CE
 }
 
 model Inspection {
   id String @id @default(uuid())
 
-  city String
-  date DateTime
-  isExecuted Boolean @default(false)
-
+  city       String
+  date       DateTime
+  isExecuted Boolean  @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -69,7 +75,7 @@ model Report {
   id String @id @default(uuid())
 
   deliveryDate DateTime
-  conformity Boolean @default(false)
+  conformity   Boolean  @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

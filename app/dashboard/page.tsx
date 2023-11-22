@@ -14,6 +14,19 @@ import { ReportsChartReports } from "./_components/reports/reports-chart-reports
 
 const DashboardPage = async () => {
   const collaborators = await db.collaborator.findMany();
+  const getFormationThreshold = async () => {
+    try {
+      const formationThreshold = await db.formationParameters.findFirst();
+      return formationThreshold?.threshold;
+    } catch (error) {
+      console.error('Error al obtener el umbral de formación:', error);
+      throw error;
+    } finally {
+      await db.$disconnect();
+    }
+  };
+  const thresholdValue = await getFormationThreshold();
+  const threshold = thresholdValue ? thresholdValue : 80
   const inspections = await db.inspection.findMany();
   const report = await db.report.findMany();
 
@@ -30,7 +43,7 @@ const DashboardPage = async () => {
         {/* <CollaboratorsCard /> */}
         <CardContent className="w-full grid grid-cols-1 p-2">
           {collaborators && (
-            <CollaboratorsReports collaborators={collaborators} />
+            <CollaboratorsReports threshold={threshold} collaborators={collaborators} />
           )}
           <Separator className="h-1.5 bg-primary" />
           {inspections && <InspectionsReports inspections={inspections} />}

@@ -76,7 +76,7 @@ const formSchema = z.object({
   percentage: z.number().min(0).max(100, {
     message: "Porcentaje debe ser un número entre 0 y 100",
   }),
-  evaluationPass: z.boolean().default(false),
+  // evaluationPass: z.boolean().default(false),
 });
 
 export const AddCollaboratorForm = ({
@@ -100,7 +100,7 @@ export const AddCollaboratorForm = ({
       startDate: collaborator?.startDate || undefined,
       endDate: collaborator?.endDate || undefined,
       percentage: collaborator?.percentage || 0,
-      evaluationPass: !!collaborator?.evaluationPass || false,
+      // evaluationPass: !!collaborator?.evaluationPass || false,
     },
   });
   const { isSubmitting, isValid } = form.formState;
@@ -152,9 +152,9 @@ export const AddCollaboratorForm = ({
     return true;
   };
 
-  const handleEvaluation = (e: CheckedState) => {
-    setValue("evaluationPass", !!e);
-  }
+  // const handleEvaluation = (e: CheckedState) => {
+  //   setValue("evaluationPass", !!e);
+  // }
 
   return (
     <div className=" max-w-[1500px] mx-auto">
@@ -392,7 +392,7 @@ export const AddCollaboratorForm = ({
                   )}
                 />
               </div>
-              <div>
+              {/* <div>
                 <FormField
                   control={form.control}
                   name="evaluationPass"
@@ -440,7 +440,7 @@ export const AddCollaboratorForm = ({
                     </FormItem>
                   )}
                 />
-              </div>
+              </div> */}
             </div>
           </div>
 

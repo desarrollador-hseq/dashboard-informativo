@@ -13,7 +13,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { IconBadge } from "@/components/ui/icon-badge";
-import { Input } from "@/components/ui/input";
 import axios from "axios";
 import {
   Popover,
@@ -26,23 +25,19 @@ import {
   CalendarIcon,
   Check,
   Loader2,
-  ThumbsUp,
   UserCog,
   UserPlus,
   X,
 } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
-import { addDays, format } from "date-fns";
+import { format } from "date-fns";
 import { cn, formatDate } from "@/lib/utils";
 
 import { es } from "date-fns/locale";
-import { DateRange } from "react-day-picker";
-import { Slider } from "@/components/ui/slider";
 import { Separator } from "@/components/ui/separator";
 import {
   Select,
