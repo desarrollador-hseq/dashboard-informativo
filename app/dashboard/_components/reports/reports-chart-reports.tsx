@@ -9,14 +9,11 @@ import { CollaboratorDataTable } from "@/app/admin/colaboradores/_components/col
 import { reportColumns } from "@/app/admin/informes/_components/reports-datatable-column";
 import { ReportsDataTable } from "@/app/admin/informes/_components/reports-datatable";
 
-
 interface ReportsChartReportsProps {
   reports: Report[];
 }
 
-export const ReportsChartReports = ({
-  reports,
-}: ReportsChartReportsProps) => {
+export const ReportsChartReports = ({ reports }: ReportsChartReportsProps) => {
   const { date } = useDashboard();
 
   const filteredReports =
@@ -31,19 +28,13 @@ export const ReportsChartReports = ({
         });
   return (
     <div className="w-full flex flex-col justify-center p-2">
-       <div className="w-full grid grid-cols-3 h-16 place-content-center">
+      <div className="w-full grid grid-cols-3 h-16 place-content-center">
         <div />
         <h2 className="text-3xl font-bold text-center">Informes</h2>
         <div className="place-content-center flex justify-end">
-          <ShowTableModal
-            title="Informes"
-            children={
-              <ReportsDataTable
-                columns={reportColumns}
-                data={filteredReports}
-              />
-            }
-          />
+          <ShowTableModal title="Colaboradores">
+            <ReportsDataTable columns={reportColumns} data={filteredReports} />
+          </ShowTableModal>
         </div>
       </div>
 

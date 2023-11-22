@@ -94,6 +94,7 @@ export const AddInspectionForm = ({ inspection }: AddInspectionFormProps) => {
         toast.success("Inspección programada");
       }
       router.push(`/admin/inspecciones/`);
+      router.refresh();
     } catch (error) {
       console.error(error);
       toast.error("Ocurrió un error inesperado");

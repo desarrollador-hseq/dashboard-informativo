@@ -88,6 +88,7 @@ export const AddReportForm = ({ report }: AddInspectionFormProps) => {
         toast.success("informe registrado");
       }
       router.push(`/admin/informes/`);
+      router.refresh();
     } catch (error) {
       console.error(error);
       toast.error("Ocurrió un error inesperado");

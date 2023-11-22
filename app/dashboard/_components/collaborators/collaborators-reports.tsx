@@ -33,19 +33,16 @@ export const CollaboratorsReports = ({
         });
   return (
     <div className="w-full flex flex-col justify-center p-2 mb-6">
-     <div className="w-full grid grid-cols-3 h-16 place-content-center">
+      <div className="w-full grid grid-cols-3 h-16 place-content-center">
         <div />
         <h2 className="text-3xl font-bold text-center">Colaboradores</h2>
         <div className="place-content-center flex justify-end">
-          <ShowTableModal
-            title="Colaboradores"
-            children={
-              <CollaboratorDataTable
-                columns={collaboratorColumns}
-                data={filteredCollaborators}
-              />
-            }
-          />
+          <ShowTableModal title="Colaboradores">
+            <CollaboratorDataTable
+              columns={collaboratorColumns}
+              data={filteredCollaborators}
+            />
+          </ShowTableModal>
         </div>
       </div>
 

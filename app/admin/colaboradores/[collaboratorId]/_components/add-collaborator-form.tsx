@@ -114,9 +114,9 @@ export const AddCollaboratorForm = ({
       } else {
         const { data } = await axios.post(`/api/collaborators/`, values);
         console.log({ data });
-        router.push(`/admin/colaboradores`);
         toast.success("Colaborador creado");
       }
+      router.push(`/admin/colaboradores`);
       router.refresh();
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -402,9 +402,9 @@ export const AddCollaboratorForm = ({
                         Evaluacion{" "}
                       </FormLabel>
                       <div
-                        onClick={() =>
-                          handleEvaluation(!!!(field.value))
-                          }
+                        // onClick={() =>
+                        //   handleEvaluation(!!!(field.value))
+                        //   }
                         className={cn(
                           "w-full h-11 flex gap-3 justify-between items-center bg-slate-100 space-y-0 rounded-md border p-4 hover:cursor-pointer",
                           field.value && "bg-green-600"

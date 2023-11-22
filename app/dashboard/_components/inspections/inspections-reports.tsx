@@ -37,15 +37,12 @@ export const InspectionsReports = ({
         <div />
         <h2 className="text-3xl font-bold text-center">Inspecciones</h2>
         <div className="place-content-center flex justify-end">
-          <ShowTableModal
-            title="Inspecciones"
-            children={
-              <InspectionsDataTable
-                columns={InspectionColumns}
-                data={filteredInspections}
-              />
-            }
-          />
+          <ShowTableModal title="Colaboradores">
+            <InspectionsDataTable
+              columns={InspectionColumns}
+              data={filteredInspections}
+            />
+          </ShowTableModal>
         </div>
       </div>
 

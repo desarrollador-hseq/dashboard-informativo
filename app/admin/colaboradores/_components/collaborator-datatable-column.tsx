@@ -94,8 +94,25 @@ export const collaboratorColumns: ColumnDef<Collaborator>[] = [
       const isFormed = numPerc === 100 ? true : false;
 
       return (
-        <Badge className={cn("bg-slate-500", isFormed && "bg-emerald-700")}>
-          {isFormed ? "completada" : "en proceso"}
+        <Badge className="relative w-[150px] bg-slate-200 p-0 overflow-hidden text-center h-6">
+          <div
+            style={{
+              display: "flex",
+              width: numPerc && `${numPerc}%`,
+              height: "100%",
+              whiteSpace: "nowrap",
+              textAlign: "center",
+            }}
+            className={cn("bg-secondary/60", isFormed && "bg-emerald-700 ")}
+          ></div>
+          <span
+            className={cn(
+              `absolute m-auto left-0 right-0 text-slate-900 font-bold`,
+              isFormed && "text-white"
+            )}
+          >
+            {isFormed ? "completada" : "en proceso"}
+          </span>
         </Badge>
       );
     },

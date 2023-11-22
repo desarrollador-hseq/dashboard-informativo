@@ -48,10 +48,7 @@ export const reportColumns: ColumnDef<Report>[] = [
     },
     cell: ({ row }) => {
       const getIsConformity = row.getValue("conformity") || "";
-      const isConformity = useMemo(
-        () => getIsConformity === "Sí",
-        [getIsConformity]
-      );
+      const isConformity = getIsConformity === "Sí"
 
       return (
         <Badge className={cn("bg-red-700", isConformity && "bg-emerald-700")}>
