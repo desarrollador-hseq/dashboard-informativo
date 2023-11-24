@@ -38,7 +38,7 @@ export const InspectionsKpi = ({
     <>
       <Card className="h-full">
         <CardHeader></CardHeader>
-        <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <CardContent className="grid grid-cols-1 md:grid-cols-2 md:grid-rows-2 gap-3">
           {/* =============== 1 =============== */}
           <Card className={`${inspections.length > 0 ? "bg-primary" : "bg-zinc-400"} rounded-lg text-white`}>
             <CardHeader className="flex justify-center font-semibold ">
@@ -62,7 +62,7 @@ export const InspectionsKpi = ({
             </CardContent>
           </Card>
           {/* =============== 3 =============== */}
-          <Card className={`${inspections.length > 0 ? "bg-primary" : "bg-zinc-400"} rounded-lg text-white`}>
+          <Card className={`md:col-span-2 ${inspections.length > 0 ? "bg-primary" : "bg-zinc-400"} rounded-lg text-white`}>
             <CardHeader className="flex justify-center font-semibold ">
               <h4 className="text-center">Porcentaje de ejecución</h4>
             </CardHeader>

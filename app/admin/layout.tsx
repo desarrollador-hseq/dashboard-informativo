@@ -22,7 +22,7 @@ const AdminLayout = async ({ children }: { children: ReactNode }) => {
     <div>
       <main className="relative flex flex-col h-full max-h-screen m-0 p-0 ">
         <AdminNavbar />
-        <div className="mt-1 p-2 min-h-screen overflow-y-auto">
+        <div className="mt-1 p-2 min-h-screen overflow-y-auto w-full max-w-[1500px] mx-auto">
           {children}
           </div>
       </main>

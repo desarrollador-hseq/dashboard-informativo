@@ -1,7 +1,6 @@
 "use client";
 import { ChangeEvent, useState } from "react";
-import Link from "next/link";
-import { PlusCircle } from "lucide-react";
+import { useSession } from "next-auth/react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -34,8 +33,6 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useSession } from "next-auth/react";
-
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -51,7 +48,11 @@ export function InspectionsDataTable<TData, TValue>({
   const [itemFilter, setItemFilter] = useState("city");
 
   const columns = columnsAll.filter((column) => {
-    return !(session && session?.user.role !== "ADMIN" && column.id === "actions");
+    return !(
+      session &&
+      session?.user.role !== "ADMIN" &&
+      column.id === "actions"
+    );
   });
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -74,9 +75,9 @@ export function InspectionsDataTable<TData, TValue>({
     table.getColumn(itemFilter)?.setFilterValue("");
     setItemFilter(e);
   };
-  
-  const handleFiltering = (e:  ChangeEvent<HTMLInputElement>) => {
-      table.getColumn(itemFilter)?.setFilterValue(e.target.value);
+
+  const handleFiltering = (e: ChangeEvent<HTMLInputElement>) => {
+    table.getColumn(itemFilter)?.setFilterValue(e.target.value);
   };
 
   return (
@@ -88,9 +89,7 @@ export function InspectionsDataTable<TData, TValue>({
             value={
               (table.getColumn(itemFilter)?.getFilterValue() as string) ?? ""
             }
-            onChange={(event) =>
-             handleFiltering(event)
-            }
+            onChange={(event) => handleFiltering(event)}
             className="min-w-[300px]"
           />
 
@@ -100,24 +99,13 @@ export function InspectionsDataTable<TData, TValue>({
             </SelectTrigger>
             <SelectContent className="">
               <SelectGroup>
-              
                 <SelectItem value="city">Ciudad</SelectItem>
                 <SelectItem value="date">fecha de ejecución</SelectItem>
-                <SelectItem value="isExecuted">Estado</SelectItem> 
+                <SelectItem value="isExecuted">Estado</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
-
         </div>
-          {session && session.user.role === "ADMIN" && (
-                <Link href="/admin/inspecciones/crear">
-                <Button>
-                  <PlusCircle className="w-4 h-4 mr-2" />
-                  Agregar Inspección
-                </Button>
-              </Link>
-        )}
-
       </div>
       <div className="rounded-md border">
         <Table>

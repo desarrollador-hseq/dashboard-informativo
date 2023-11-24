@@ -1,5 +1,5 @@
 
-import React from "react";
+
 import { Collaborator } from "@prisma/client";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
@@ -34,10 +34,10 @@ export const CollaboratorsKpi = ({
   return (
     <>
       <Card className="h-full">
-        <CardHeader></CardHeader>
-        <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-3 ">
+        {/* <CardHeader></CardHeader> */}
+        <CardContent className="grid grid-cols-1 md:grid-cols-2 md:grid-rows-2 gap-5 p-8">
           {/* =============== 1 =============== */}
-          <Card className={`${collaborators.length > 0 ? "bg-primary" : "bg-zinc-400"} rounded-lg text-white`}>
+          <Card className={` h-full ${collaborators.length > 0 ? "bg-primary" : "bg-zinc-400"} rounded-lg text-white`}>
             <CardHeader className="flex justify-center font-semibold ">
               <h4 className="text-center">Total colaboradores</h4>
             </CardHeader>
@@ -48,7 +48,7 @@ export const CollaboratorsKpi = ({
             </CardContent>
           </Card>
           {/* =============== 2 =============== */}
-          <Card className={`${collaborators.length > 0 ? "bg-primary" : "bg-zinc-400"} rounded-lg text-white`}>
+          <Card className={` h-full ${collaborators.length > 0 ? "bg-primary" : "bg-zinc-400"} rounded-lg text-white`}>
             <CardHeader className="flex justify-center font-semibold ">
               <h4 className="text-center">Total colaboradores formados</h4>
             </CardHeader>
@@ -57,7 +57,7 @@ export const CollaboratorsKpi = ({
             </CardContent>
           </Card>
           {/* =============== 3 =============== */}
-          <Card className={`${collaborators.length > 0 ? "bg-primary" : "bg-zinc-400"} rounded-lg text-white`}>
+          <Card className={` h-full md:col-span-2 ${collaborators.length > 0 ? "bg-primary" : "bg-zinc-400"} rounded-lg text-white`}>
             <CardHeader className="flex justify-center font-semibold ">
               <h4 className="text-center">Porcentaje de formacion</h4>
             </CardHeader>

@@ -1,11 +1,8 @@
 "use client";
-import React from "react";
-import ReactEcharts from "echarts-for-react";
+
 import { Collaborator } from "@prisma/client";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { capitalizeFirstLetter } from "@/lib/utils";
-import { useDashboard } from "@/components/providers/dashboard-provider";
+import { capitalizeFirstLetter, cn } from "@/lib/utils";
+import { Chart } from "@/components/chart";
 
 interface CollaboratorsReportsProps {
   collaborators: Collaborator[];
@@ -14,8 +11,6 @@ interface CollaboratorsReportsProps {
 export const CollaboratorsCity = ({
   collaborators,
 }: CollaboratorsReportsProps) => {
-
-
   const processDataForBarChart = () => {
     const countsByCity = collaborators.reduce((acc: any, collaborator) => {
       const city = capitalizeFirstLetter(collaborator.city) || "Desconocida";
@@ -29,11 +24,9 @@ export const CollaboratorsCity = ({
     return { cities, counts };
   };
 
-  // Datos procesados para el gráfico
   const { cities, counts } = processDataForBarChart();
 
-  // Opciones del gráfico
-  const options = {
+  const option = {
     tooltip: {
       trigger: "axis",
       axisPointer: {
@@ -58,7 +51,7 @@ export const CollaboratorsCity = ({
       axisLabel: {
         formatter: (value: any) => Math.round(value),
       },
-      interval: 1, // Ajusta este valor según tus necesidades
+      interval: 1,
     },
     series: [
       {
@@ -68,7 +61,7 @@ export const CollaboratorsCity = ({
         },
         data: counts,
         itemStyle: {
-          color: '#cf5a40', // Reemplaza 'aqui_tu_color' con el color que prefieras
+          color: "#981b1b",
         },
         type: "bar",
       },
@@ -85,16 +78,5 @@ export const CollaboratorsCity = ({
     },
   };
 
-  return (
-    <Card className="">
-      <CardHeader>
-        <span className="font-bold text-xl">Colaboradores por ciudad</span>
-      </CardHeader>
-      <Separator />
-
-      <CardContent>
-        <ReactEcharts option={options} />
-      </CardContent>
-    </Card>
-  );
+  return <Chart option={option} title="Número de colaboradores por ciudad" />;
 };

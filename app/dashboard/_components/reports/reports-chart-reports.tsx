@@ -8,6 +8,8 @@ import { ShowTableModal } from "../modals/show-table";
 import { CollaboratorDataTable } from "@/app/admin/colaboradores/_components/collaborator-datatable";
 import { reportColumns } from "@/app/admin/informes/_components/reports-datatable-column";
 import { ReportsDataTable } from "@/app/admin/informes/_components/reports-datatable";
+import { Separator } from "@/components/ui/separator";
+import { Fade } from "react-awesome-reveal";
 
 interface ReportsChartReportsProps {
   reports: Report[];
@@ -27,25 +29,27 @@ export const ReportsChartReports = ({ reports }: ReportsChartReportsProps) => {
           );
         });
   return (
-    <div className="w-full flex flex-col justify-center p-2">
-      <div className="w-full grid grid-cols-3 h-16 place-content-center">
+    <div className="w-full flex flex-col justify-center mb-6">
+      <div className="w-full grid grid-rows-3 grid-cols-1 md:grid-rows-1 md:grid-cols-3 my-1 h-max md:my-3  place-content-center px-3 ">
         <div />
         <h2 className="text-3xl font-bold text-center">Informes</h2>
-        <div className="place-content-center flex justify-end">
+        <div className="place-content-center flex justify-center md:justify-end">
           <ShowTableModal title="Colaboradores">
             <ReportsDataTable columns={reportColumns} data={filteredReports} />
           </ShowTableModal>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-        <div>
-          <ReportsKpi reports={filteredReports} />
-        </div>
+      {/* <Separator className="mb-4 bg-primary" /> */}
 
-        <div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-3 p-2">
+        <Fade delay={200} cascade triggerOnce>
+          <ReportsKpi reports={filteredReports} />
+        </Fade>
+
+        <Fade delay={400} cascade triggerOnce>
           <ReportsDelivered reports={filteredReports} />
-        </div>
+        </Fade>
       </div>
     </div>
   );

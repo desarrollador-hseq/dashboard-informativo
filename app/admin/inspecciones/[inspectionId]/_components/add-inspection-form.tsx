@@ -1,5 +1,31 @@
 "use client";
 
+import axios from "axios";
+import { useMemo } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Inspection } from "@prisma/client";
+import {
+  CalendarIcon,
+  Check,
+  Clipboard,
+  ClipboardList,
+  Loader2,
+  X,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import * as z from "zod";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
+import { CheckedState } from "@radix-ui/react-checkbox";
+import { cn, formatDate } from "@/lib/utils";
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -13,31 +39,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { IconBadge } from "@/components/ui/icon-badge";
-import axios from "axios";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Inspection } from "@prisma/client";
-import {
-  CalendarIcon,
-  Check,
-  Loader2,
-  UserCog,
-  UserPlus,
-  X,
-} from "lucide-react";
-import { useRouter } from "next/navigation";
-import React, { useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import * as z from "zod";
-import { format } from "date-fns";
-import { cn, formatDate } from "@/lib/utils";
-
-import { es } from "date-fns/locale";
 import { Separator } from "@/components/ui/separator";
 import {
   Select,
@@ -46,7 +47,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CheckedState } from "@radix-ui/react-checkbox";
+import { DeleteInspection } from "./delete-inspection";
 
 interface AddInspectionFormProps {
   inspection?: Inspection | null;
@@ -63,10 +64,11 @@ const formSchema = z.object({
 export const AddInspectionForm = ({ inspection }: AddInspectionFormProps) => {
   const router = useRouter();
   const isEdit = useMemo(() => inspection, [inspection]);
-  // const [date, setDate] = useState<DateRange | undefined>({
-  //   from: inspection ? inspection.startDate : undefined,
-  //   to: inspection ? collaborator.endDate : addDays(new Date(), 1),
-  // });
+
+  if (isEdit && !inspection) {
+    router.replace("/admin/informes");
+    toast.error("Colaborador no encontrado, redirigiendo...");
+  }
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -102,27 +104,33 @@ export const AddInspectionForm = ({ inspection }: AddInspectionFormProps) => {
 
   return (
     <div className=" max-w-[1500px] mx-auto">
-      <div className="flex items-center gap-x-2">
-        <IconBadge icon={isEdit ? UserCog : UserPlus} />
-        <h2 className="text-2xl font-semibold">
-          {isEdit ? (
-            <p>
-              Editar Inspección:{" "}
-              <span className="font-normal">
-                <span className="capitalize">{inspection?.city}</span> - {formatDate(inspection?.date!)}
-              </span>
-            </p>
-          ) : (
-            "Programar Inspección"
-          )}
-        </h2>
+      <div className="flex justify-between items-center gap-x-2">
+        <div className="flex items-center">
+          <IconBadge icon={isEdit ? ClipboardList : Clipboard} />
+          <h2 className="text-2xl font-semibold">
+            {isEdit ? (
+              <>
+                <p>
+                  Editar Inspección:{" "}
+                  <span className="font-normal text-base">
+                    <span className="capitalize">{inspection?.city}</span> -{" "}
+                    {formatDate(inspection?.date!)}
+                  </span>
+                </p>
+              </>
+            ) : (
+              "Programar Inspección"
+            )}
+          </h2>
+        </div>
+        <div>{isEdit && <DeleteInspection inspection={inspection!} />}</div>
       </div>
       <Separator />
 
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col items-center mt-8 "
+          className="flex flex-col items-center mt-8 px-2"
         >
           <div className="grid grid-cols-1  gap-6 mt-1 mb-7 w-full max-w-[900px]">
             <div className="space-y-8 ">
@@ -177,7 +185,11 @@ export const AddInspectionForm = ({ inspection }: AddInspectionFormProps) => {
                               )}
                             >
                               {field.value ? (
-                                format(new Date(field.value),  "dd 'de' LLLL 'de' y", { locale: es })
+                                format(
+                                  new Date(field.value),
+                                  "dd 'de' LLLL 'de' y",
+                                  { locale: es }
+                                )
                               ) : (
                                 <span>Selecciona una fecha</span>
                               )}
@@ -198,67 +210,75 @@ export const AddInspectionForm = ({ inspection }: AddInspectionFormProps) => {
                           />
                         </PopoverContent>
                       </Popover>
-                      
+
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
 
-             {
-              isEdit && (
+              {isEdit && (
                 <div>
-                <FormField
-                  control={form.control}
-                  name="isExecuted"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel className="font-bold" htmlFor="evaluationPass">
-                        ¿Ejecutada?
-                      </FormLabel>
-                      <div
-                        // onClick={() => handleEvaluation(!!!field.value)}
-                        className={cn(
-                          "w-full h-11 flex gap-3 justify-between items-center bg-slate-100 space-y-0 rounded-md border p-4 hover:cursor-pointer",
-                          field.value && "bg-green-600"
-                        )}
-                      >
+                  <FormField
+                    control={form.control}
+                    name="isExecuted"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel
+                          className="font-bold"
+                          htmlFor="evaluationPass"
+                        >
+                          ¿Ejecutada?
+                        </FormLabel>
+                        <div
+                          // onClick={() => handleEvaluation(!!!field.value)}
+                          className={cn(
+                            "w-full h-11 flex gap-3 justify-between items-center bg-slate-100 space-y-0 rounded-md border p-4 hover:cursor-pointer",
+                            field.value && "bg-green-600"
+                          )}
+                        >
                           <div className="flex gap-4">
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value || false}
-                            // onCheckedChange={field.onChange}
-                            onCheckedChange={(e) => handleEvaluation(e)}
-                            className={cn("")}
-                          />
-                        </FormControl>
-                          <span>{field.value ? "Sí" : "No"}</span>
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value || false}
+                                // onCheckedChange={field.onChange}
+                                onCheckedChange={(e) => handleEvaluation(e)}
+                                className={cn("")}
+                              />
+                            </FormControl>
+                            <span
+                              className={cn(
+                                "text-zinc-900 font-bold",
+                                field.value && "text-white"
+                              )}
+                            >
+                              {field.value ? "Sí" : "No"}
+                            </span>
                           </div>
-                        <div className=" space-y-1 leading-none flex justify-between">
-                          <FormDescription
-                            className={`${field.value && "text-white"}`}
-                          >
-                            {!field.value ? (
-                              <span className="w-full flex gap-3 justify-between">
-                                {" "}
-                              Aún no ha sido ejecutada
-                                <X className="w-5 h-5 text-red-400" />{" "}
-                              </span>
-                            ) : (
-                              <span className="w-full flex gap-3 justify-between">
-                                ya fue ejecutada
-                                <Check className="w-5 h-5" />{" "}
-                              </span>
-                            )}
-                          </FormDescription>
+                          <div className=" space-y-1 leading-none flex justify-between">
+                            <FormDescription
+                              className={`${field.value && "text-white"}`}
+                            >
+                              {!field.value ? (
+                                <span className="w-full flex gap-3 justify-between">
+                                  {" "}
+                                  Aún no ha sido ejecutada
+                                  <X className="w-5 h-5 text-red-400" />{" "}
+                                </span>
+                              ) : (
+                                <span className="w-full flex gap-3 justify-between">
+                                  Ya fue ejecutada
+                                  <Check className="w-5 h-5" />{" "}
+                                </span>
+                              )}
+                            </FormDescription>
+                          </div>
                         </div>
-                      </div>
-                    </FormItem>
-                  )}
-                />
-              </div>
-              )
-             }
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              )}
             </div>
           </div>
 

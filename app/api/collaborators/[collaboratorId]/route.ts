@@ -29,3 +29,30 @@ export async function PATCH(req: Request, { params }: { params: { collaboratorId
         return new NextResponse("Internal Errorr", { status: 500 })
     }
 }
+
+
+export async function DELETE(req: Request, { params }: { params: { collaboratorId: string } }) {
+
+
+    try {
+        const session = await getServerSession(authOptions)
+        const { collaboratorId } = params;
+       
+        if (!session) return new NextResponse("Unauthorized", { status: 401 })
+        if (!collaboratorId) return new NextResponse("Not Found", { status: 404 })
+
+        const collaboratorDeleted = await db.collaborator.delete({
+            where: {
+                id: collaboratorId,
+            },
+            
+        })
+
+
+        return NextResponse.json(collaboratorDeleted)
+
+    } catch (error) {
+        console.log("[DELETED_ID_COLABORATOR]", error)
+        return new NextResponse("Internal Errorr", { status: 500 })
+    }
+}

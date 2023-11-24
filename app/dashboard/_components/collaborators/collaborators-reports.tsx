@@ -1,9 +1,7 @@
 "use client";
-import React from "react";
-import ReactEcharts from "echarts-for-react";
+
+
 import { Collaborator } from "@prisma/client";
-import { Card, CardHeader } from "@/components/ui/card";
-import { PercentagePie } from "./percentage-pie";
 import { CollaboratorFormed } from "./collaborators-formed";
 import { CollaboratorsCity } from "./collaborators-city";
 import { CollaboratorsKpi } from "./collaborators-kpi";
@@ -11,6 +9,7 @@ import { useDashboard } from "@/components/providers/dashboard-provider";
 import { ShowTableModal } from "../modals/show-table";
 import { CollaboratorDataTable } from "@/app/admin/colaboradores/_components/collaborator-datatable";
 import { collaboratorColumns } from "@/app/admin/colaboradores/_components/collaborator-datatable-column";
+import { Fade } from "react-awesome-reveal";
 
 interface CollaboratorsReportsProps {
   collaborators: Collaborator[];
@@ -34,12 +33,13 @@ export const CollaboratorsReports = ({
           );
         });
 
+
   return (
-    <div className="w-full flex flex-col justify-center p-2 mb-6">
-      <div className="w-full grid grid-cols-3 h-16 place-content-center">
+    <div className="w-full flex flex-col justify-center mb-6" id="collaborator">
+      <div className="w-full grid grid-rows-3 grid-cols-1 md:grid-rows-1 md:grid-cols-3 my-1 h-max md:my-3  place-content-center px-3 ">
         <div />
         <h2 className="text-3xl font-bold text-center">Colaboradores</h2>
-        <div className="place-content-center flex justify-end">
+        <div className="place-content-center flex justify-center md:justify-end">
           <ShowTableModal title="Colaboradores">
             <CollaboratorDataTable
               columns={collaboratorColumns}
@@ -49,19 +49,21 @@ export const CollaboratorsReports = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-        <div>
+      {/* <Separator className="mb-4 bg-primary" /> */}
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 p-2 mb-3">
+        <Fade delay={200} cascade triggerOnce>
           <CollaboratorsKpi threshold={threshold} collaborators={filteredCollaborators} />
-        </div>
+        </Fade>
         {/* <div>
           <PercentagePie  collaborators={filteredCollaborators} />
         </div> */}
-        <div>
+        <Fade delay={400} cascade triggerOnce>
           <CollaboratorFormed  threshold={threshold}  collaborators={filteredCollaborators} />
-        </div>
-        <div>
+        </Fade>
+        <Fade delay={600} cascade triggerOnce>
           <CollaboratorsCity collaborators={filteredCollaborators} />
-        </div>
+        </Fade>
       </div>
     </div>
   );

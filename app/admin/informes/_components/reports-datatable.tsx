@@ -1,7 +1,6 @@
 "use client";
 import { ChangeEvent, useState } from "react";
-import Link from "next/link";
-import { PlusCircle } from "lucide-react";
+import { useSession } from "next-auth/react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -34,7 +33,6 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useSession } from "next-auth/react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -107,15 +105,6 @@ export function ReportsDataTable<TData, TValue>({
             </SelectContent>
           </Select>
         </div>
-
-        {session && session.user.role === "ADMIN" && (
-          <Link href="/admin/informes/crear">
-            <Button>
-              <PlusCircle className="w-4 h-4 mr-2" />
-              Registrar informe
-            </Button>
-          </Link>
-        )}
       </div>
       <div className="rounded-md border">
         <Table>

@@ -1,20 +1,14 @@
-
 "use client";
-import React from "react";
-import ReactEcharts from "echarts-for-react";
+
 import { Report } from "@prisma/client";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { Chart } from "@/components/chart";
 
 interface ReportChartReportsProps {
   reports: Report[];
 }
 
-export const ReportsDelivered = ({
-    reports,
-}: ReportChartReportsProps) => {
+export const ReportsDelivered = ({ reports }: ReportChartReportsProps) => {
 
-  
   const countExecutedInspections = () => {
     return reports.reduce((count, report) => {
       if (report.conformity) {
@@ -29,47 +23,44 @@ export const ReportsDelivered = ({
   const notExecutedCount = totalCount - executedCount;
 
   const chartData = [
-    { value: executedCount, name: 'Conformidad' },
-    { value: notExecutedCount, name: 'Sin Conformidad' }
+    { value: executedCount, name: "Conformidad" },
+    { value: notExecutedCount, name: "Sin Conformidad" },
   ];
 
-  const options = {
+  const option = {
     tooltip: {
       trigger: "item",
+      formatter: "{b}: {d}%",
     },
-
     legend: {
+      show: false,
       top: "5%",
       left: "center",
     },
     series: [
       {
         type: "pie",
-        radius: "50%",
+        radius: "70%",
         avoidLabelOverlap: false,
-        label: {
-          show: false,
-          position: "center",
-        },
+
         emphasis: {
           itemStyle: {
             shadowBlur: 10,
             shadowOffsetX: 0,
-            shadowColor: 'rgba(0, 0, 0, 0.5)'
+            shadowColor: "rgba(0, 0, 0, 0.5)",
           },
           label: {
             show: true,
-            fontSize: 20,
-            fontWeight: "bold",
-            position: "bottom"
-            
+            formatter(param: any) {
+              return param.name + " - cant:  (" + param.value + ")";
+            },
           },
         },
         labelLine: {
           show: true,
         },
         data: reports.length !== 0 ? chartData : [],
-        color: ["#cf5a40", "#6e7f98"], 
+        color: ["#981b1b", "#6e7f98"],
       },
     ],
     title: {
@@ -84,16 +75,5 @@ export const ReportsDelivered = ({
     },
   };
 
-  return (
-    <Card className="">
-      <CardHeader>
-        <span  className="font-bold text-xl">Estado de informes</span>
-      </CardHeader>
-      <Separator />
-
-      <CardContent>
-        <ReactEcharts option={options} />
-      </CardContent>
-    </Card>
-  );
+  return <Chart option={option} title="Estados" />;
 };

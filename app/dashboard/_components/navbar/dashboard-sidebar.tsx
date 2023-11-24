@@ -1,17 +1,32 @@
 "use client";
 
-import React, { useMemo } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Compass, Layout, Menu, User2, Users2, UsersIcon } from "lucide-react";
+import { Clipboard, ClipboardCheck, Menu, Users } from "lucide-react";
 import { DashboardSidebarContent } from "./dashboard-sidebar-content";
-
-const routes = [
-  { icon: Layout, label: "Inicio", href: "/dashboard" },
-  { icon: Compass, label: "Sistemas", href: "/dashboard/sistemas" },
-  { icon: UsersIcon, label: "Usuarios", href: "/dashboard/usuarios" },
-];
+import { useSession } from "next-auth/react";
+import { useMemo } from "react";
 
 export const DashboardSidebar = () => {
+  const { data: session } = useSession();
+
+  const isAdmin = useMemo(() => session?.user.role === "ADMIN", [session]);
+  const routes = [
+    {
+      icon: Users,
+      label: "Colaboradores",
+      href: "/admin/colaboradores",
+    },
+    {
+      icon: ClipboardCheck,
+      label: "Inspecciones",
+      href: "/admin/inspecciones",
+    },
+    {
+      icon: Clipboard,
+      label: "Informes",
+      href: "/admin/informes",
+    },
+  ];
   return (
     <>
       <Sheet>

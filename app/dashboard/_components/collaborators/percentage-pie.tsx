@@ -1,16 +1,13 @@
 "use client";
-import React from "react";
-import ReactEcharts from "echarts-for-react";
+
 import { Collaborator } from "@prisma/client";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { Chart } from "@/components/chart";
 
 interface CollaboratorsReportsProps {
   collaborators: Collaborator[];
 }
 
 export const PercentagePie = ({ collaborators }: CollaboratorsReportsProps) => {
-  
   const processData = () => {
     const groupedData = collaborators.reduce((acc: any, collaborator) => {
       const key = `${collaborator.percentage}% Formación`;
@@ -29,13 +26,9 @@ export const PercentagePie = ({ collaborators }: CollaboratorsReportsProps) => {
     return sortedData;
   };
 
-
-  // Datos procesados para el gráfico
   const chartData = processData();
 
-  console.log({chartData})
-
-  const options = {
+  const option = {
     tooltip: {
       trigger: "item",
     },
@@ -70,11 +63,11 @@ export const PercentagePie = ({ collaborators }: CollaboratorsReportsProps) => {
           "#525F6F", //
           "#3D4753",
           "#282F37",
-          "#D95043",//
-          "#C72626",//
-          "#9E3A31",//
-          "#8C1B1B",//
-          "#461A16",//
+          "#D95043", //
+          "#C72626", //
+          "#9E3A31", //
+          "#8C1B1B", //
+          "#461A16", //
         ],
       },
     ],
@@ -90,16 +83,5 @@ export const PercentagePie = ({ collaborators }: CollaboratorsReportsProps) => {
     },
   };
 
-  return (
-    <Card className="">
-      <CardHeader>
-        <span className="font-bold text-xl">Porcentajes def Formación</span>
-      </CardHeader>
-      <Separator />
-
-      <CardContent className="z">
-        <ReactEcharts option={options} />
-      </CardContent>
-    </Card>
-  );
+  return <Chart option={option} title="Estado por ciudad" />;
 };

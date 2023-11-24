@@ -16,12 +16,12 @@ export const DashboardNavbar = async () => {
       <div className="mx-auto w-full max-w-[1500px] mt-1">
         <div className="mx-3 flex items-center justify-between">
           <div className="p-2 flex gap-1">
-            <DashboardSidebar />
-            <Logo goRoot />
+            {session && session.user.role === "ADMIN" && <DashboardSidebar />}
+            <Logo goRoot className="flex" />
           </div>
 
           {session && session.user.role === "ADMIN" && (
-            <div className="flex">
+            <div className="hidden md:flex ">
               <Link href="/admin/colaboradores" className="w-fit p-2">
                 Colaboradores
               </Link>
@@ -35,7 +35,7 @@ export const DashboardNavbar = async () => {
           )}
 
           <Link href="/logout" className="w-fit h-full flex items-center">
-            <Button variant="ghost" className="border border-white gap-2">
+            <Button variant="ghost" className=" gap-2 bg-slate-500">
               Salir
               <LogOut className="h-4 w-4" />
             </Button>

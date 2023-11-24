@@ -1,15 +1,16 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Compass, Layout, Menu, User2, Users2, UsersIcon } from "lucide-react";
+import { Clipboard, ClipboardCheck, Compass, Layout, Menu, User2, Users, Users2, UsersIcon } from "lucide-react";
 import { AdminSidebarContent } from "./admin-sidebar-content";
 
 const routes = [
-  { icon: Layout, label: "Inicio", href: "/dashboard" },
-  { icon: Compass, label: "Sistemas", href: "/dashboard/sistemas" },
-  { icon: UsersIcon, label: "Usuarios", href: "/dashboard/usuarios" },
+  { icon: Users, label: "Colaboradores", href: "/admin/colaboradores" },
+  { icon: ClipboardCheck, label: "Inspecciones", href: "/admin/inspecciones" },
+  { icon: Clipboard, label: "Informes", href: "/admin/informes" },
 ];
+
 
 export const AdminSidebar = () => {
   return (

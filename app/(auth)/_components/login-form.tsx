@@ -7,7 +7,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2, User } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -30,6 +30,7 @@ const formSchema = z.object({
 
 export const LoginForm = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const [viewPass, setViewPass] = useState(false);
 
   const router = useRouter();
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -79,7 +80,7 @@ export const LoginForm = () => {
                 <FormControl>
                   <Input
                     disabled={isSubmitting}
-                    placeholder="correo@google.com"
+                    placeholder="usuario"
                     {...field}
                   />
                 </FormControl>
@@ -93,14 +94,19 @@ export const LoginForm = () => {
             control={form.control}
             name="password"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="relative">
                 <FormControl>
                   <Input
+                    type={viewPass ? "text" : "password"}
+                    className="relative"
                     disabled={isSubmitting}
                     placeholder="•••••••••"
                     {...field}
                   />
                 </FormControl>
+                  <div onClick={() => setViewPass(!viewPass)} className="absolute top-1 right-2 ">
+                    {!viewPass ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
+                  </div>
                 <FormMessage />
               </FormItem>
             )}

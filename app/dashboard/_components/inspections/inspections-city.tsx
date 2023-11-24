@@ -1,18 +1,15 @@
 "use client";
-import React from "react";
-import ReactEcharts from "echarts-for-react";
+
+import React, { useState } from "react";
 import { Inspection } from "@prisma/client";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { capitalizeFirstLetter } from "@/lib/utils";
+import { Chart } from "@/components/chart";
 
 interface InspectionsReportsProps {
   inspections: Inspection[];
 }
 
-export const InspectionsCity = ({
-  inspections,
-}: InspectionsReportsProps) => {
+export const InspectionsCity = ({ inspections }: InspectionsReportsProps) => {
   const processDataForBarChart = () => {
     const countsByCity = inspections.reduce((acc: any, inspection) => {
       const city = capitalizeFirstLetter(inspection.city) || "Desconocida";
@@ -26,11 +23,9 @@ export const InspectionsCity = ({
     return { cities, counts };
   };
 
-  // Datos procesados para el gráfico
   const { cities, counts } = processDataForBarChart();
 
-  // Opciones del gráfico
-  const options = {
+  const option = {
     tooltip: {
       trigger: "axis",
       axisPointer: {
@@ -65,7 +60,7 @@ export const InspectionsCity = ({
         },
         data: counts,
         itemStyle: {
-          color: '#cf5a40', 
+          color: "#981b1b",
         },
         type: "bar",
       },
@@ -82,16 +77,5 @@ export const InspectionsCity = ({
     },
   };
 
-  return (
-    <Card className="">
-      <CardHeader>
-        <span className="font-bold text-xl">Número de inspecciones por ciudad</span>
-      </CardHeader>
-      <Separator />
-
-      <CardContent>
-        <ReactEcharts option={options} />
-      </CardContent>
-    </Card>
-  );
+  return <Chart option={option} title="Número de inspecciones por ciudad" />;
 };

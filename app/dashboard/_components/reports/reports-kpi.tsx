@@ -37,7 +37,7 @@ export const ReportsKpi = ({
     <>
       <Card className="h-full">
         <CardHeader></CardHeader>
-        <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <CardContent className="grid grid-cols-1 md:grid-cols-2 md:grid-rows-2 gap-3">
           {/* =============== 1 =============== */}
           <Card className={`${reports.length > 0 ? "bg-primary" : "bg-zinc-400"} rounded-lg text-white`}>
             <CardHeader className="flex justify-center font-semibold ">
@@ -61,9 +61,9 @@ export const ReportsKpi = ({
             </CardContent>
           </Card>
           {/* =============== 3 =============== */}
-          <Card className={`${reports.length > 0 ? "bg-primary" : "bg-zinc-400"} rounded-lg text-white`}>
+          <Card className={`md:col-span-2 ${reports.length > 0 ? "bg-primary" : "bg-zinc-400"} rounded-lg text-white`}>
             <CardHeader className="flex justify-center font-semibold ">
-              <h4 className="text-center">Porcentaje de ejecución</h4>
+              <h4 className="text-center">Porcentaje de conformidad</h4>
             </CardHeader>
             <CardContent className="flex justify-center">
               <p className="text-4xl font-bold">

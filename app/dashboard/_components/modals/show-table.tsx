@@ -28,7 +28,7 @@ export const ShowTableModal = ({ children, title }: ConfirmModalProps) => {
     <div>
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button> <TableProperties className="w-5 h-5 mr-2" />  resumen</Button>
+          <Button className="bg-secondary"> <TableProperties className="w-5 h-5 mr-2" />  resumen</Button>
         </AlertDialogTrigger>
         <AlertDialogContent className={"lg:max-w-screen-lg overflow-y-scroll max-h-screen"}>
           <AlertDialogHeader>

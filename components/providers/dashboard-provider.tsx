@@ -29,7 +29,10 @@ export const DashboardProvider = ({ children }: Props) => {
 
   return (
     <DashboardContext.Provider value={{ date, setDate }}>
+      <>
       {children}
+
+      </>
     </DashboardContext.Provider>
   );
 };

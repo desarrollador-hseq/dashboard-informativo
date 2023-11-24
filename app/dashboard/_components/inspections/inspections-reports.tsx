@@ -11,6 +11,8 @@ import { InspectionsExecuted } from "./inspections-executed";
 import { ShowTableModal } from "../modals/show-table";
 import { InspectionsDataTable } from "@/app/admin/inspecciones/_components/inspections-datatable";
 import { InspectionColumns } from "@/app/admin/inspecciones/_components/inspections-datatable-column";
+import { Separator } from "@/components/ui/separator";
+import { Fade } from "react-awesome-reveal";
 
 interface CollaboratorsReportsProps {
   inspections: Inspection[];
@@ -32,11 +34,11 @@ export const InspectionsReports = ({
           );
         });
   return (
-    <div className="w-full flex flex-col justify-center p-2">
-      <div className="w-full grid grid-cols-3 h-16 place-content-center">
+    <div className="w-full flex flex-col justify-center mb-6" id="inspection">
+      <div className="w-full grid grid-rows-3 grid-cols-1 md:grid-rows-1 md:grid-cols-3 my-1 h-max md:my-3  place-content-center px-3 ">
         <div />
         <h2 className="text-3xl font-bold text-center">Inspecciones</h2>
-        <div className="place-content-center flex justify-end">
+        <div className="place-content-center flex justify-center md:justify-end">
           <ShowTableModal title="Colaboradores">
             <InspectionsDataTable
               columns={InspectionColumns}
@@ -46,22 +48,24 @@ export const InspectionsReports = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-        <div>
+      {/* <Separator className="mb-4 bg-primary" /> */}
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-3 p-2">
+        <Fade delay={200} cascade triggerOnce>
           <InspectionsKpi inspections={filteredInspections} />
-        </div>
+        </Fade>
 
-        <div>
+        <Fade delay={400} cascade triggerOnce>
           <InspectionsExecuted inspections={filteredInspections} />
-        </div>
+        </Fade>
 
-        <div>
+        <Fade delay={600} cascade triggerOnce>
           <InspectionsCity inspections={filteredInspections} />
-        </div>
+        </Fade>
 
-        <div>
+        <Fade delay={800} cascade triggerOnce>
           <InspectionsExecutedCity inspections={filteredInspections} />
-        </div>
+        </Fade>
       </div>
     </div>
   );

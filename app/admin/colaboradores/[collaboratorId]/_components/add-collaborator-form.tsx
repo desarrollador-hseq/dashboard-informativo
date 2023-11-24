@@ -1,17 +1,15 @@
 "use client";
 
-import React, {  useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Collaborator } from "@prisma/client";
 import {
   CalendarIcon,
-  Check,
   Loader2,
   ThumbsUp,
   UserCog,
   UserPlus,
-  X,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -20,11 +18,10 @@ import * as z from "zod";
 import { addDays, format } from "date-fns";
 import { es } from "date-fns/locale";
 import { DateRange } from "react-day-picker";
-import { CheckedState } from "@radix-ui/react-checkbox";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Checkbox } from "@/components/ui/checkbox";
+
 import {
   Form,
   FormControl,
@@ -50,6 +47,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { DeleteCollaborator } from "./delete-collaborator";
 
 interface AddCollaboratorFormProps {
   collaborator?: Collaborator | null;
@@ -88,6 +86,11 @@ export const AddCollaboratorForm = ({
     from: collaborator ? collaborator.startDate : undefined,
     to: collaborator ? collaborator.endDate : addDays(new Date(), 1),
   });
+
+  if (isEdit && !collaborator) {
+    router.replace("/admin/colaboradores/");
+    toast.error("Colaborador no encontrado, redirigiendo...")
+  }
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -158,27 +161,33 @@ export const AddCollaboratorForm = ({
 
   return (
     <div className=" max-w-[1500px] mx-auto">
-      <div className="flex items-center gap-x-2">
-        <IconBadge icon={isEdit ? UserCog : UserPlus} />
-        <h2 className="text-2xl font-semibold">
-          {isEdit ? (
-            <p>
-              Editar usuario:{" "}
-              <span className="font-normal">
-                {collaborator?.name} {collaborator?.lastname}
-              </span>
-            </p>
-          ) : (
-            "Crear colaborador"
-          )}
-        </h2>
+      <div className="flex justify-between items-center gap-x-2">
+        <div className="flex items-center">
+          <IconBadge icon={isEdit ? UserCog : UserPlus} />
+          <h2 className="text-2xl font-semibold">
+            {isEdit ? (
+              <>
+                <p>
+                  Editar usuario:{" "}
+                  <span className="font-normal">
+                    {collaborator?.name} {collaborator?.lastname}
+                  </span>
+                </p>
+              </>
+            ) : (
+              "Crear colaborador"
+            )}
+          </h2>
+        </div>
+
+        {isEdit && <DeleteCollaborator collaborator={collaborator!} />}
       </div>
       <Separator />
 
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col items-center mt-8"
+          className="flex flex-col items-center mt-8 p-2"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-1 mb-7 w-full">
             <div className="space-y-4">

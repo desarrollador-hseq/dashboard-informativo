@@ -16,14 +16,6 @@ import { cn } from "@/lib/utils";
 import { db } from "@/lib/db";
 import axios from "axios";
 
-const getdata = async () => {
-  const {data} = await axios.get("/api/parameters/formation")
-
-  return data;
-}
-
-
-const threshold = getdata();
 
 
 export const collaboratorColumns: ColumnDef<Collaborator>[] = [
@@ -101,12 +93,14 @@ export const collaboratorColumns: ColumnDef<Collaborator>[] = [
         </Button>
       );
     },
+    id: "percentage",
+    accessorFn: (value) => `${value.percentage}` ,
     cell: ({ row }) => {
       const numPerc = row.getValue("percentage") || 0;
       const onFormation = numPerc === 0 ? true : false;
 
       return (
-        <Badge className={cn("relative w-[120px] rounded-sm p-0 overflow-hidden text-center h-6 bg-slate-200 hover:bg-slate-900 ")}>
+        <Badge className={cn("relative m-0 w-[120px] rounded-sm p-0 overflow-hidden text-center h-5 bg-slate-200 hover:bg-slate-900 ")}>
           <div
             style={{
               display: "flex",
@@ -115,7 +109,7 @@ export const collaboratorColumns: ColumnDef<Collaborator>[] = [
               whiteSpace: "nowrap",
               textAlign: "center",
             }}
-            className={cn("bg-secondary/60", numPerc  && "bg-slate-400")}
+            className={cn("bg-secondary/60 h-full", numPerc  && "bg-slate-400")}
           ></div>
           <span
             className={cn(

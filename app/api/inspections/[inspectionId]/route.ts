@@ -29,3 +29,28 @@ export async function PATCH(req: Request, { params }: { params: { inspectionId: 
         return new NextResponse("Internal Errorr", { status: 500 })
     }
 }
+
+export async function DELETE(req: Request, { params }: { params: { inspectionId: string } }) {
+
+    try {
+        const session = await getServerSession(authOptions)
+        const { inspectionId } = params;
+       
+        if (!session) return new NextResponse("Unauthorized", { status: 401 })
+        if (!inspectionId) return new NextResponse("Not Found", { status: 404 })
+
+        const inspectionDeleted = await db.inspection.delete({
+            where: {
+                id: inspectionId,
+            },
+            
+        })
+
+
+        return NextResponse.json(inspectionDeleted)
+
+    } catch (error) {
+        console.log("[DELETED_ID_INSPECTION]", error)
+        return new NextResponse("Internal Errorr", { status: 500 })
+    }
+}

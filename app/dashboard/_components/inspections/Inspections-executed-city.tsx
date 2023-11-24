@@ -1,9 +1,8 @@
 "use client";
-import React from "react";
-import ReactEcharts from "echarts-for-react";
+
 import { Inspection } from "@prisma/client";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { Chart } from "@/components/chart";
+import { capitalizeFirstLetter } from "@/lib/utils";
 
 interface InspectionsReportProps {
   inspections: Inspection[];
@@ -12,6 +11,7 @@ interface InspectionsReportProps {
 export const InspectionsExecutedCity = ({
   inspections,
 }: InspectionsReportProps) => {
+
   const countInspectionsByCity = (inspections: Inspection[]) => {
     const counts = inspections.reduce((acc: any, { city, isExecuted }) => {
       if (!acc[city]) {
@@ -27,13 +27,13 @@ export const InspectionsExecutedCity = ({
 
     return Object.entries(counts).map(
       ([city, { executed, notExecuted }]: any) => {
-        return [city, executed, notExecuted];
+        return [capitalizeFirstLetter(city), executed, notExecuted];
       }
     );
   };
 
   const datasetSource = [
-    ["Ciudad", "Ejecutadas", "No Ejecutadas"],
+    ["Ciudad", "Ejecutadas", "Programadas"],
     ...countInspectionsByCity(inspections),
   ];
 
@@ -41,7 +41,7 @@ export const InspectionsExecutedCity = ({
     legend: {},
     tooltip: {},
     dataset: {
-      source:  inspections.length !== 0 ? datasetSource : [],
+      source: inspections.length !== 0 ? datasetSource : [],
     },
     xAxis: { type: "category" },
     yAxis: {
@@ -52,10 +52,10 @@ export const InspectionsExecutedCity = ({
       interval: 1,
     },
     series: [
-      { type: "bar", itemStyle: { color: "#cf5a40" } },
+      { type: "bar", itemStyle: { color: "#981b1b" } },
       { type: "bar", itemStyle: { color: "#64748b" } },
     ],
-    
+
     title: {
       show: inspections.length === 0,
       textStyle: {
@@ -68,16 +68,5 @@ export const InspectionsExecutedCity = ({
     },
   };
 
-  return (
-    <Card className="">
-      <CardHeader>
-        <span className="font-bold text-xl">Estado de inspecciones por ciudad</span>
-      </CardHeader>
-      <Separator />
-
-      <CardContent>
-        <ReactEcharts option={option} />
-      </CardContent>
-    </Card>
-  );
+  return <Chart option={option} title="Estado por ciudades" />;
 };

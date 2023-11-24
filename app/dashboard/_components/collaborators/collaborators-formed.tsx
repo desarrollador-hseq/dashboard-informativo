@@ -1,23 +1,17 @@
 "use client";
-import React from "react";
-import ReactEcharts from "echarts-for-react";
+
 import { Collaborator } from "@prisma/client";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { useDashboard } from "@/components/providers/dashboard-provider";
+import { Chart } from "@/components/chart";
 
 interface CollaboratorsReportsProps {
   collaborators: Collaborator[];
-  threshold: number
+  threshold: number;
 }
 
 export const CollaboratorFormed = ({
   collaborators,
-  threshold
+  threshold,
 }: CollaboratorsReportsProps) => {
-
-
-
   const countFormedCollaborators = () => {
     return collaborators.reduce((count, collaborator) => {
       if (collaborator.percentage >= threshold) {
@@ -31,23 +25,23 @@ export const CollaboratorFormed = ({
   const totalCount = collaborators.length;
   const notFormedCount = totalCount - formedCount;
 
-  const formedCountValue = (formedCount / totalCount) * 100
+  const formedCountValue = (formedCount / totalCount) * 100;
   const notFormedCountValue = 100 - formedCountValue;
 
   const chartData = [
-    { value: formedCountValue.toFixed(0) , name: 'Formados' },
-    { value: notFormedCountValue.toFixed(0) , name: 'En formación' }
+    { value: formedCountValue.toFixed(0), name: "Formados" },
+    { value: notFormedCountValue.toFixed(0), name: "En formación" },
   ];
 
-  const options = {
+  const option = {
     tooltip: {
       trigger: "item",
-      formatter: "{b}: {d}%"
+      formatter: "{b}: {d}%",
     },
     legend: {
       show: false,
       top: "0%",
-      left: "center",   
+      left: "center",
     },
     series: [
       {
@@ -57,11 +51,10 @@ export const CollaboratorFormed = ({
         avoidLabelOverlap: false,
         label: {
           show: true,
-
+          fontWeight: "bold",
           formatter(param: any) {
-            // correct the percentage
-            return param.name + ' (' + param.value + '%)';
-          }
+            return param.name + " (" + param.value + "%)";
+          },
         },
         emphasis: {
           label: {
@@ -73,9 +66,8 @@ export const CollaboratorFormed = ({
         labelLine: {
           show: true,
         },
-        data:  collaborators.length !== 0 ? chartData : [],
-        color: ["#cf5a40", "#6e7f98"], 
-    
+        data: collaborators.length !== 0 ? chartData : [],
+        color: ["#981b1b", "#6e7f98"],
       },
     ],
     title: {
@@ -90,16 +82,5 @@ export const CollaboratorFormed = ({
     },
   };
 
-  return (
-    <Card className="">
-      <CardHeader>
-        <span  className="font-bold text-xl">Colaboradores formados</span>
-      </CardHeader>
-      <Separator />
-
-      <CardContent>
-        <ReactEcharts option={options} />
-      </CardContent>
-    </Card>
-  );
+  return <Chart option={option} title="Estados" />;
 };

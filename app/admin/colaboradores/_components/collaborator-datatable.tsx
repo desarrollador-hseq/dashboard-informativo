@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -11,15 +12,11 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { PlusCircle } from "lucide-react";
-import Link from "next/link";
-import { useSession } from "next-auth/react";
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -50,9 +47,11 @@ export function CollaboratorDataTable<TData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([]);
   const [itemFilter, setItemFilter] = useState("name");
 
-  const columns = columnsAll.filter((column) => {
-    return !(session && session?.user.role !== "ADMIN" && column.id === "actions");
-  });
+  let columns = columnsAll.filter((column) => {
+    return !(session && session?.user.role !== "ADMIN" && column.id === "actions" );
+  }).filter((column) => { return !(session && session?.user.role !== "ADMIN" && column.id === "percentage" );} );
+
+
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
@@ -100,20 +99,12 @@ export function CollaboratorDataTable<TData, TValue>({
                 <SelectItem value="lastname">Apellidos</SelectItem>
                 <SelectItem value="numDoc">N° documento</SelectItem>
                 <SelectItem value="city">Ciudad</SelectItem>
-                <SelectItem value="isFormed">formacion</SelectItem>
+                <SelectItem value="percentage">Evaluacion</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
         </div>
 
-        {session && session.user.role === "ADMIN" && (
-          <Link href="/admin/colaboradores/crear">
-            <Button>
-              <PlusCircle className="w-4 h-4 mr-2" />
-              Agregar colaborador
-            </Button>
-          </Link>
-        )}
       </div>
       <div className="rounded-md border">
         <Table>
