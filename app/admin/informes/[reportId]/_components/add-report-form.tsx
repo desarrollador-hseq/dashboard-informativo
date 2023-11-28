@@ -94,8 +94,8 @@ export const AddReportForm = ({ report }: AddInspectionFormProps) => {
   };
 
   return (
-    <div className=" max-w-[1500px] mx-auto">
-      <div className="flex justify-between items-center gap-x-2">
+    <div className=" max-w-[1500px] mx-auto bg-white rounded-md shadow-sm overflow-hidden p-3">
+      <div className="flex justify-between items-center gap-x-2 bg-white">
         <div className="flex items-center">
           <IconBadge icon={isEdit ? ClipboardEditIcon : FilePlus} />
           <h2 className="text-2xl font-semibold">
@@ -201,7 +201,9 @@ export const AddReportForm = ({ report }: AddInspectionFormProps) => {
                                 className={cn("")}
                               />
                             </FormControl>
-                            <span>{field.value ? "Sí" : "No"}</span>
+                            <span className={cn("font-bold", field.value && "text-white")}>
+                              {field.value ? "Sí" : "No"}
+                            </span>
                           </div>
                           <div className=" space-y-1 leading-none flex justify-between">
                             <FormDescription

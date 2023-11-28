@@ -100,11 +100,12 @@ export const AddInspectionForm = ({ inspection }: AddInspectionFormProps) => {
 
   const handleEvaluation = (e: CheckedState) => {
     setValue("isExecuted", !!e);
+    return
   };
 
   return (
-    <div className=" max-w-[1500px] mx-auto">
-      <div className="flex justify-between items-center gap-x-2">
+    <div className=" max-w-[1500px] mx-auto shadow-sm bg-white overflow-hidden p-3">
+      <div className="flex justify-between items-center gap-x-2 bg-white">
         <div className="flex items-center">
           <IconBadge icon={isEdit ? ClipboardList : Clipboard} />
           <h2 className="text-2xl font-semibold">
@@ -231,7 +232,7 @@ export const AddInspectionForm = ({ inspection }: AddInspectionFormProps) => {
                           ¿Ejecutada?
                         </FormLabel>
                         <div
-                          // onClick={() => handleEvaluation(!!!field.value)}
+                          //  onClick={() => handleEvaluation(!!!field.value)}
                           className={cn(
                             "w-full h-11 flex gap-3 justify-between items-center bg-slate-100 space-y-0 rounded-md border p-4 hover:cursor-pointer",
                             field.value && "bg-green-600"

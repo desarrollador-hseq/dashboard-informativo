@@ -1,15 +1,14 @@
 "use client";
 
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Clipboard, ClipboardCheck, Menu, Users } from "lucide-react";
-import { DashboardSidebarContent } from "./dashboard-sidebar-content";
 import { useSession } from "next-auth/react";
-import { useMemo } from "react";
+import { Clipboard, ClipboardCheck, Menu, Users } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { DashboardSidebarContent } from "./dashboard-sidebar-content";
 
 export const DashboardSidebar = () => {
   const { data: session } = useSession();
 
-  const isAdmin = useMemo(() => session?.user.role === "ADMIN", [session]);
+
   const routes = [
     {
       icon: Users,

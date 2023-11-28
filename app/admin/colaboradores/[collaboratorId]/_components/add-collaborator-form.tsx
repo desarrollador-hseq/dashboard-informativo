@@ -160,8 +160,8 @@ export const AddCollaboratorForm = ({
   // }
 
   return (
-    <div className=" max-w-[1500px] mx-auto">
-      <div className="flex justify-between items-center gap-x-2">
+    <div className=" max-w-[1500px] mx-auto bg-white rounded-md shadow-sm overflow-hidden p-3">
+      <div className="flex justify-between items-center gap-x-2 bg-white">
         <div className="flex items-center">
           <IconBadge icon={isEdit ? UserCog : UserPlus} />
           <h2 className="text-2xl font-semibold">

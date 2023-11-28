@@ -1,13 +1,12 @@
 "use client";
-import { useState } from "react";
-import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { Eye, EyeOff, Loader2, User } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -43,6 +42,7 @@ export const LoginForm = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsEditing(true);
+    setViewPass(false);
     try {
       const signInResponse = await signIn("credentials", {
         username: values.username,
@@ -104,9 +104,11 @@ export const LoginForm = () => {
                     {...field}
                   />
                 </FormControl>
-                  <div onClick={() => setViewPass(!viewPass)} className="absolute top-1 right-2 ">
+                  {
+                    field.value && <div onClick={() => setViewPass(!viewPass)} className="absolute top-1 right-2 ">
                     {!viewPass ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
                   </div>
+                  }
                 <FormMessage />
               </FormItem>
             )}

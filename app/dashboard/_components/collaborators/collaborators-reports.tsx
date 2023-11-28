@@ -35,7 +35,7 @@ export const CollaboratorsReports = ({
 
 
   return (
-    <div className="w-full flex flex-col justify-center mb-6" id="collaborator">
+    <div className="w-full flex flex-col justify-center mb-6 " id="collaborator">
       <div className="w-full grid grid-rows-3 grid-cols-1 md:grid-rows-1 md:grid-cols-3 my-1 h-max md:my-3  place-content-center px-3 ">
         <div />
         <h2 className="text-3xl font-bold text-center">Colaboradores</h2>

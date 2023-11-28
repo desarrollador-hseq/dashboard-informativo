@@ -83,18 +83,18 @@ export function InspectionsDataTable<TData, TValue>({
   return (
     <div>
       <div className="flex items-center justify-between py-4">
-        <div className="flex gap-2">
+        <div className="flex gap-2 w-full">
           <Input
             placeholder={`Buscar`}
             value={
               (table.getColumn(itemFilter)?.getFilterValue() as string) ?? ""
             }
             onChange={(event) => handleFiltering(event)}
-            className="min-w-[300px]"
+            className="w-full min-w-[300px] max-w-[500px] bg-white"
           />
 
           <Select value={itemFilter} onValueChange={(e) => handleFilterItem(e)}>
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-fit gap-2">
               <SelectValue placeholder="Filtrar por" />
             </SelectTrigger>
             <SelectContent className="">
@@ -107,7 +107,7 @@ export function InspectionsDataTable<TData, TValue>({
           </Select>
         </div>
       </div>
-      <div className="rounded-md border">
+      <div className="rounded-md border bg-white">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

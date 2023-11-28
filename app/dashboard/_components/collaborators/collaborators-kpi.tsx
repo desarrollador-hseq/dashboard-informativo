@@ -33,7 +33,7 @@ export const CollaboratorsKpi = ({
 
   return (
     <>
-      <Card className="h-full">
+      <Card className="h-full ">
         {/* <CardHeader></CardHeader> */}
         <CardContent className="grid grid-cols-1 md:grid-cols-2 md:grid-rows-2 gap-5 p-8">
           {/* =============== 1 =============== */}

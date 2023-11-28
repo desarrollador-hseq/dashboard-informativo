@@ -77,7 +77,7 @@ export function CollaboratorDataTable<TData, TValue>({
   return (
     <div>
       <div className="flex items-center justify-between py-4">
-        <div className="flex gap-2">
+        <div className="flex gap-2 w-full">
           <Input
             placeholder={`Buscar`}
             value={
@@ -86,11 +86,11 @@ export function CollaboratorDataTable<TData, TValue>({
             onChange={(event: any) =>
               table.getColumn(itemFilter)?.setFilterValue(event.target.value)
             }
-            className="max-w-sm"
+            className="w-full min-w-[300px] max-w-[500px] bg-white "
           />
 
           <Select value={itemFilter} onValueChange={(e) => handleFilterItem(e)}>
-            <SelectTrigger className="w-[230px]">
+            <SelectTrigger className="w-fit gap-2">
               <SelectValue placeholder="Filtrar por" />
             </SelectTrigger>
             <SelectContent>
@@ -106,7 +106,7 @@ export function CollaboratorDataTable<TData, TValue>({
         </div>
 
       </div>
-      <div className="rounded-md border">
+      <div className="rounded-md border bg-white">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

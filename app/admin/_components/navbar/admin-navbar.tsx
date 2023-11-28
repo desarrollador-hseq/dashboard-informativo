@@ -1,14 +1,14 @@
 "use client"
 import Link from "next/link";
 import { LogOut, Settings } from "lucide-react";
-import { Logo } from "@/components/logo";
+import { usePathname } from "next/navigation";
+import { LogoGrupoHseq } from "@/components/logo-grupo-hseq";
 import { AdminSidebar } from "./admin-sidebar";
 
-import { IconBadge } from "@/components/ui/icon-badge";
+
 import { Button } from "@/components/ui/button";
-import { useMemo } from "react";
-import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+
 
 
 export const AdminNavbar = () => {
@@ -21,7 +21,8 @@ export const AdminNavbar = () => {
         <div className="mx-3 flex items-center justify-between">
           <div className="p-2 flex gap-1">
             <AdminSidebar />
-            <Logo goRoot />
+            <LogoGrupoHseq goRoot className="flex" />
+            {/* <LogoClaro goRoot className="flex" /> */}
           </div>
 
           <div className="hidden md:flex ">

@@ -97,7 +97,7 @@ export const collaboratorColumns: ColumnDef<Collaborator>[] = [
     accessorFn: (value) => `${value.percentage}` ,
     cell: ({ row }) => {
       const numPerc = row.getValue("percentage") || 0;
-      const onFormation = numPerc === 0 ? true : false;
+      const onFormation = numPerc === "0" ? true : false;
 
       return (
         <Badge className={cn("relative m-0 w-[120px] rounded-sm p-0 overflow-hidden text-center h-5 bg-slate-200 hover:bg-slate-900 ")}>

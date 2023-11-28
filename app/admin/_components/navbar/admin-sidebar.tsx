@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Clipboard, ClipboardCheck, Compass, Layout, Menu, User2, Users, Users2, UsersIcon } from "lucide-react";
+import { Clipboard, ClipboardCheck, Menu, Users } from "lucide-react";
 import { AdminSidebarContent } from "./admin-sidebar-content";
 
 const routes = [

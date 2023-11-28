@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { LoginForm } from "./_components/login-form";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { Logo } from "@/components/logo";
+import { LogoGrupoHseq } from "@/components/logo-grupo-hseq";
 
 export default async function LoginPage() {
   const session = await getServerSession(authOptions);
@@ -14,12 +14,12 @@ export default async function LoginPage() {
   }
 
   return (
-    <div className="bg-white h-screen">
-      <div className="relative p-1 border-b h-[55px] max-h-[70px] w-full bg-white shadow-sm flex items-center">
+    <div className="bg-slate-50 h-screen">
+      <div className="relative p-1 border-b h-[55px] max-h-[70px] w-full bg-primary shadow-sm flex items-center">
         <div className="mx-auto w-full max-w-[1500px] mt-1">
           <div className="mx-3 flex items-center justify-between">
             <div className="p-2 flex gap-1">
-              <Logo  />
+              <LogoGrupoHseq  />
             </div>
           </div>
         </div>
@@ -27,7 +27,7 @@ export default async function LoginPage() {
       <div className="container w-full flex items-start justify-center pt-14 h-fit">
         <Card className="p-3 w-[350px] space-y-4 md:space-y-6 rounded-sm">
           <CardHeader>
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 text-center md:text-2xl dark:text-white">
+            <h1 className="text-2xl  font-bold leading-tight tracking-tight text-slate-500 text-center dark:text-white">
               Ingresar
             </h1>
           </CardHeader>

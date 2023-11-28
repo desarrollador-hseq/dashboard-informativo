@@ -27,8 +27,8 @@ const DashboardPage = async () => {
   const report = await db.report.findMany();
 
   return (
-    <div className="w-full bg-slate-100">
-      <Card className="relative w-full max-w-[1500px] m-auto overflow-hidden bg-slate-100 border-2 border-primary">
+    <div className="w-full">
+      <Card className="relative w-full max-w-[1500px] m-auto overflow-hidden bg-slate-50 border-2 border-primary">
         <CardHeader className="p-0 ">
           <Dashboardtitle />
         </CardHeader>

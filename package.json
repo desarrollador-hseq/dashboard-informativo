@@ -42,6 +42,7 @@
     "react-hook-form": "^7.47.0",
     "react-resize-detector": "^9.1.0",
     "react-scroll-up": "^1.4.0",
+    "sharp": "^0.32.6",
     "sonner": "^1.1.0",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",

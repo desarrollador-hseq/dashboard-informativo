@@ -1,12 +1,12 @@
-import React from "react";
+
 import Link from "next/link";
 import { LogOut } from "lucide-react";
-import { Logo } from "@/components/logo";
+import { LogoGrupoHseq } from "@/components/logo-grupo-hseq";
 import { DashboardSidebar } from "./dashboard-sidebar";
-import { IconBadge } from "@/components/ui/icon-badge";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Button } from "@/components/ui/button";
+import { LogoClaro } from "@/components/logo-claro";
 
 export const DashboardNavbar = async () => {
   const session = await getServerSession(authOptions);
@@ -17,7 +17,8 @@ export const DashboardNavbar = async () => {
         <div className="mx-3 flex items-center justify-between">
           <div className="p-2 flex gap-1">
             {session && session.user.role === "ADMIN" && <DashboardSidebar />}
-            <Logo goRoot className="flex" />
+            <LogoGrupoHseq goRoot className="flex" />
+            {/* <LogoClaro goRoot className="flex" /> */}
           </div>
 
           {session && session.user.role === "ADMIN" && (

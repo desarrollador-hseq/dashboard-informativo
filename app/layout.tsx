@@ -27,7 +27,7 @@ export default function RootLayout({
       <ClientCookiesProvider value={cookies().getAll()}>
         <NextAuthProvider>
           <DashboardProvider>
-            <body className={cn(inter.className, "min-h-screen")}>
+            <body className={cn(inter.className, "min-h-screen bg-slate-50")}>
               <Toaster richColors />
               <div className="min-h-screen transition"><Suspense fallback={<Loading />} >{children}</Suspense></div>
               {/* footer */}
