@@ -26,6 +26,21 @@ export const CollaboratorsCity = ({
 
   const { cities, counts } = processDataForBarChart();
 
+  const generateRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
+  const seriesData = cities.map(() => ({
+    value: Math.random() * 100, // Cambia esto según tus datos
+    itemStyle: {
+      color: generateRandomColor(), // Asignar color aleatorio
+    },
+  }));
   const option = {
     tooltip: {
       trigger: "axis",
@@ -59,10 +74,9 @@ export const CollaboratorsCity = ({
           show: false,
           position: "center",
         },
-        data: counts,
-        itemStyle: {
-          color: "#4e71b1",
-        },
+        data: seriesData,
+
+
         type: "bar",
       },
     ],

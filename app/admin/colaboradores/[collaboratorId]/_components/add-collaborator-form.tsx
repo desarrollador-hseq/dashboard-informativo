@@ -307,43 +307,43 @@ export const AddCollaboratorForm = ({
                             Barranquilla
                           </SelectItem>
                           <SelectItem value="bogota">Bogotá</SelectItem>
-                          <SelectItem value="cartagena">Medellín</SelectItem>
+                          <SelectItem value="medellin">Medellín</SelectItem>
                           <SelectItem value="cartagena">Cartagena</SelectItem>
-                          <SelectItem value="cartagena">Leticia</SelectItem>
-                          <SelectItem value="cartagena">Arauca</SelectItem>
-                          <SelectItem value="cartagena">Tunja</SelectItem>
-                          <SelectItem value="cartagena">Manizales</SelectItem>
-                          <SelectItem value="cartagena">Florencia</SelectItem>
-                          <SelectItem value="cartagena">Yopal</SelectItem>
-                          <SelectItem value="cartagena">Popayán</SelectItem>
-                          <SelectItem value="cartagena">Valledupar</SelectItem>
-                          <SelectItem value="cartagena">Quibdó</SelectItem>
-                          <SelectItem value="cartagena">Montería</SelectItem>
-                          <SelectItem value="cartagena">Bogotá</SelectItem>
-                          <SelectItem value="cartagena">Inírida</SelectItem>
-                          <SelectItem value="cartagena">
+                          <SelectItem value="leticia">Leticia</SelectItem>
+                          <SelectItem value="arauca">Arauca</SelectItem>
+                          <SelectItem value="tunja">Tunja</SelectItem>
+                          <SelectItem value="manizales">Manizales</SelectItem>
+                          <SelectItem value="florencia">Florencia</SelectItem>
+                          <SelectItem value="yopal">Yopal</SelectItem>
+                          <SelectItem value="popayan">Popayán</SelectItem>
+                          <SelectItem value="valledupar">Valledupar</SelectItem>
+                          <SelectItem value="quibdo">Quibdó</SelectItem>
+                          <SelectItem value="monteria">Montería</SelectItem>
+                          <SelectItem value="bogota">Bogotá</SelectItem>
+                          <SelectItem value="inirida">Inírida</SelectItem>
+                          <SelectItem value="sanjosedelguaviare">
                             San José del Guaviare
                           </SelectItem>
                           <SelectItem value="cartagena">Neiva</SelectItem>
-                          <SelectItem value="cartagena">Riohacha</SelectItem>
-                          <SelectItem value="cartagena">
+                          <SelectItem value="riohacha">Riohacha</SelectItem>
+                          <SelectItem value="santamarta">
                             Santa Marta
                           </SelectItem>
                           <SelectItem value="cartagena">
                             Villavicencio
                           </SelectItem>
-                          <SelectItem value="cartagena">Pasto</SelectItem>
-                          <SelectItem value="cartagena">Cúcuta</SelectItem>
-                          <SelectItem value="cartagena">Mocoa</SelectItem>
-                          <SelectItem value="cartagena">Armenia</SelectItem>
-                          <SelectItem value="cartagena">Pereira</SelectItem>
-                          <SelectItem value="cartagena">San Andrés</SelectItem>
-                          <SelectItem value="cartagena">Bucaramanga</SelectItem>
-                          <SelectItem value="cartagena">Sincelejo</SelectItem>
-                          <SelectItem value="cartagena">Ibagué</SelectItem>
-                          <SelectItem value="cartagena">Cali</SelectItem>
-                          <SelectItem value="cartagena">Mitú</SelectItem>
-                          <SelectItem value="cartagena">
+                          <SelectItem value="pasto">Pasto</SelectItem>
+                          <SelectItem value="cucuta">Cúcuta</SelectItem>
+                          <SelectItem value="mocoa">Mocoa</SelectItem>
+                          <SelectItem value="armenia">Armenia</SelectItem>
+                          <SelectItem value="pereira">Pereira</SelectItem>
+                          <SelectItem value="sanandres">San Andrés</SelectItem>
+                          <SelectItem value="bucaramanga">Bucaramanga</SelectItem>
+                          <SelectItem value="sincelejo">Sincelejo</SelectItem>
+                          <SelectItem value="ibague">Ibagué</SelectItem>
+                          <SelectItem value="cali">Cali</SelectItem>
+                          <SelectItem value="mitu">Mitú</SelectItem>
+                          <SelectItem value="puertocarreño">
                             Puerto Carreño{" "}
                           </SelectItem>
                         </SelectContent>

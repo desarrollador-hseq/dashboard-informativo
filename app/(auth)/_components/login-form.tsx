@@ -58,7 +58,7 @@ export const LoginForm = () => {
       }
 
       router.refresh();
-      toast.success("Bienvenido a tu sistema de gestión");
+      toast.success("Bienvenido");
       toggleEdit();
     } catch (error) {
       toast.error("Something went wrong");
