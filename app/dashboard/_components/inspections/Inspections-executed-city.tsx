@@ -52,8 +52,8 @@ export const InspectionsExecutedCity = ({
       interval: 1,
     },
     series: [
-      { type: "bar", itemStyle: { color: "#981b1b" } },
-      { type: "bar", itemStyle: { color: "#64748b" } },
+      { type: "bar", itemStyle: { color: "#4e71b1" } },
+      { type: "bar", itemStyle: { color: "#bae0fc" } },
     ],
 
     title: {

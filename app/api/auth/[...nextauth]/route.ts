@@ -1,9 +1,9 @@
-import { db } from "@/lib/db"
-import NextAuth, { Account, AuthOptions, DefaultSession, Profile, Session, User } from "next-auth"
+import NextAuth, {  AuthOptions, DefaultSession } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import { Role } from "@prisma/client"
+import { db } from "@/lib/db"
 
 declare module 'next-auth' {
     interface User {
@@ -26,7 +26,6 @@ declare module 'next-auth' {
 export const authOptions: AuthOptions = {
     // Configure one or more authentication providers
     providers: [
-
         // ...add more providers here
         CredentialsProvider({
             name: "Credentials",
@@ -137,7 +136,6 @@ export const authOptions: AuthOptions = {
           session.user = user;
           session.user = token.user as any;
       
-    
           return session;
         }
         

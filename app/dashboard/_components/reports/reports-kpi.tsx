@@ -39,7 +39,7 @@ export const ReportsKpi = ({
         <CardHeader></CardHeader>
         <CardContent className="grid grid-cols-1 md:grid-cols-2 md:grid-rows-2 gap-3">
           {/* =============== 1 =============== */}
-          <Card className={`${reports.length > 0 ? "bg-primary" : "bg-zinc-400"} rounded-lg text-white`}>
+          <Card className={`${reports.length > 0 ? "bg-secondary" : "bg-zinc-400"} rounded-lg text-white`}>
             <CardHeader className="flex justify-center font-semibold ">
               <h4 className="text-center">Total de informes</h4>
             </CardHeader>
@@ -50,7 +50,7 @@ export const ReportsKpi = ({
             </CardContent>
           </Card>
           {/* =============== 2 =============== */}
-          <Card className={`${reports.length > 0 ? "bg-primary" : "bg-zinc-400"} rounded-lg text-white`}>
+          <Card className={`${reports.length > 0 ? "bg-secondary" : "bg-zinc-400"} rounded-lg text-white`}>
             <CardHeader className="flex justify-center font-semibold ">
               <h4 className="text-center">Total Inspecciones ejecutadas</h4>
             </CardHeader>
@@ -61,7 +61,7 @@ export const ReportsKpi = ({
             </CardContent>
           </Card>
           {/* =============== 3 =============== */}
-          <Card className={`md:col-span-2 ${reports.length > 0 ? "bg-primary" : "bg-zinc-400"} rounded-lg text-white`}>
+          <Card className={`md:col-span-2 ${reports.length > 0 ? "bg-secondary" : "bg-zinc-400"} rounded-lg text-white`}>
             <CardHeader className="flex justify-center font-semibold ">
               <h4 className="text-center">Porcentaje de conformidad</h4>
             </CardHeader>

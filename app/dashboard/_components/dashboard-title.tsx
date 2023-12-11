@@ -23,7 +23,7 @@ export const Dashboardtitle = () => {
   return (
     <div
       className={cn(
-        "w-full top-0 h-25 p-5 bg-red-800  flex flex-col md:flex-row  items-center justify-between gap-2",
+        "w-full top-0 h-25 p-5 bg-primary  flex flex-col md:flex-row  items-center justify-between gap-2",
         visible &&
           "fixed py-1 px-5 top-0 left-0 right-0 z-50 h-fit max-w-[1500px] mx-auto rounded-b-lg gap-1"
       )}

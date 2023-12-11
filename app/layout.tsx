@@ -33,12 +33,14 @@ export default function RootLayout({
                 <Suspense fallback={<Loading />}>{children}</Suspense>
               </div>
               {/* footer */}
-              <div className="footer h-10 w-full bg-primary flex items-center mt-5">
-                <div className="w-[70%] mx-auto flex justify-center gap-4 text-white text-sm">
-                  <span>2023 - </span>
-                  <p className="text-sm">Todos los derechos reservados.</p>
+              <footer className="footer h-10 w-full bg-primary flex items-center mt-5">
+                <div className="w-[70%] mx-auto flex justify-center gap-1 text-white text-sm">
+                  <span>2023</span>
+                  <p className="text-sm">
+                    &copy; Todos los derechos reservados.
+                  </p>
                 </div>
-              </div>
+              </footer>
             </body>
           </DashboardProvider>
         </NextAuthProvider>

@@ -28,16 +28,16 @@ export const ShowTableModal = ({ children, title }: ConfirmModalProps) => {
     <div>
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button className="bg-secondary ">
+          <Button className="bg-accent ">
             <TableProperties className="w-5 h-5 mr-2" /> Resumen
           </Button>
         </AlertDialogTrigger>
 
         <AlertDialogContent
-          className={"lg:max-w-screen-lg overflow-y-scroll max-h-screen"}
+          className={" lg:max-w-screen-lg overflow-y-scroll max-h-screen"}
         >
           <AlertDialogCancel asChild className="absolute top-7 right-7 flex w-full justify-end items-end">
-            <Button className="w-fit h-fit flex rounded-md bg-primary hover:bg-red-800/80 justify-center items-center p-1" variant="outline">
+            <Button className="w-fit h-fit flex rounded-md bg-primary justify-center items-center p-1" variant="outline">
               <X className="text-white"/>
             </Button>
           </AlertDialogCancel>

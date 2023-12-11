@@ -181,7 +181,7 @@ export const AddInspectionForm = ({ inspection }: AddInspectionFormProps) => {
                             <Button
                               variant={"outline"}
                               className={cn(
-                                "w-full pl-3 text-left font-normal bg-slate-100",
+                                "w-full pl-3 text-left font-normal bg-slate-100 hover:bg-slate-200",
                                 !field.value && "text-muted-foreground"
                               )}
                             >

@@ -39,7 +39,7 @@ export const DeleteCollaborator = ({
   return (
     <div>
       <DeleteConfirm onConfirm={onConfirm} title={title}>
-        <Button disabled={isLoading} variant="destructive">
+        <Button disabled={isLoading} variant="destructive" className="bg-red-700">
           <Trash2 className="w-5 h-5" />
         </Button>
       </DeleteConfirm>

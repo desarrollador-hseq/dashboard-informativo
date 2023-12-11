@@ -61,7 +61,7 @@ export const CollaboratorsCity = ({
         },
         data: counts,
         itemStyle: {
-          color: "#981b1b",
+          color: "#4e71b1",
         },
         type: "bar",
       },

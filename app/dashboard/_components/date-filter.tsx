@@ -15,6 +15,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { now } from "next-auth/client/_utils";
 
 export const DateFilter = () => {
   const { date, setDate } = useDashboard();
@@ -71,7 +72,7 @@ export const DateFilter = () => {
             {date ? "Filtrando por:" : ""}
           </span>
           <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
-            <PopoverTrigger asChild className="pr-6">
+            <PopoverTrigger asChild className="pr-6 hover:bg-slate-200 hover:text-zinc-800">
               <Button
                 id="date"
                 variant={"outline"}
@@ -101,7 +102,7 @@ export const DateFilter = () => {
               <Calendar
                 initialFocus
                 mode="range"
-                defaultMonth={new Date()}
+                defaultMonth={dateSelected ? dateSelected.to : new Date()}
                 selected={dateSelected}
                 onSelect={setDateSelected}
                 numberOfMonths={2}
@@ -125,7 +126,7 @@ export const DateFilter = () => {
           <p className="text-sm text-white">Mostrando | <span className="font-bold">todos los registros</span> </p>
           <Button
             variant="secondary"
-            className="text-white"
+            className="text-white bg-accent"
             onClick={() => onOpenFiltering()}
           >
             <CalendarSearch className="w-5 h-5" />

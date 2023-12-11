@@ -89,7 +89,7 @@ export const AddCollaboratorForm = ({
 
   if (isEdit && !collaborator) {
     router.replace("/admin/colaboradores/");
-    toast.error("Colaborador no encontrado, redirigiendo...")
+    toast.error("Colaborador no encontrado, redirigiendo...");
   }
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -250,9 +250,15 @@ export const AddCollaboratorForm = ({
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="CC">CC</SelectItem>
-                          <SelectItem value="CE">CE</SelectItem>
-                          <SelectItem value="TI">TI</SelectItem>
+                          <SelectItem value="CC">
+                            Cédula de Ciudadanía
+                          </SelectItem>
+                          <SelectItem value="CE">
+                            Cédula de Extranjería
+                          </SelectItem>
+                          <SelectItem value="TI">
+                            Tarjeta de Identidad
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage className="ml-6 text-[0.8rem] text-red-500 font-medium" />
@@ -301,7 +307,45 @@ export const AddCollaboratorForm = ({
                             Barranquilla
                           </SelectItem>
                           <SelectItem value="bogota">Bogotá</SelectItem>
+                          <SelectItem value="cartagena">Medellín</SelectItem>
                           <SelectItem value="cartagena">Cartagena</SelectItem>
+                          <SelectItem value="cartagena">Leticia</SelectItem>
+                          <SelectItem value="cartagena">Arauca</SelectItem>
+                          <SelectItem value="cartagena">Tunja</SelectItem>
+                          <SelectItem value="cartagena">Manizales</SelectItem>
+                          <SelectItem value="cartagena">Florencia</SelectItem>
+                          <SelectItem value="cartagena">Yopal</SelectItem>
+                          <SelectItem value="cartagena">Popayán</SelectItem>
+                          <SelectItem value="cartagena">Valledupar</SelectItem>
+                          <SelectItem value="cartagena">Quibdó</SelectItem>
+                          <SelectItem value="cartagena">Montería</SelectItem>
+                          <SelectItem value="cartagena">Bogotá</SelectItem>
+                          <SelectItem value="cartagena">Inírida</SelectItem>
+                          <SelectItem value="cartagena">
+                            San José del Guaviare
+                          </SelectItem>
+                          <SelectItem value="cartagena">Neiva</SelectItem>
+                          <SelectItem value="cartagena">Riohacha</SelectItem>
+                          <SelectItem value="cartagena">
+                            Santa Marta
+                          </SelectItem>
+                          <SelectItem value="cartagena">
+                            Villavicencio
+                          </SelectItem>
+                          <SelectItem value="cartagena">Pasto</SelectItem>
+                          <SelectItem value="cartagena">Cúcuta</SelectItem>
+                          <SelectItem value="cartagena">Mocoa</SelectItem>
+                          <SelectItem value="cartagena">Armenia</SelectItem>
+                          <SelectItem value="cartagena">Pereira</SelectItem>
+                          <SelectItem value="cartagena">San Andrés</SelectItem>
+                          <SelectItem value="cartagena">Bucaramanga</SelectItem>
+                          <SelectItem value="cartagena">Sincelejo</SelectItem>
+                          <SelectItem value="cartagena">Ibagué</SelectItem>
+                          <SelectItem value="cartagena">Cali</SelectItem>
+                          <SelectItem value="cartagena">Mitú</SelectItem>
+                          <SelectItem value="cartagena">
+                            Puerto Carreño{" "}
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage className="ml-6 text-[0.8rem] text-red-500 font-medium" />
@@ -327,7 +371,7 @@ export const AddCollaboratorForm = ({
                             id="date"
                             variant={"outline"}
                             className={cn(
-                              "h-11 w-full justify-start text-left font-normal bg-slate-100",
+                              "h-11 w-full justify-start text-left font-normal bg-slate-100 hover:bg-slate-200",
                               !date && "text-muted-foreground"
                             )}
                           >

@@ -60,7 +60,7 @@ export const ReportsDelivered = ({ reports }: ReportChartReportsProps) => {
           show: true,
         },
         data: reports.length !== 0 ? chartData : [],
-        color: ["#981b1b", "#6e7f98"],
+        color: ["#4e71b1", "#bae0fc"],
       },
     ],
     title: {

@@ -14,7 +14,7 @@ export const AdminNavbar = () => {
  
 
   return (
-    <div className="relative p-1 border-b min-h-[55px] max-h-[70px] text-white w-full bg-red-800 shadow-sm flex items-center">
+    <div className="relative p-1 border-b min-h-[55px] max-h-[70px] text-white w-full bg-primary shadow-sm flex items-center">
       <div className="mx-auto w-full max-w-[1500px] mt-1">
         <div className="mx-3 flex items-center justify-between">
           <div className="p-2 flex gap-1">
@@ -23,17 +23,17 @@ export const AdminNavbar = () => {
             {/* <LogoClaro goRoot className="flex" /> */}
           </div>
 
-          <div className="hidden md:flex ">
-            <Link  href="/admin/colaboradores" className={cn("w-fit p-2",  pathname?.startsWith(`/admin/colaboradores`) && " rounded-sm bg-red-900" )}>
+          <div className="hidden md:flex gap-2">
+            <Link  href="/admin/colaboradores" className={cn("w-fit p-2 rounded-sm hover:bg-secondary/30",  pathname?.startsWith(`/admin/colaboradores`) && "bg-secondary" )}>
               Colaboradores
             </Link>
-            <Link href="/admin/inspecciones" className={cn("w-fit p-2",  pathname?.startsWith(`/admin/inspecciones`) && " rounded-sm bg-red-900" )}>
+            <Link href="/admin/inspecciones" className={cn("w-fit p-2 rounded-sm hover:bg-secondary/30",  pathname?.startsWith(`/admin/inspecciones`) && "bg-secondary" )}>
               Inspecciones
             </Link>
-            <Link href="/admin/informes" className={cn("w-fit p-2",  pathname?.startsWith(`/admin/informes`) && " rounded-sm bg-red-900" )}>
+            <Link href="/admin/informes" className={cn("w-fit p-2 rounded-sm hover:bg-secondary/30",  pathname?.startsWith(`/admin/informes`) && "bg-secondary" )}>
               Informes
             </Link>
-            <Link href="/admin/" className="ml-6 w-fit h-fit p-2 bg-secondary hover:bg-red-600 rounded-sm flex items-center">
+            <Link href="/admin/" className="ml-6 w-fit h-fit p-2  bg-inherit hover:bg-accent rounded-full flex items-center">
               <Settings className="w-5 h-5" /> 
             </Link>
           </div>
