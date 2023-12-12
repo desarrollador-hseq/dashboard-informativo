@@ -1,9 +1,9 @@
 
-const { PrismaClient } = require("@prisma/client")
 
-const database = new PrismaClient()
 
 async function main() {
+    const { PrismaClient } = require("@prisma/client")
+    const database = new PrismaClient()
     try {
         await database.user.createMany({
             data: [
