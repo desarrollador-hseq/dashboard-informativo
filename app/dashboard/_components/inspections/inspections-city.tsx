@@ -25,6 +25,39 @@ export const InspectionsCity = ({ inspections }: InspectionsReportsProps) => {
 
   const { cities, counts } = processDataForBarChart();
 
+  const col = [
+    "#1DACD6",
+    "#6699CC",
+    "#3B3B6D",
+    "#4CB7A5",
+    "#ACE5EE",
+    "#00B9FB",
+    "#551B8C",
+    "#9966CC",
+    "#33FFDD",
+    "#841B2D",
+    "#C46210",
+    "#8833FF",
+    "#FF3363",
+    "#33FF70",
+    "#FF5733",
+    "#33FF57",
+    "#5733FF",
+    "#FF33A1",
+    "#33B8FF",
+    "#FFC733",
+    "#6E33FF",
+    "#FF3354",
+    "#33FFDD",
+    "#FF8E33",
+    "#33FF8B",
+    "#8833FF",
+    "#FF3363",
+    "#33FF70",
+    "#FF5733",
+    "#33FF57",
+  ];
+
   const option = {
     tooltip: {
       trigger: "axis",
@@ -58,7 +91,11 @@ export const InspectionsCity = ({ inspections }: InspectionsReportsProps) => {
           show: false,
           position: "center",
         },
-        data: counts,
+        data: cities.map((city, index) => ({
+          value: counts[index],
+          itemStyle: { color: col[index] },
+          name: city,
+        })),
         itemStyle: {
           color: "#4e71b1",
         },

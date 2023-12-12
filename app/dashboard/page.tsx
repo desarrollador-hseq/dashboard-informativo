@@ -8,8 +8,15 @@ import { ReportsChartReports } from "./_components/reports/reports-chart-reports
 import { Dashboardtitle } from "./_components/dashboard-title";
 import { Loader2 } from "lucide-react";
 
+
+
+
 const DashboardPage = async () => {
-  const collaborators = await db.collaborator.findMany();
+  const collaborators = await db.collaborator.findMany({
+    include: {
+      city: true
+    },
+  });
   const getFormationThreshold = async () => {
     try {
       const formationThreshold = await db.formationParameters.findFirst();

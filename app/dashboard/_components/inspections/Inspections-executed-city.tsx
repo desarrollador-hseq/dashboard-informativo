@@ -37,6 +37,7 @@ export const InspectionsExecutedCity = ({
     ...countInspectionsByCity(inspections),
   ];
 
+
   const option = {
     legend: {},
     tooltip: {},

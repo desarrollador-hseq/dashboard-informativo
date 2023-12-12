@@ -40,6 +40,7 @@ export const LoginForm = () => {
   });
   const { isSubmitting, isValid } = form.formState;
 
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsEditing(true);
     setViewPass(false);
@@ -101,6 +102,7 @@ export const LoginForm = () => {
                     className="relative"
                     disabled={isSubmitting}
                     placeholder="•••••••••"
+                    autoComplete="off"
                     {...field}
                   />
                 </FormControl>

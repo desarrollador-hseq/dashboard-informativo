@@ -1,46 +1,59 @@
 "use client";
 
-import { Collaborator } from "@prisma/client";
+import { Collaborator, City } from "@prisma/client";
 import { capitalizeFirstLetter, cn } from "@/lib/utils";
 import { Chart } from "@/components/chart";
+import { useState } from "react";
+
+interface CollaboratorWithFormated extends Collaborator {
+  city: City | null;
+}
 
 interface CollaboratorsReportsProps {
-  collaborators: Collaborator[];
+  collaborators: CollaboratorWithFormated[];
 }
 
 export const CollaboratorsCity = ({
   collaborators,
 }: CollaboratorsReportsProps) => {
   const processDataForBarChart = () => {
-    const countsByCity = collaborators.reduce((acc: any, collaborator) => {
-      const city = capitalizeFirstLetter(collaborator.city) || "Desconocida";
-      acc[city] = (acc[city] || 0) + 1;
+    const cityData = collaborators.map((collaborator) => {
+      const cityName = collaborator.city?.realName || "desconocida" || "Desconocida";
+      const color = collaborator.city ? collaborator.city.color : "#CCCCCC"; // Usa un color gris para ciudades desconocidas
+      
+      return {
+        cityName,
+        count: 1, // Ajusta según tu lógica
+        color,
+      };
+    });
+  
+    const countsByCity = cityData.reduce((acc: any, { cityName, count, color }) => {
+      acc[cityName] = (acc[cityName] || 0) + count, color;
       return acc;
     }, {});
-
+  
     const cities = Object.keys(countsByCity);
     const counts = Object.values(countsByCity);
-
-    return { cities, counts };
+    const colors = cityData.map(({ color }) => color)
+  
+    return { cities, counts, colors };
   };
+  
+  const { cities, counts, colors } = processDataForBarChart();
 
-  const { cities, counts } = processDataForBarChart();
+  console.log({cities, counts})
 
-  const generateRandomColor = () => {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  };
 
-  const seriesData = cities.map(() => ({
-    value: Math.random() * 100, // Cambia esto según tus datos
-    itemStyle: {
-      color: generateRandomColor(), // Asignar color aleatorio
-    },
-  }));
+  const col = [
+    "#1DACD6", "#6699CC", "#3B3B6D", "#4CB7A5", "#ACE5EE",
+    "#00B9FB", "#551B8C", "#9966CC", "#33FFDD", "#841B2D",
+    "#C46210", "#8833FF", "#FF3363", "#33FF70", "#FF5733",
+    "#33FF57", "#5733FF", "#FF33A1", "#33B8FF", "#FFC733",
+    "#6E33FF", "#FF3354", "#33FFDD", "#FF8E33", "#33FF8B",
+    "#8833FF", "#FF3363", "#33FF70", "#FF5733", "#33FF57"
+  ]
+
   const option = {
     tooltip: {
       trigger: "axis",
@@ -74,9 +87,11 @@ export const CollaboratorsCity = ({
           show: false,
           position: "center",
         },
-        data: seriesData,
-
-
+        data: cities.map((city, index) => ({
+          value: counts[index],
+          itemStyle: { color: col[index] },
+          name: city,
+        })),
         type: "bar",
       },
     ],
@@ -84,7 +99,7 @@ export const CollaboratorsCity = ({
       show: counts.length === 0,
       textStyle: {
         color: "grey",
-        fontSize: 20,
+        fontSize: 18,
       },
       text: "Sin datos",
       left: "center",

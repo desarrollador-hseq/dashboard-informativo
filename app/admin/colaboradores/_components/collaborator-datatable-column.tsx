@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal, Pencil } from "lucide-react";
-import { Collaborator } from "@prisma/client";
+import { City, Collaborator } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenuContent,
@@ -14,10 +14,23 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
+// interface withCity extends Collaborator {
+//   city: City | null;
+// }
 
+// interface CollaboratorWithCity {
+//   collaborator: withCity
+// }
 
+interface CollaboratorTableProps {
+  id: string; 
+  percentage: number; 
+  city: City | null
+}
 
-export const collaboratorColumns: ColumnDef<Collaborator>[] = [
+type CollaboratorTableType = CollaboratorTableProps;
+
+export const collaboratorColumns: ColumnDef<CollaboratorTableType>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -74,8 +87,9 @@ export const collaboratorColumns: ColumnDef<Collaborator>[] = [
       );
     },
     cell: ({ row }) => {
-      const city = row.getValue("city") || "";
-      return <span className="capitalize">{city.toString()}</span>;
+      const city = row.original.city;
+      const cityName = city?.realName || "Desconocida";
+      return <span className="capitalize">{cityName}</span>;
     },
   },
 
@@ -93,13 +107,17 @@ export const collaboratorColumns: ColumnDef<Collaborator>[] = [
       );
     },
     id: "percentage",
-    accessorFn: (value) => `${value.percentage}` ,
+    accessorFn: (value) => `${value.percentage}`,
     cell: ({ row }) => {
       const numPerc = row.getValue("percentage") || 0;
       const onFormation = numPerc === "0" ? true : false;
 
       return (
-        <Badge className={cn("relative m-0 w-[120px] rounded-sm p-0 overflow-hidden text-center h-5 bg-slate-200 hover:bg-slate-900 ")}>
+        <Badge
+          className={cn(
+            "relative m-0 w-[120px] rounded-sm p-0 overflow-hidden text-center h-5 bg-slate-200 hover:bg-slate-900 "
+          )}
+        >
           <div
             style={{
               display: "flex",
@@ -108,7 +126,7 @@ export const collaboratorColumns: ColumnDef<Collaborator>[] = [
               whiteSpace: "nowrap",
               textAlign: "center",
             }}
-            className={cn("bg-secondary/60 h-full", numPerc  && "bg-slate-400")}
+            className={cn("bg-secondary/60 h-full", numPerc && "bg-slate-400")}
           ></div>
           <span
             className={cn(

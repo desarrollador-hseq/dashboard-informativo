@@ -11,6 +11,9 @@ import { PlusCircle } from "lucide-react";
 const CollaboratorPage = async () => {
   const session = await getServerSession(authOptions);
   const collaborators = await db.collaborator.findMany({
+    include: {
+      city: true
+    },
     orderBy: {
       name: "asc",
     },

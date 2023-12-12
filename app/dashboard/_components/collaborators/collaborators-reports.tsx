@@ -1,7 +1,7 @@
 "use client";
 
 
-import { Collaborator } from "@prisma/client";
+import { City, Collaborator } from "@prisma/client";
 import { CollaboratorFormed } from "./collaborators-formed";
 import { CollaboratorsCity } from "./collaborators-city";
 import { CollaboratorsKpi } from "./collaborators-kpi";
@@ -11,8 +11,12 @@ import { CollaboratorDataTable } from "@/app/admin/colaboradores/_components/col
 import { collaboratorColumns } from "@/app/admin/colaboradores/_components/collaborator-datatable-column";
 import { Fade } from "react-awesome-reveal";
 
+interface CollaboratorWithFormated extends Collaborator {
+  city: City | null;
+}
+
 interface CollaboratorsReportsProps {
-  collaborators: Collaborator[];
+  collaborators: CollaboratorWithFormated[];
   threshold: number;
 }
 

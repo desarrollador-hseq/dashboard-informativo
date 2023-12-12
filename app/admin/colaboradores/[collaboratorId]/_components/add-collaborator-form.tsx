@@ -1,9 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Collaborator } from "@prisma/client";
+import { City, Collaborator } from "@prisma/client";
 import {
   CalendarIcon,
   Loader2,
@@ -51,6 +51,7 @@ import { DeleteCollaborator } from "./delete-collaborator";
 
 interface AddCollaboratorFormProps {
   collaborator?: Collaborator | null;
+  cities: City[]
 }
 
 const formSchema = z.object({
@@ -66,9 +67,7 @@ const formSchema = z.object({
   numDoc: z.string().min(1, {
     message: "Número de documento requerido",
   }),
-  city: z.string().min(1, {
-    message: "Ciudad requerida",
-  }),
+  cityId: z.number(),
   startDate: z.date().or(z.string()),
   endDate: z.date().or(z.string()),
   percentage: z.number().min(0).max(100, {
@@ -79,6 +78,7 @@ const formSchema = z.object({
 
 export const AddCollaboratorForm = ({
   collaborator,
+  cities
 }: AddCollaboratorFormProps) => {
   const router = useRouter();
   const isEdit = useMemo(() => collaborator, [collaborator]);
@@ -99,7 +99,7 @@ export const AddCollaboratorForm = ({
       lastname: collaborator?.lastname || "",
       docType: collaborator?.docType || "",
       numDoc: collaborator?.numDoc || "",
-      city: collaborator?.city || "",
+      cityId: collaborator?.cityId || undefined,
       startDate: collaborator?.startDate || undefined,
       endDate: collaborator?.endDate || undefined,
       percentage: collaborator?.percentage || 0,
@@ -108,6 +108,13 @@ export const AddCollaboratorForm = ({
   });
   const { isSubmitting, isValid } = form.formState;
   const { setValue, setError } = form;
+
+  const { watch } = form;
+
+  useEffect(() => {
+    console.log({wa: watch()})
+  }, [watch()])
+  
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -154,6 +161,12 @@ export const AddCollaboratorForm = ({
     setValue("endDate", e.to!, { shouldValidate: true });
     return true;
   };
+
+  const handleCityChange = (event: string) => {
+    const selectedCityId = Number(event);
+    setValue("cityId", selectedCityId,  { shouldValidate: true });
+  };
+
 
   // const handleEvaluation = (e: CheckedState) => {
   //   setValue("evaluationPass", !!e);
@@ -240,6 +253,7 @@ export const AddCollaboratorForm = ({
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
+                    
                       >
                         <FormControl>
                           <SelectTrigger className="bg-slate-100 border-slate-300">
@@ -286,13 +300,13 @@ export const AddCollaboratorForm = ({
               <div>
                 <FormField
                   control={form.control}
-                  name="city"
+                  name="cityId"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Ciudad</FormLabel>
                       <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
+                        onValueChange={(e) => handleCityChange(e)}
+                        defaultValue={field.value ? field.value.toString() : undefined}
                       >
                         <FormControl>
                           <SelectTrigger className="bg-slate-100 border-slate-300">
@@ -303,49 +317,14 @@ export const AddCollaboratorForm = ({
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="barranquilla">
-                            Barranquilla
-                          </SelectItem>
-                          <SelectItem value="bogota">Bogotá</SelectItem>
-                          <SelectItem value="medellin">Medellín</SelectItem>
-                          <SelectItem value="cartagena">Cartagena</SelectItem>
-                          <SelectItem value="leticia">Leticia</SelectItem>
-                          <SelectItem value="arauca">Arauca</SelectItem>
-                          <SelectItem value="tunja">Tunja</SelectItem>
-                          <SelectItem value="manizales">Manizales</SelectItem>
-                          <SelectItem value="florencia">Florencia</SelectItem>
-                          <SelectItem value="yopal">Yopal</SelectItem>
-                          <SelectItem value="popayan">Popayán</SelectItem>
-                          <SelectItem value="valledupar">Valledupar</SelectItem>
-                          <SelectItem value="quibdo">Quibdó</SelectItem>
-                          <SelectItem value="monteria">Montería</SelectItem>
-                          <SelectItem value="bogota">Bogotá</SelectItem>
-                          <SelectItem value="inirida">Inírida</SelectItem>
-                          <SelectItem value="sanjosedelguaviare">
-                            San José del Guaviare
-                          </SelectItem>
-                          <SelectItem value="cartagena">Neiva</SelectItem>
-                          <SelectItem value="riohacha">Riohacha</SelectItem>
-                          <SelectItem value="santamarta">
-                            Santa Marta
-                          </SelectItem>
-                          <SelectItem value="cartagena">
-                            Villavicencio
-                          </SelectItem>
-                          <SelectItem value="pasto">Pasto</SelectItem>
-                          <SelectItem value="cucuta">Cúcuta</SelectItem>
-                          <SelectItem value="mocoa">Mocoa</SelectItem>
-                          <SelectItem value="armenia">Armenia</SelectItem>
-                          <SelectItem value="pereira">Pereira</SelectItem>
-                          <SelectItem value="sanandres">San Andrés</SelectItem>
-                          <SelectItem value="bucaramanga">Bucaramanga</SelectItem>
-                          <SelectItem value="sincelejo">Sincelejo</SelectItem>
-                          <SelectItem value="ibague">Ibagué</SelectItem>
-                          <SelectItem value="cali">Cali</SelectItem>
-                          <SelectItem value="mitu">Mitú</SelectItem>
-                          <SelectItem value="puertocarreño">
-                            Puerto Carreño{" "}
-                          </SelectItem>
+                          {
+                            cities.map((city) => (
+                            <SelectItem key={city.id} value={city.id.toString()}>
+                              {city.realName}
+                            </SelectItem>
+                            ))
+                          }
+                     
                         </SelectContent>
                       </Select>
                       <FormMessage className="ml-6 text-[0.8rem] text-red-500 font-medium" />

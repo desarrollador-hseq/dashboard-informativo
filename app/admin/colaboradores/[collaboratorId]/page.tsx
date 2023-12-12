@@ -17,12 +17,15 @@ const CreateCollaborator = async ({
     params.collaboratorId = "crear";
   }
 
+  const cities = await db.city.findMany({
+  })
+
   return (
     <div>
       {collaborator ? (
-        <AddCollaboratorForm collaborator={collaborator} />
+        <AddCollaboratorForm collaborator={collaborator} cities={cities} />
       ) : (
-        <AddCollaboratorForm />
+        <AddCollaboratorForm cities={cities} />
       )}
     </div>
   );

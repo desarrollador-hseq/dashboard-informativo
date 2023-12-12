@@ -31,19 +31,29 @@ enum Role {
 model Collaborator {
   id String @id @default(uuid())
 
-  name       String
-  lastname   String?
-  docType    DocType  @default(CC)
-  numDoc     String   @unique
-  city       String
+  name     String
+  lastname String?
+  docType  DocType @default(CC)
+  numDoc   String  @unique
+
   startDate  DateTime
   endDate    DateTime
   percentage Float    @default(0.0)
 
-  // evaluationPass Boolean @default(false)
+  cityId Int?
+  city City? @relation(fields: [cityId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  @@index([cityId])
+}
+
+model City {
+  id           Int            @id @default(autoincrement())
+  realName     String
+  formated     String
+  color        String
+  Collaborator Collaborator[]
 }
 
 model FormationParameters {

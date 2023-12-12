@@ -52,6 +52,8 @@ export function CollaboratorDataTable<TData, TValue>({
   }).filter((column) => { return !(session && session?.user.role !== "ADMIN" && column.id === "percentage" );} );
 
 
+  console.log({columns})
+
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
@@ -177,3 +179,6 @@ export function CollaboratorDataTable<TData, TValue>({
     </div>
   );
 }
+
+
+
