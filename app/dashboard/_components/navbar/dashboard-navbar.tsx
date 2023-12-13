@@ -6,7 +6,6 @@ import { DashboardSidebar } from "./dashboard-sidebar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Button } from "@/components/ui/button";
-import { LogoClaro } from "@/components/logo-claro";
 
 export const DashboardNavbar = async () => {
   const session = await getServerSession(authOptions);

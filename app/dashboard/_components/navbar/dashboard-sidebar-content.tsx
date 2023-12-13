@@ -14,7 +14,7 @@ export const DashboardSidebarContent = ({
     <div className="flex flex-col w-full">
       <div className="md:hidden h-14 flex justify-start items-center pl-7">
         <LogoGrupoHseq goRoot className="flex" />
-        <LogoClaro goRoot className="flex" />
+        {/* <LogoClaro goRoot className="flex" /> */}
       </div>
       {routes.map((route) => (
         <DashboardSidebarItems
