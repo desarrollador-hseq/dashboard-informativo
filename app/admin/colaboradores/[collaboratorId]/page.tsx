@@ -21,7 +21,7 @@ const CreateCollaborator = async ({
   })
 
   return (
-    <div>
+    <div className="h-fit">
       {collaborator ? (
         <AddCollaboratorForm collaborator={collaborator} cities={cities} />
       ) : (

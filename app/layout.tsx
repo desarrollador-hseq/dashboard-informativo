@@ -1,16 +1,19 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import { Suspense } from "react";
 import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
 import { Toaster } from "sonner";
+import type { Metadata } from "next";
+
+import "./globals.css";
+import "simplebar-react/dist/simplebar.min.css"
 
 const inter = Inter({ subsets: ["latin"] });
 import { cn } from "@/lib/utils";
 import { ClientCookiesProvider } from "@/components/providers/cookies-provider";
 import { NextAuthProvider } from "@/components/providers/nextauth-provider";
 import { DashboardProvider } from "@/components/providers/dashboard-provider";
-import { Suspense } from "react";
 import { Loading } from "@/components/loading";
+
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -27,7 +30,7 @@ export default function RootLayout({
       <html lang="es">
         <NextAuthProvider>
           <DashboardProvider>
-            <body className={cn(inter.className, "min-h-screen bg-slate-50")}>
+            <body className={cn(inter.className, "min-h-screen bg-blue-100/50 font-sans antialiased grainy")}>
               <Toaster richColors />
               <div className="min-h-screen transition">
                 <Suspense fallback={<Loading />}>{children}</Suspense>

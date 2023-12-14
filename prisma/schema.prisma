@@ -39,6 +39,7 @@ model Collaborator {
   startDate  DateTime
   endDate    DateTime
   percentage Float    @default(0.0)
+  pdfUrl String? @db.Text
 
   cityId Int?
   city City? @relation(fields: [cityId], references: [id])

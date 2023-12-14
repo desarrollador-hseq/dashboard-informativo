@@ -19,7 +19,7 @@ const CollaboratorPage = async () => {
     },
   });
   return (
-    <div className="max-w-[1500px] mx-auto p-1">
+    <div className="max-w-[1500px] h-fit mx-auto p-1">
       <div className="flex justify-between gap-y-1">
         <div className="flex flex-col">
           <h1 className="text-2xl font-semibold">Listado de colaboradores</h1>

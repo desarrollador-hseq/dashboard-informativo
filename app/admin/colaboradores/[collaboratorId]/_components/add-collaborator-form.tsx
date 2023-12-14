@@ -48,10 +48,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DeleteCollaborator } from "./delete-collaborator";
+import { FileUpload } from "@/components/FileUpload";
+import { PdfForm } from "./pdf-form";
 
 interface AddCollaboratorFormProps {
   collaborator?: Collaborator | null;
-  cities: City[]
+  cities: City[];
 }
 
 const formSchema = z.object({
@@ -78,7 +80,7 @@ const formSchema = z.object({
 
 export const AddCollaboratorForm = ({
   collaborator,
-  cities
+  cities,
 }: AddCollaboratorFormProps) => {
   const router = useRouter();
   const isEdit = useMemo(() => collaborator, [collaborator]);
@@ -112,9 +114,8 @@ export const AddCollaboratorForm = ({
   const { watch } = form;
 
   useEffect(() => {
-    console.log({wa: watch()})
-  }, [watch()])
-  
+    console.log({ wa: watch() });
+  }, [watch()]);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -164,16 +165,15 @@ export const AddCollaboratorForm = ({
 
   const handleCityChange = (event: string) => {
     const selectedCityId = Number(event);
-    setValue("cityId", selectedCityId,  { shouldValidate: true });
+    setValue("cityId", selectedCityId, { shouldValidate: true });
   };
-
 
   // const handleEvaluation = (e: CheckedState) => {
   //   setValue("evaluationPass", !!e);
   // }
 
   return (
-    <div className=" max-w-[1500px] mx-auto bg-white rounded-md shadow-sm overflow-hidden p-3">
+    <div className="max-w-[1500px] h-full mx-auto bg-white rounded-md shadow-sm overflow-y-hidden p-3">
       <div className="flex justify-between items-center gap-x-2 bg-white">
         <div className="flex items-center">
           <IconBadge icon={isEdit ? UserCog : UserPlus} />
@@ -253,7 +253,6 @@ export const AddCollaboratorForm = ({
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
-                    
                       >
                         <FormControl>
                           <SelectTrigger className="bg-slate-100 border-slate-300">
@@ -306,7 +305,9 @@ export const AddCollaboratorForm = ({
                       <FormLabel>Ciudad</FormLabel>
                       <Select
                         onValueChange={(e) => handleCityChange(e)}
-                        defaultValue={field.value ? field.value.toString() : undefined}
+                        defaultValue={
+                          field.value ? field.value.toString() : undefined
+                        }
                       >
                         <FormControl>
                           <SelectTrigger className="bg-slate-100 border-slate-300">
@@ -317,14 +318,14 @@ export const AddCollaboratorForm = ({
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {
-                            cities.map((city) => (
-                            <SelectItem key={city.id} value={city.id.toString()}>
+                          {cities.map((city) => (
+                            <SelectItem
+                              key={city.id}
+                              value={city.id.toString()}
+                            >
                               {city.realName}
                             </SelectItem>
-                            ))
-                          }
-                     
+                          ))}
                         </SelectContent>
                       </Select>
                       <FormMessage className="ml-6 text-[0.8rem] text-red-500 font-medium" />
@@ -423,6 +424,18 @@ export const AddCollaboratorForm = ({
                     </FormItem>
                   )}
                 />
+
+                <div>
+                  {
+                    isEdit && (
+                      <div className="px-4 py-6 sm:px-6 lg:pl-8 xl:flex-1 xl:pl-6 relative">
+                        <PdfForm CollaboratorId={collaborator?.id!} url={collaborator?.pdfUrl} />
+                        
+                      </div>
+                    )
+                  }
+                </div>
+               
               </div>
               {/* <div>
                 <FormField

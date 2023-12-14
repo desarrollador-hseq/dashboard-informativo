@@ -1,5 +1,3 @@
-
-
 import { getServerSession } from "next-auth";
 import { ReactNode } from "react";
 import { AdminNavbar } from "./_components/navbar/admin-navbar";
@@ -14,17 +12,17 @@ const AdminLayout = async ({ children }: { children: ReactNode }) => {
   if (!session || !session.user) {
     redirect("/");
   }
-  if ( session.user?.role !== "ADMIN") {
+  if (session.user?.role !== "ADMIN") {
     redirect("/dashboard");
   }
 
   return (
     <div>
-      <main className="relative flex flex-col h-full max-h-screen m-0 p-0 ">
+      <main className="relative flex flex-col h-full m-0 p-0 ">
         <AdminNavbar />
-        <div className="mt-1 p-2 min-h-screen overflow-y-auto w-full max-w-[1500px] mx-auto">
+        <div className="mt-1 p-2 min-h-screen h-fit w-full max-w-[1500px] mx-auto ">
           {children}
-          </div>
+        </div>
       </main>
     </div>
   );
