@@ -22,7 +22,9 @@ export const DeleteCollaborator = ({
   const onConfirm = async () => {
     setisLoading(true);
     try {
-         await axios.delete(`/api/collaborators/${collaborator.id}`)
+      const {data} =  await axios.delete(`/api/collaborators/${collaborator.id}`)
+      
+    
         toast.success("Colaborado eliminado")
         router.push("/admin/colaboradores/")
         // router.refresh()

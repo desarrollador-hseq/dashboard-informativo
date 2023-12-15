@@ -37,8 +37,8 @@ const PdfFullscreen = ({ fileUrl }: PdfFullscreenProps) => {
       </AlertDialogTrigger>
       <AlertDialogContent className="max-w-7xl w-full overflow-y-auto">
         <div>
-          <Button variant="destructive" onClick={() => setIsOpen(false)}>
-            <X className="w-3 h-3 absolute top-0 left-0 text-white" />
+          <Button variant="destructive" className=" absolute top-0 right-0" onClick={() => setIsOpen(false)}>
+            <X className="w-3 h-3 text-white" />
           </Button>
 
           <SimpleBar

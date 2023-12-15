@@ -27,14 +27,12 @@ export const DeleteConfirm = ({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="max-w-[600px] w-full">
         <AlertDialogHeader>
           <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
-          <AlertDialogDescription className="flex">
-            <span className="inline">
-              Esta seguro que desea borrar {title}, Una vez borrado no podrá
-              recuperarlo.
-            </span>
+          <AlertDialogDescription asChild  className="inline flex-col">
+           <span className="inline"> Esta seguro que desea borrar {title}, Una vez borrado no podrá
+            recuperarlo.</span>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

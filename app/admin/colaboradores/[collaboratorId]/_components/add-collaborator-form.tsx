@@ -426,16 +426,18 @@ export const AddCollaboratorForm = ({
                 />
 
                 <div>
-                  {
-                    isEdit && (
-                      <div className="px-4 py-6 sm:px-6 lg:pl-8 xl:flex-1 xl:pl-6 relative">
-                        <PdfForm CollaboratorId={collaborator?.id!} url={collaborator?.pdfUrl} />
-                        
-                      </div>
-                    )
-                  }
+                  {isEdit && (
+                    <div className="relative w-full mt-2">
+                      <FormLabel className="font-bold" htmlFor="percentage">
+                        Registro de Evaluación
+                      </FormLabel>
+                      <PdfForm
+                        CollaboratorId={collaborator?.id!}
+                        url={collaborator?.pdfUrl}
+                      />
+                    </div>
+                  )}
                 </div>
-               
               </div>
               {/* <div>
                 <FormField

@@ -59,8 +59,8 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
   };
 
   return (
-    <div className="w-full bg-white rounded-md shadow flex flex-col items-center">
-      <div className="h-14  w-full border-b border-zinc-200 flex items-center justify-center px-2">
+    <div className="w-full max-w-[300px] bg-white rounded-md shadow flex flex-col items-center">
+      <div className="h-14  w-full border-b border-zinc-200 flex items-center justify-between px-2">
         <div className="flex items-center gap-1.5  justify-center">
           <Button
             disabled={currPage <= 1}
@@ -109,14 +109,14 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
         </div>
 
         <div className="space-x-2">
-          <Button
+          {/* <Button
             type="button"
             onClick={() => setRotation((prev) => prev + 90)}
             variant="ghost"
             aria-label="rotate 90 degrees"
           >
             <RotateCw className="h-4 w-4" />
-          </Button>
+          </Button> */}
 
           <PdfFullscreen fileUrl={url} />
         </div>
@@ -151,12 +151,10 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
                   className="w-full"
                 />
               ) : null}
-
               <Page
                 className={cn("w-full",isLoading ? "hidden" : "")}
                 width={300}
                 height={height}
-                
                 pageNumber={currPage}
                 scale={scale}
                 rotate={rotation}
