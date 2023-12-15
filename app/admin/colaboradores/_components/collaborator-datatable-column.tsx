@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal, Pencil } from "lucide-react";
-import { City, Collaborator } from "@prisma/client";
+import { ArrowUpDown, Eye, MoreHorizontal, Pencil } from "lucide-react";
+import { City } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenuContent,
@@ -13,22 +13,19 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import PdfFullscreen from "@/components/pdf-fullscreen";
 
-// interface withCity extends Collaborator {
-//   city: City | null;
-// }
 
-// interface CollaboratorWithCity {
-//   collaborator: withCity
-// }
 
 interface CollaboratorTableProps {
-  id: string; 
-  percentage: number; 
-  city: City | null
+  id: string;
+  percentage: number;
+  city: City | null;
+  pdfUrl: string | null;
 }
 
 type CollaboratorTableType = CollaboratorTableProps;
+
 
 export const collaboratorColumns: ColumnDef<CollaboratorTableType>[] = [
   {
@@ -138,6 +135,16 @@ export const collaboratorColumns: ColumnDef<CollaboratorTableType>[] = [
           </span>
         </Badge>
       );
+    },
+  },
+  {
+    accessorKey: "pdfUrl",
+    header: ({ column }) => {
+      return <Button variant="ghost">Archivo</Button>;
+    },
+    cell: ({ row }) => {
+      const url = row.original.pdfUrl;
+      return url && <PdfFullscreen icon={Eye} fileUrl={url} />;
     },
   },
   {

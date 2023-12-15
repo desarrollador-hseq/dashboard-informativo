@@ -33,27 +33,37 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
 export function CollaboratorDataTable<TData, TValue>({
-  columns: columnsAll,
   data,
+  columns: columnsAll
 }: DataTableProps<TData, TValue>) {
   const { data: session } = useSession();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [itemFilter, setItemFilter] = useState("name");
+  
 
-  let columns = columnsAll.filter((column) => {
-    return !(session && session?.user.role !== "ADMIN" && column.id === "actions" );
-  }).filter((column) => { return !(session && session?.user.role !== "ADMIN" && column.id === "percentage" );} );
+  let columns = columnsAll
+    .filter((column) => {
+      return !(
+        session &&
+        session?.user.role !== "ADMIN" &&
+        column.id === "actions"
+      );
+    })
+    .filter((column) => {
+      return !(
+        session &&
+        session?.user.role !== "ADMIN" &&
+        column.id === "percentage"
+      );
+    });
 
-
-  console.log({columns})
-
+  console.log({ columns });
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
@@ -106,7 +116,6 @@ export function CollaboratorDataTable<TData, TValue>({
             </SelectContent>
           </Select>
         </div>
-
       </div>
       <div className="rounded-md border bg-white">
         <Table>
@@ -179,6 +188,3 @@ export function CollaboratorDataTable<TData, TValue>({
     </div>
   );
 }
-
-
-

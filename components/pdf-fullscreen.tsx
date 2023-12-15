@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Document, Page } from "react-pdf";
-import { Expand, Loader2, X } from "lucide-react";
+import { Expand, Loader2, LucideIcon, X } from "lucide-react";
 import SimpleBar from "simplebar-react";
 import { toast } from "sonner";
 import { useResizeDetector } from "react-resize-detector";
@@ -13,9 +13,10 @@ import { Button } from "./ui/button";
 
 interface PdfFullscreenProps {
   fileUrl: string;
+  icon?: LucideIcon
 }
 
-const PdfFullscreen = ({ fileUrl }: PdfFullscreenProps) => {
+const PdfFullscreen = ({ fileUrl, icon: Icon }: PdfFullscreenProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [numPages, setNumPages] = useState<number>();
 
@@ -32,7 +33,10 @@ const PdfFullscreen = ({ fileUrl }: PdfFullscreenProps) => {
     >
       <AlertDialogTrigger onClick={() => setIsOpen(true)} asChild>
         <Button variant="ghost" className="gap-1.5" aria-label="fullscreen">
-          <Expand className="h-4 w-4" />
+          {
+            Icon ? <Icon className="h-4 w-4" /> :  <Expand className="h-4 w-4" />
+          }
+         
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="max-w-7xl w-full overflow-y-auto">
