@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Document, Page } from "react-pdf";
+import { pdfjs , Document, Page } from "react-pdf";
 import { Expand, Loader2, LucideIcon, X } from "lucide-react";
 import SimpleBar from "simplebar-react";
 import { toast } from "sonner";
@@ -15,6 +15,8 @@ interface PdfFullscreenProps {
   fileUrl: string;
   icon?: LucideIcon
 }
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const PdfFullscreen = ({ fileUrl, icon: Icon }: PdfFullscreenProps) => {
   const [isOpen, setIsOpen] = useState(false);
