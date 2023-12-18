@@ -16,14 +16,14 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <div className="relative w-full">
-        <div className="Loader w-full flex justify-center items-center absolute top-0 left-0 z-50">
-          <Loader2 className="w-6 h-6 animate-spin" />
-        </div>
+    <div className="">
       <main className="relative flex flex-col h-full m-0 p-0 w-full min-h-screen">
         <DashboardNavbar />
-        <div className="mt-1 min-h-screen w-full max-w-[1500px] mx-auto">
-          {children}
+        <div className="relative mt-1 min-h-screen w-full max-w-[1500px] mx-auto">
+          <div className="Loader w-full h-[calc(100vh-64px)] flex justify-center items-center absolute top-0 left-0 z-0">
+            <Loader2 className="w-10 h-10 animate-spin text-secondary" />
+          </div>
+          {/* {children} */}
         </div>
         <ScrollUp />
       </main>

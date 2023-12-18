@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useMemo } from "react";
 
 
-export const LogoGrupoHseq = ({ goRoot, className, height=40, width=75 }: { goRoot?: boolean, height?: number, width?: number, className?: string }) => {
+export const LogoGrupoHseq = ({ goRoot, className, height=40, width=65 }: { goRoot?: boolean, height?: number, width?: number, className?: string }) => {
   const pathname = usePathname();
 
   const isDashboard = useMemo(() => pathname.includes("dashboard"), [pathname]);
@@ -27,6 +27,7 @@ export const LogoGrupoHseq = ({ goRoot, className, height=40, width=75 }: { goRo
       alt="logo de Grupo HSEQ"
       height={height}
       width={width}
+      style={{ width: '80%', height: 'auto' }}
     />
   );
 };

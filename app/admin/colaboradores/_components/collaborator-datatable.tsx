@@ -125,35 +125,35 @@ export function CollaboratorDataTable<TData, TValue>({
 
   return (
     <div>
+      <table ref={tableRef} className="hidden">
+        <thead>
+          <tr>
+            {exportColumns.map((item) => (
+              <th key={item.data}>{item.title[0]}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {filteredDataWin.map((row, rowIndex) => (
+            <tr key={rowIndex}>
+              {exportColumns.map((column) => (
+                <td key={column.data}>
+                  {column.data === "city"
+                    ? row[column.data]?.realName || "Desconocida"
+                    : row[column.data]}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
       {!pageLoaded ? (
         <div className="w-full min-h-screen flex justify-center items-start">
           <Loader2 className="w-7 h-7 animate-spin" />
         </div>
       ) : (
         <div>
-          <table ref={tableRef} className="hidden">
-            <thead>
-              <tr>
-                {exportColumns.map((item) => (
-                  <th key={item.data}>{item.title[0]}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {filteredDataWin.map((row, rowIndex) => (
-                <tr key={rowIndex}>
-                  {exportColumns.map((column) => (
-                    <td key={column.data}>
-                      {column.data === "city"
-                        ? row[column.data]?.realName || "Desconocida"
-                        : row[column.data]}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
           <div className="flex items-center justify-between py-4">
             <div className="flex gap-2 w-full">
               <Input
