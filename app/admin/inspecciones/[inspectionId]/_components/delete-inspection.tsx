@@ -37,8 +37,6 @@ export const DeleteInspection = ({
 
   const title =  <p className="font-normal inline">la inspección con fecha:  <span className="font-bold "> {formatDate(inspection.date).toString()} en {inspection.city}</span></p>;
   
-  console.log({inspection})
-  
   return (
     <div>
       <DeleteConfirm onConfirm={onConfirm} title={title}>

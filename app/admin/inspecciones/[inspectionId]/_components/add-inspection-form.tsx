@@ -3,7 +3,7 @@
 import axios from "axios";
 import { useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Inspection } from "@prisma/client";
+import { City, Inspection } from "@prisma/client";
 import {
   CalendarIcon,
   Check,
@@ -49,31 +49,38 @@ import {
 } from "@/components/ui/select";
 import { DeleteInspection } from "./delete-inspection";
 
+
+interface InspectionWithCity extends Inspection {
+  city: City | null
+}
+
 interface AddInspectionFormProps {
-  inspection?: Inspection | null;
+  inspection?: InspectionWithCity;
+  cities: City[];
 }
 
 const formSchema = z.object({
-  city: z.string().min(1, {
-    message: "Nombre requerido",
-  }),
+  cityId: z.number(),
   date: z.date().or(z.string()),
   isExecuted: z.boolean().nullable().default(false),
 });
 
-export const AddInspectionForm = ({ inspection }: AddInspectionFormProps) => {
+export const AddInspectionForm = ({
+  inspection,
+  cities,
+}: AddInspectionFormProps) => {
   const router = useRouter();
   const isEdit = useMemo(() => inspection, [inspection]);
 
   if (isEdit && !inspection) {
-    router.replace("/admin/informes");
-    toast.error("Colaborador no encontrado, redirigiendo...");
+    router.replace("/admin/inspecciones");
+    toast.error("Inspección no encontrada, redirigiendo...");
   }
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      city: inspection?.city || "",
+      cityId: inspection?.cityId || undefined,
       date: inspection?.date || "",
       isExecuted: inspection?.isExecuted || false,
     },
@@ -100,7 +107,12 @@ export const AddInspectionForm = ({ inspection }: AddInspectionFormProps) => {
 
   const handleEvaluation = (e: CheckedState) => {
     setValue("isExecuted", !!e);
-    return
+    return;
+  };
+
+  const handleCityChange = (event: string) => {
+    const selectedCityId = Number(event);
+    setValue("cityId", selectedCityId, { shouldValidate: true });
   };
 
   return (
@@ -114,8 +126,10 @@ export const AddInspectionForm = ({ inspection }: AddInspectionFormProps) => {
                 <p>
                   Editar Inspección:{" "}
                   <span className="font-normal text-base">
-                    <span className="capitalize">{inspection?.city}</span> -{" "}
-                    {formatDate(inspection?.date!)}
+                    <span className="capitalize">
+                      {inspection?.city?.realName}
+                    </span>{" "}
+                    - {formatDate(inspection?.date!)}
                   </span>
                 </p>
               </>
@@ -138,13 +152,15 @@ export const AddInspectionForm = ({ inspection }: AddInspectionFormProps) => {
               <div>
                 <FormField
                   control={form.control}
-                  name="city"
+                  name="cityId"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Ciudad</FormLabel>
                       <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
+                        onValueChange={(e) => handleCityChange(e)}
+                        defaultValue={
+                          field.value ? field.value.toString() : undefined
+                        }
                       >
                         <FormControl>
                           <SelectTrigger className="bg-slate-100 border-slate-300">
@@ -155,11 +171,14 @@ export const AddInspectionForm = ({ inspection }: AddInspectionFormProps) => {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="barranquilla">
-                            Barranquilla
-                          </SelectItem>
-                          <SelectItem value="bogota">Bogotá</SelectItem>
-                          <SelectItem value="cartagena">Cartagena</SelectItem>
+                          {cities.map((city) => (
+                            <SelectItem
+                              key={city.id}
+                              value={city.id.toString()}
+                            >
+                              {city.realName}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                       <FormMessage className="ml-6 text-[0.8rem] text-red-500 font-medium" />

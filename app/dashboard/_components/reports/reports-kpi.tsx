@@ -52,7 +52,7 @@ export const ReportsKpi = ({
           {/* =============== 2 =============== */}
           <Card className={`${reports.length > 0 ? "bg-secondary" : "bg-zinc-400"} rounded-lg text-white`}>
             <CardHeader className="flex justify-center font-semibold ">
-              <h4 className="text-center">Total Inspecciones ejecutadas</h4>
+              <h4 className="text-center">Total informes aceptados</h4>
             </CardHeader>
             <CardContent className="flex justify-center">
               <p className="text-4xl font-bold">

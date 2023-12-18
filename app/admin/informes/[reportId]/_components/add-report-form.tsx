@@ -43,23 +43,25 @@ import {
 } from "@/components/ui/popover";
 
 import { DeleteReport } from "./delete-report";
+import { Input } from "@/components/ui/input";
 
-interface AddInspectionFormProps {
+interface AddReportFormProps {
   report?: Report | null;
 }
 
 const formSchema = z.object({
   deliveryDate: z.date().or(z.string()),
   conformity: z.boolean().default(false),
+  fileUrl: z.string().optional(),
 });
 
-export const AddReportForm = ({ report }: AddInspectionFormProps) => {
+export const AddReportForm = ({ report }: AddReportFormProps) => {
   const router = useRouter();
   const isEdit = useMemo(() => report, [report]);
 
   if (isEdit && !report) {
     router.replace("/admin/informes/");
-    toast.error("Colaborador no encontrado, redirigiendo...");
+    toast.error("Informe no encontrado, redirigiendo...");
   }
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -67,6 +69,7 @@ export const AddReportForm = ({ report }: AddInspectionFormProps) => {
     defaultValues: {
       deliveryDate: report?.deliveryDate || "",
       conformity: report?.conformity || false,
+      fileUrl: report?.fileUrl || "",
     },
   });
   const { isSubmitting, isValid } = form.formState;
@@ -90,7 +93,7 @@ export const AddReportForm = ({ report }: AddInspectionFormProps) => {
   };
 
   const handleEvaluation = (e: CheckedState) => {
-    setValue("conformity", !!e);
+    setValue("conformity", !!e, { shouldValidate: true });
   };
 
   return (
@@ -111,7 +114,7 @@ export const AddReportForm = ({ report }: AddInspectionFormProps) => {
             )}
           </h2>
         </div>
-        {isEdit && <DeleteReport report={report!} />}
+        {/* {isEdit && <DeleteReport report={report!} />} */}
       </div>
       <Separator />
 
@@ -230,6 +233,24 @@ export const AddReportForm = ({ report }: AddInspectionFormProps) => {
                 </div>
               )}
             </div>
+
+            <div>
+                <FormField
+                  control={form.control}
+                  name="fileUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-bold" htmlFor="fileUrl">
+                        Link
+                      </FormLabel>
+                      <FormControl>
+                        <Input id="fileUrl" disabled={isSubmitting} {...field} />
+                      </FormControl>
+                      <FormMessage className="ml-6 text-[0.8rem] text-red-500 font-medium" />
+                    </FormItem>
+                  )}
+                />
+              </div>
           </div>
 
           <Button

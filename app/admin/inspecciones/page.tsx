@@ -11,6 +11,9 @@ const InspectionsPage = async () => {
   const session = await getServerSession(authOptions);
 
   const collaborators = await db.inspection.findMany({
+    include: {
+      city: true
+    },
     orderBy: {
       createdAt: "desc",
     },

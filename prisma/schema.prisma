@@ -55,6 +55,7 @@ model City {
   formated     String
   color        String
   Collaborator Collaborator[]
+  Inspection Inspection[]
 }
 
 model FormationParameters {
@@ -74,12 +75,19 @@ enum DocType {
 model Inspection {
   id String @id @default(uuid())
 
-  city       String
+  cityId Int?
+  city City? @relation(fields: [cityId], references: [id])
+
   date       DateTime
   isExecuted Boolean  @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // Relación con Report
+  report Report?
+
+  @@index([cityId])
 }
 
 model Report {
@@ -88,6 +96,12 @@ model Report {
   deliveryDate DateTime
   conformity   Boolean  @default(false)
 
+  fileUrl String? @db.Text
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // Relación inversa con Inspection
+  inspection Inspection @relation(fields: [inspectionId], references: [id])
+  inspectionId String @unique
 }

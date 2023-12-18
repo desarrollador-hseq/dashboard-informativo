@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import ReactEcharts from "echarts-for-react";
-import { Collaborator, Inspection } from "@prisma/client";
+import { City, Collaborator, Inspection } from "@prisma/client";
 import { Card, CardHeader } from "@/components/ui/card";
 import { InspectionsExecutedCity } from "./Inspections-executed-city";
 import { InspectionsCity } from "./inspections-city";
@@ -14,32 +14,35 @@ import { InspectionColumns } from "@/app/admin/inspecciones/_components/inspecti
 import { Separator } from "@/components/ui/separator";
 import { Fade } from "react-awesome-reveal";
 
-interface CollaboratorsReportsProps {
-  inspections: Inspection[];
+interface InspectionWithCity extends Inspection {
+  city: City | null;
+}
+
+interface InspectionsReportsProps {
+  inspections: InspectionWithCity[];
 }
 
 export const InspectionsReports = ({
   inspections,
-}: CollaboratorsReportsProps) => {
+}: InspectionsReportsProps) => {
   const { date } = useDashboard();
 
-  const filteredInspections =
-    !date || (date?.from === undefined && date?.to === undefined)
-      ? inspections
-      : inspections.filter((inspection) => {
-          const startDate = new Date(inspection.date);
-          return (
-            (!date.from || startDate >= date.from) &&
-            (!date.to || startDate <= date.to)
-          );
-        });
+  const filteredInspections =  !date || (date?.from === undefined && date?.to === undefined)
+  ? inspections
+  : inspections.filter((inspections) => {
+      const startDate = new Date(inspections.date);
+      return (
+        (!date.from || startDate >= date.from) &&
+        (!date.to || startDate <= date.to)
+      );
+    });
   return (
     <div className="w-full flex flex-col justify-center mb-6" id="inspection">
       <div className="w-full grid grid-rows-3 grid-cols-1 md:grid-rows-1 md:grid-cols-3 my-1 h-max md:my-3  place-content-center px-3 ">
         <div />
         <h2 className="text-3xl font-bold text-center">Inspecciones</h2>
         <div className="place-content-center flex justify-center md:justify-end">
-          <ShowTableModal title="Colaboradores">
+          <ShowTableModal title="Inspecciones">
             <InspectionsDataTable
               columns={InspectionColumns}
               data={filteredInspections}

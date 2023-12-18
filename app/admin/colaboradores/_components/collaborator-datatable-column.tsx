@@ -15,8 +15,6 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import PdfFullscreen from "@/components/pdf-fullscreen";
 
-
-
 interface CollaboratorTableProps {
   id: string;
   percentage: number;
@@ -25,7 +23,6 @@ interface CollaboratorTableProps {
 }
 
 type CollaboratorTableType = CollaboratorTableProps;
-
 
 export const collaboratorColumns: ColumnDef<CollaboratorTableType>[] = [
   {
@@ -83,6 +80,7 @@ export const collaboratorColumns: ColumnDef<CollaboratorTableType>[] = [
         </Button>
       );
     },
+    accessorFn: (value) => `${value.city?.realName}`,
     cell: ({ row }) => {
       const city = row.original.city;
       const cityName = city?.realName || "Desconocida";
@@ -138,6 +136,7 @@ export const collaboratorColumns: ColumnDef<CollaboratorTableType>[] = [
     },
   },
   {
+    id: "pdfUrl",
     accessorKey: "pdfUrl",
     header: ({ column }) => {
       return <Button variant="ghost">Archivo</Button>;

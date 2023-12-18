@@ -36,8 +36,6 @@ export const DeleteReport = ({
 
   const title =  <p className="font-normal inline">el informe con fecha:  <span className="font-bold "> {formatDate(report.deliveryDate).toString()} </span></p>;
   
-  console.log({report})
-  
   return (
     <div>
       <DeleteConfirm onConfirm={onConfirm} title={title}>

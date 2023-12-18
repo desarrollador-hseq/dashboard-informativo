@@ -132,7 +132,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
                 </div>
               }
               onError={() => {
-                toast("Error al cargar PDF", {
+                toast.error("Error al cargar PDF", {
                   description: "Por favor intentelo nuevamente",
                 });
               }}

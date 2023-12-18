@@ -11,18 +11,23 @@ const CreateInspection = async ({
     where: {
       id: params.inspectionId,
     },
+    include: {
+      city: true,
+    },
   });
 
   if (!inspection) {
     params.inspectionId = "crear";
   }
 
+  const cities = await db.city.findMany({});
+
   return (
     <div>
       {inspection ? (
-        <AddInspectionForm inspection={inspection} />
+        <AddInspectionForm inspection={inspection} cities={cities} />
       ) : (
-        <AddInspectionForm />
+        <AddInspectionForm cities={cities} />
       )}
     </div>
   );

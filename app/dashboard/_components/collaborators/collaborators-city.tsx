@@ -18,31 +18,28 @@ export const CollaboratorsCity = ({
 }: CollaboratorsReportsProps) => {
   const processDataForBarChart = () => {
     const cityData = collaborators.map((collaborator) => {
-      const cityName = collaborator.city?.realName || "desconocida" || "Desconocida";
-      const color = collaborator.city ? collaborator.city.color : "#CCCCCC"; // Usa un color gris para ciudades desconocidas
+      const cityName = collaborator.city?.realName || "Desconocida";
+
       
       return {
         cityName,
-        count: 1, // Ajusta según tu lógica
-        color,
+        count: 1, 
       };
     });
   
-    const countsByCity = cityData.reduce((acc: any, { cityName, count, color }) => {
-      acc[cityName] = (acc[cityName] || 0) + count, color;
+    const countsByCity = cityData.reduce((acc: any, { cityName, count }) => {
+      acc[cityName] = (acc[cityName] || 0) + count;
       return acc;
     }, {});
   
     const cities = Object.keys(countsByCity);
     const counts = Object.values(countsByCity);
-    const colors = cityData.map(({ color }) => color)
+
   
-    return { cities, counts, colors };
+    return { cities, counts };
   };
   
-  const { cities, counts, colors } = processDataForBarChart();
-
-  console.log({cities, counts})
+  const { cities, counts } = processDataForBarChart();
 
 
   const col = [

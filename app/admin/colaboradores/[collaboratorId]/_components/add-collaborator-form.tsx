@@ -111,12 +111,6 @@ export const AddCollaboratorForm = ({
   const { isSubmitting, isValid } = form.formState;
   const { setValue, setError } = form;
 
-  const { watch } = form;
-
-  useEffect(() => {
-    console.log({ wa: watch() });
-  }, [watch()]);
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       if (isEdit) {
@@ -124,7 +118,6 @@ export const AddCollaboratorForm = ({
         toast.success("Colaborador actualizado");
       } else {
         const { data } = await axios.post(`/api/collaborators/`, values);
-        console.log({ data });
         toast.success("Colaborador creado");
       }
       router.push(`/admin/colaboradores`);
@@ -439,55 +432,6 @@ export const AddCollaboratorForm = ({
                   )}
                 </div>
               </div>
-              {/* <div>
-                <FormField
-                  control={form.control}
-                  name="evaluationPass"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel className="font-bold" htmlFor="evaluationPass">
-                        Evaluacion{" "}
-                      </FormLabel>
-                      <div
-                        // onClick={() =>
-                        //   handleEvaluation(!!!(field.value))
-                        //   }
-                        className={cn(
-                          "w-full h-11 flex gap-3 justify-between items-center bg-slate-100 space-y-0 rounded-md border p-4 hover:cursor-pointer",
-                          field.value && "bg-green-600"
-                        )}
-                      >
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            // onCheckedChange={field.onChange}
-                            onCheckedChange={(e) => handleEvaluation(e)}
-                            className={cn("")}
-                          />
-                        </FormControl>
-                        <div className=" space-y-1 leading-none flex justify-between">
-                          <FormDescription
-                            className={`${field.value && "text-white"}`}
-                          >
-                            {!field.value ? (
-                              <span className="w-full flex gap-3 justify-between">
-                                {" "}
-                                Sin pasar evaluación final{" "}
-                                <X className="w-5 h-5 text-red-400" />{" "}
-                              </span>
-                            ) : (
-                              <span className="w-full flex gap-3 justify-between">
-                                Ha logrado pasar la evaluación final
-                                <Check className="w-5 h-5" />{" "}
-                              </span>
-                            )}
-                          </FormDescription>
-                        </div>
-                      </div>
-                    </FormItem>
-                  )}
-                />
-              </div> */}
             </div>
           </div>
 

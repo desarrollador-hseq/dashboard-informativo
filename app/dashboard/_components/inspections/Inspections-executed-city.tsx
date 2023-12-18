@@ -1,43 +1,44 @@
 "use client";
 
-import { Inspection } from "@prisma/client";
+import { City, Inspection } from "@prisma/client";
 import { Chart } from "@/components/chart";
 import { capitalizeFirstLetter } from "@/lib/utils";
 
+interface InspectionWithCity extends Inspection {
+  city: City | null
+}
+
 interface InspectionsReportProps {
-  inspections: Inspection[];
+  inspections: InspectionWithCity[];
 }
 
 export const InspectionsExecutedCity = ({
   inspections,
 }: InspectionsReportProps) => {
 
-  const countInspectionsByCity = (inspections: Inspection[]) => {
-    const counts = inspections.reduce((acc: any, { city, isExecuted }) => {
-      if (!acc[city]) {
-        acc[city] = { executed: 0, notExecuted: 0 };
+  const countInspectionsByCity = (inspections: InspectionWithCity[] ) => {
+    const counts = inspections.reduce((acc: any, { city, isExecuted }: any) => {
+      if (!acc[city.id]) {
+        acc[city.id] = { executed: 0, notExecuted: 0, cityName: (city.realName) }; // Incluir el nombre de la ciudad
       }
       if (isExecuted) {
-        acc[city].executed += 1;
+        acc[city.id].executed += 1;
       } else {
-        acc[city].notExecuted += 1;
+        acc[city.id].notExecuted += 1;
       }
       return acc;
     }, {});
-
-    return Object.entries(counts).map(
-      ([city, { executed, notExecuted }]: any) => {
-        return [capitalizeFirstLetter(city), executed, notExecuted];
-      }
-    );
+  
+    return Object.values(counts).map(({ cityName, executed, notExecuted }: any) => {
+      return [cityName, executed, notExecuted]; // No incluir el nombre de la ciudad al final de cada fila
+    });
   };
-
+  
   const datasetSource = [
     ["Ciudad", "Ejecutadas", "Programadas"],
     ...countInspectionsByCity(inspections),
   ];
-
-
+  
   const option = {
     legend: {},
     tooltip: {},
@@ -53,10 +54,9 @@ export const InspectionsExecutedCity = ({
       interval: 1,
     },
     series: [
-      { type: "bar", itemStyle: { color: "#4e71b1" } },
-      { type: "bar", itemStyle: { color: "#bae0fc" } },
+      { type: "bar", name: "Ejecutadas", itemStyle: { color: "#4e71b1" } },
+      { type: "bar", name: "Programadas", itemStyle: { color: "#bae0fc" } },
     ],
-
     title: {
       show: inspections.length === 0,
       textStyle: {
@@ -68,6 +68,5 @@ export const InspectionsExecutedCity = ({
       top: "center",
     },
   };
-
   return <Chart option={option} title="Estado por ciudades" />;
 };

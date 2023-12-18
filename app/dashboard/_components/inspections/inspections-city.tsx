@@ -1,25 +1,38 @@
 "use client";
 
 import React, { useState } from "react";
-import { Inspection } from "@prisma/client";
+import { City, Inspection } from "@prisma/client";
 import { capitalizeFirstLetter } from "@/lib/utils";
 import { Chart } from "@/components/chart";
 
+
+interface InspectionWithCity extends Inspection {
+  city: City | null;
+}
+
 interface InspectionsReportsProps {
-  inspections: Inspection[];
+  inspections: InspectionWithCity[];
 }
 
 export const InspectionsCity = ({ inspections }: InspectionsReportsProps) => {
   const processDataForBarChart = () => {
-    const countsByCity = inspections.reduce((acc: any, inspection) => {
-      const city = capitalizeFirstLetter(inspection.city) || "Desconocida";
-      acc[city] = (acc[city] || 0) + 1;
+    const cityData = inspections.map((inspection) => {
+      const cityName = inspection.city?.realName || "Desconocida";
+      
+      return {
+        cityName,
+        count: 1, 
+      };
+    });
+  
+    const countsByCity = cityData.reduce((acc: any, { cityName, count }) => {
+      acc[cityName] = (acc[cityName] || 0) + count;
       return acc;
     }, {});
-
+  
     const cities = Object.keys(countsByCity);
     const counts = Object.values(countsByCity);
-
+  
     return { cities, counts };
   };
 
@@ -96,9 +109,6 @@ export const InspectionsCity = ({ inspections }: InspectionsReportsProps) => {
           itemStyle: { color: col[index] },
           name: city,
         })),
-        itemStyle: {
-          color: "#4e71b1",
-        },
         type: "bar",
       },
     ],
@@ -106,7 +116,7 @@ export const InspectionsCity = ({ inspections }: InspectionsReportsProps) => {
       show: counts.length === 0,
       textStyle: {
         color: "grey",
-        fontSize: 20,
+        fontSize: 18,
       },
       text: "Sin datos",
       left: "center",

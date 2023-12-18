@@ -17,8 +17,7 @@ const CreateCollaborator = async ({
     params.collaboratorId = "crear";
   }
 
-  const cities = await db.city.findMany({
-  })
+  const cities = await db.city.findMany({});
 
   return (
     <div className="h-fit">

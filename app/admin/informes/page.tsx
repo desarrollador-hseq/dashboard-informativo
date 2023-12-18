@@ -26,14 +26,14 @@ const InspectionsPage = async () => {
           </span>
         </div>
 
-        {session && session.user.role === "ADMIN" && (
+        {/* {session && session.user.role === "ADMIN" && (
           <Link href="/admin/informes/crear">
             <Button>
               <PlusCircle className="w-4 h-4 mr-2" />
               Registrar Informe
             </Button>
           </Link>
-        )}
+        )} */}
       </div>
       <ReportsDataTable columns={reportColumns} data={reports} />
     </div>

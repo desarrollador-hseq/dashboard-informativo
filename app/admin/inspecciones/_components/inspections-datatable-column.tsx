@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal, Pencil } from "lucide-react";
-import { Inspection } from "@prisma/client";
+import { City, Inspection } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenuContent,
@@ -14,10 +14,16 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn, formatDate } from "@/lib/utils";
 
+interface InspectionTableProps {
+  id: string;
+  isExecuted: boolean;
+  date: Date;
+  city: City | null;
+}
 
+type InspectionTableType = InspectionTableProps;
 
-export const InspectionColumns: ColumnDef<Inspection>[] = [
-
+export const InspectionColumns: ColumnDef<InspectionTableType>[] = [
   {
     accessorKey: "city",
     header: ({ column }) => {
@@ -31,13 +37,12 @@ export const InspectionColumns: ColumnDef<Inspection>[] = [
         </Button>
       );
     },
-    cell: ({row}) => {
-     const city: string =  row.getValue("city")
-
-     return (
-      <span className="capitalize">{city}</span>
-     )
-    }
+    accessorFn: (value) => `${value.city?.realName}`,
+    cell: ({ row }) => {
+      const city = row.original.city;
+      const cityName = city?.realName || "Desconocida";
+      return <span className="capitalize">{cityName}</span>;
+    },
   },
   {
     accessorKey: "date",

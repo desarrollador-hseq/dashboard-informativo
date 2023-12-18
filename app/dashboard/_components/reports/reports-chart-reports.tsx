@@ -34,7 +34,7 @@ export const ReportsChartReports = ({ reports }: ReportsChartReportsProps) => {
         <div />
         <h2 className="text-3xl font-bold text-center">Informes</h2>
         <div className="place-content-center flex justify-center md:justify-end">
-          <ShowTableModal title="Colaboradores">
+          <ShowTableModal title="Informes">
             <ReportsDataTable columns={reportColumns} data={filteredReports} />
           </ShowTableModal>
         </div>

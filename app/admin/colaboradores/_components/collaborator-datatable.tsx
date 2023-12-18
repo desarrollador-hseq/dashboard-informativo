@@ -1,6 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
+import { DownloadTableExcel } from "react-export-table-to-excel";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -32,7 +33,10 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
+import { FileDown } from "lucide-react";
+import { format } from "date-fns";
+import { unknown } from "zod";
+import { useDashboard } from "@/components/providers/dashboard-provider";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -40,12 +44,19 @@ interface DataTableProps<TData, TValue> {
 
 export function CollaboratorDataTable<TData, TValue>({
   data,
-  columns: columnsAll
+  columns: columnsAll,
 }: DataTableProps<TData, TValue>) {
   const { data: session } = useSession();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [itemFilter, setItemFilter] = useState("name");
-  
+  const [pageLoaded, setPageLoaded] = useState(false);
+  const tableRef = useRef(null);
+
+  const { threshold } = useDashboard();
+
+  useEffect(() => {
+    setPageLoaded(true);
+  }, []);
 
   let columns = columnsAll
     .filter((column) => {
@@ -63,8 +74,6 @@ export function CollaboratorDataTable<TData, TValue>({
       );
     });
 
-  console.log({ columns });
-
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
     data,
@@ -81,6 +90,34 @@ export function CollaboratorDataTable<TData, TValue>({
     },
   });
 
+  const exportColumns = columns
+    .filter(
+      (column) =>
+        !column?.id?.includes("actions") && !column?.id?.includes("pdfUrl")
+    )
+    .map((column) => ({
+      title: column?.header({ column }).props.children,
+      data: column?.accessorKey,
+    }));
+
+  const filteredData = data.map((row) => {
+    const filteredRow: any = {};
+    exportColumns.forEach((column) => {
+      filteredRow[column.data] = row[column.data];
+    });
+    return filteredRow;
+  });
+
+  const filteredDataWin = filteredData
+    .filter((row) => row.percentage >= threshold!)
+    .map((row) => {
+      const filteredRow: any = {};
+      exportColumns.forEach((column) => {
+        filteredRow[column.data] = row[column.data];
+      });
+      return filteredRow;
+    });
+
   const handleFilterItem = (e: string) => {
     table.getColumn(itemFilter)?.setFilterValue("");
     setItemFilter(e);
@@ -88,103 +125,154 @@ export function CollaboratorDataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center justify-between py-4">
-        <div className="flex gap-2 w-full">
-          <Input
-            placeholder={`Buscar`}
-            value={
-              (table.getColumn(itemFilter)?.getFilterValue() as string) ?? ""
-            }
-            onChange={(event: any) =>
-              table.getColumn(itemFilter)?.setFilterValue(event.target.value)
-            }
-            className="w-full min-w-[300px] max-w-[500px] bg-white "
-          />
-
-          <Select value={itemFilter} onValueChange={(e) => handleFilterItem(e)}>
-            <SelectTrigger className="w-fit gap-2">
-              <SelectValue placeholder="Filtrar por" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="name">Nombres</SelectItem>
-                <SelectItem value="lastname">Apellidos</SelectItem>
-                <SelectItem value="numDoc">N° documento</SelectItem>
-                <SelectItem value="city">Ciudad</SelectItem>
-                <SelectItem value="percentage">Evaluacion</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-      <div className="rounded-md border bg-white">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
+      {!pageLoaded ? (
+        <div></div>
+      ) : (
+        <div>
+          <table ref={tableRef} className="hidden">
+            <thead>
+              <tr>
+                {exportColumns.map((item) => (
+                  <th key={item.data}>{item.title[0]}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {filteredDataWin.map((row, rowIndex) => (
+                <tr key={rowIndex}>
+                  {exportColumns.map((column) => (
+                    <td key={column.data}>
+                      {column.data === "city"
+                        ? row[column.data]?.realName || "Desconocida"
+                        : row[column.data]}
+                    </td>
                   ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No hay resultados.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Anterior
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Siguiente
-        </Button>
-      </div>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <div className="flex items-center justify-between py-4">
+            <div className="flex gap-2 w-full">
+              <Input
+                placeholder={`Buscar`}
+                value={
+                  (table.getColumn(itemFilter)?.getFilterValue() as string) ??
+                  ""
+                }
+                onChange={(event: any) =>
+                  table
+                    .getColumn(itemFilter)
+                    ?.setFilterValue(event.target.value)
+                }
+                className="w-full min-w-[300px] max-w-[500px] bg-white "
+              />
+
+              <Select
+                value={itemFilter}
+                onValueChange={(e) => handleFilterItem(e)}
+              >
+                <SelectTrigger className="w-fit gap-2">
+                  <SelectValue placeholder="Filtrar por" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="name">Nombres</SelectItem>
+                    <SelectItem value="lastname">Apellidos</SelectItem>
+                    <SelectItem value="numDoc">N° documento</SelectItem>
+                    <SelectItem value="city">Ciudad</SelectItem>
+                    <SelectItem value="percentage">Evaluacion</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <div className="rounded-md border bg-white">
+            <Table>
+              <TableHeader>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => {
+                      return (
+                        <TableHead key={header.id}>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                        </TableHead>
+                      );
+                    })}
+                  </TableRow>
+                ))}
+              </TableHeader>
+              <TableBody>
+                {table.getRowModel().rows?.length ? (
+                  table.getRowModel().rows.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && "selected"}
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length}
+                      className="h-24 text-center"
+                    >
+                      No hay resultados.
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+          <div className="flex items-center justify-between space-x-2 py-4">
+            <div>
+              <DownloadTableExcel
+                filename={`Colaboradores ${format(
+                  new Date(),
+                  "dd/MM/yyyy-HH:mm:ss"
+                )}`}
+                sheet="colaboradores"
+                currentTableRef={tableRef.current}
+              >
+                <Button className="bg-slate-200 rounded-full hover:text-white">
+                  <FileDown className="w-6 h-6 text-secondary hover:text-white" />
+                </Button>
+              </DownloadTableExcel>
+            </div>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+              >
+                Anterior
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+              >
+                Siguiente
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

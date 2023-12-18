@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { pdfjs , Document, Page } from "react-pdf";
+import { pdfjs, Document, Page } from "react-pdf";
 import { Expand, Loader2, LucideIcon, X } from "lucide-react";
 import SimpleBar from "simplebar-react";
 import { toast } from "sonner";
@@ -11,9 +11,12 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "./ui/button";
 
+import "react-pdf/dist/Page/AnnotationLayer.css";
+import "react-pdf/dist/Page/TextLayer.css";
+
 interface PdfFullscreenProps {
   fileUrl: string;
-  icon?: LucideIcon
+  icon?: LucideIcon;
 }
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -35,15 +38,16 @@ const PdfFullscreen = ({ fileUrl, icon: Icon }: PdfFullscreenProps) => {
     >
       <AlertDialogTrigger onClick={() => setIsOpen(true)} asChild>
         <Button variant="ghost" className="gap-1.5" aria-label="fullscreen">
-          {
-            Icon ? <Icon className="h-4 w-4" /> :  <Expand className="h-4 w-4" />
-          }
-         
+          {Icon ? <Icon className="h-4 w-4" /> : <Expand className="h-4 w-4" />}
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="max-w-7xl w-full overflow-y-auto">
         <div>
-          <Button variant="destructive" className=" absolute top-0 right-0" onClick={() => setIsOpen(false)}>
+          <Button
+            variant="destructive"
+            className=" absolute top-0 right-0"
+            onClick={() => setIsOpen(false)}
+          >
             <X className="w-3 h-3 text-white" />
           </Button>
 
@@ -58,9 +62,8 @@ const PdfFullscreen = ({ fileUrl, icon: Icon }: PdfFullscreenProps) => {
                     <Loader2 className="my-24 h-6 w-6 animate-spin text-primary" />
                   </div>
                 }
-                
                 onLoadError={() => {
-                  toast("Error al cargar PD", {
+                  toast.error("Error al cargar PDF", {
                     description: "Por favor intentelo nuevamente",
                   });
                 }}

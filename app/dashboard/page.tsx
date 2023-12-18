@@ -8,13 +8,10 @@ import { ReportsChartReports } from "./_components/reports/reports-chart-reports
 import { Dashboardtitle } from "./_components/dashboard-title";
 import { Loader2 } from "lucide-react";
 
-
-
-
 const DashboardPage = async () => {
   const collaborators = await db.collaborator.findMany({
     include: {
-      city: true
+      city: true,
     },
   });
   const getFormationThreshold = async () => {
@@ -30,7 +27,11 @@ const DashboardPage = async () => {
   };
   const thresholdValue = await getFormationThreshold();
   const threshold = thresholdValue ? thresholdValue : 80;
-  const inspections = await db.inspection.findMany();
+  const inspections = await db.inspection.findMany({
+    include: {
+      city: true,
+    },
+  });
   const report = await db.report.findMany();
 
   return (
