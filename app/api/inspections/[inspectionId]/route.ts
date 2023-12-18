@@ -75,7 +75,6 @@ export async function DELETE(req: Request, { params }: { params: { inspectionId:
             report = { message: 'Informe eliminado correctamente' };
         }
 
-
         return NextResponse.json({inspectionDeleted, report})
 
     } catch (error) {

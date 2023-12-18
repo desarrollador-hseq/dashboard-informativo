@@ -95,12 +95,12 @@ export function CollaboratorDataTable<TData, TValue>({
       (column) =>
         !column?.id?.includes("actions") && !column?.id?.includes("pdfUrl")
     )
-    .map((column) => ({
+    .map((column: any) => ({
       title: column?.header({ column }).props.children,
       data: column?.accessorKey,
     }));
 
-  const filteredData = data.map((row) => {
+  const filteredData = data.map((row: any) => {
     const filteredRow: any = {};
     exportColumns.forEach((column) => {
       filteredRow[column.data] = row[column.data];

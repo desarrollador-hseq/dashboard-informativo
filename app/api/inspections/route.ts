@@ -13,8 +13,6 @@ export async function POST(req: Request, { params }: { params: { courseId: strin
 
         if(!session) return new NextResponse("Unauthorized", {status: 401})
 
-  
-
         const inspection = await db.inspection.create({
             data: {
                 ...values
