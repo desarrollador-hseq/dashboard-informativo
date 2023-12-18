@@ -1,14 +1,10 @@
 import { db } from "@/lib/db";
 import { ReportsDataTable } from "./_components/reports-datatable";
 import { reportColumns } from "./_components/reports-datatable-column";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
+
+
 
 const InspectionsPage = async () => {
-  const session = await getServerSession(authOptions);
 
   const reports = await db.report.findMany({
     orderBy: {

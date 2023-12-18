@@ -33,7 +33,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { FileDown } from "lucide-react";
+import { FileDown, Loader2 } from "lucide-react";
 import { format } from "date-fns";
 import { unknown } from "zod";
 import { useDashboard } from "@/components/providers/dashboard-provider";
@@ -126,7 +126,9 @@ export function CollaboratorDataTable<TData, TValue>({
   return (
     <div>
       {!pageLoaded ? (
-        <div></div>
+        <div className="w-full min-h-screen flex justify-center items-start">
+          <Loader2 className="w-7 h-7 animate-spin" />
+        </div>
       ) : (
         <div>
           <table ref={tableRef} className="hidden">
