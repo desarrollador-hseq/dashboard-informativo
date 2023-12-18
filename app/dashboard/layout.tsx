@@ -23,7 +23,7 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
           <div className="Loader w-full h-[calc(100vh-64px)] flex justify-center items-center absolute top-0 left-0 z-0">
             <Loader2 className="w-10 h-10 animate-spin text-secondary" />
           </div>
-          {/* {children} */}
+          {children}
         </div>
         <ScrollUp />
       </main>
