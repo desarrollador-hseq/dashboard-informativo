@@ -61,7 +61,7 @@ export const CollaboratorsCity = ({
     grid: {
       left: "3%",
       right: "4%",
-      bottom: "3%",
+      bottom: cities.length > 5 ? "6%" : "3%", 
       containLabel: true,
     },
     xAxis: {
@@ -69,6 +69,9 @@ export const CollaboratorsCity = ({
       data: cities,
       axisTick: {
         alignWithLabel: true,
+      },
+      axisLabel: {
+        rotate: cities.length > 5 ? 30 : 0, 
       },
     },
     yAxis: {
@@ -78,24 +81,27 @@ export const CollaboratorsCity = ({
       },
       interval: 1,
     },
+  
     series: [
       {
         label: {
           show: false,
-          position: "center",
         },
         data: cities.map((city, index) => ({
           value: counts[index],
           itemStyle: { color: col[index] },
           name: city,
         })),
+        barMaxWidth: cities.length > 6 ? '' : '40%',
         type: "bar",
+        color: "#fff",
+
       },
     ],
     title: {
       show: counts.length === 0,
       textStyle: {
-        color: "grey",
+        color: "red",
         fontSize: 18,
       },
       text: "Sin datos",

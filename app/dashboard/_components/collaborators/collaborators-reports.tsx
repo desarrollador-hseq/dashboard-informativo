@@ -1,6 +1,5 @@
 "use client";
 
-
 import { City, Collaborator } from "@prisma/client";
 import { CollaboratorFormed } from "./collaborators-formed";
 import { CollaboratorsCity } from "./collaborators-city";
@@ -37,9 +36,11 @@ export const CollaboratorsReports = ({
           );
         });
 
-
   return (
-    <div className="w-full flex flex-col justify-center mb-6 " id="collaborator">
+    <div
+      className="w-full flex flex-col justify-center mb-6 "
+      id="collaborator"
+    >
       <div className="w-full grid grid-rows-3 grid-cols-1 md:grid-rows-1 md:grid-cols-3 my-1 h-max md:my-3  place-content-center px-3 ">
         <div />
         <h2 className="text-3xl font-bold text-center">Colaboradores</h2>
@@ -55,19 +56,27 @@ export const CollaboratorsReports = ({
 
       {/* <Separator className="mb-4 bg-primary" /> */}
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 p-2 mb-3">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 p-2 mb-3 lg:grid-rows-2 ">
         <Fade delay={200} cascade triggerOnce>
-          <CollaboratorsKpi threshold={threshold} collaborators={filteredCollaborators} />
+          <CollaboratorsKpi
+            threshold={threshold}
+            collaborators={filteredCollaborators}
+          />
         </Fade>
         {/* <div>
           <PercentagePie  collaborators={filteredCollaborators} />
         </div> */}
         <Fade delay={400} cascade triggerOnce>
-          <CollaboratorFormed  threshold={threshold}  collaborators={filteredCollaborators} />
+          <CollaboratorFormed
+            threshold={threshold}
+            collaborators={filteredCollaborators}
+          />
         </Fade>
-        <Fade delay={600} cascade triggerOnce>
-          <CollaboratorsCity collaborators={filteredCollaborators} />
-        </Fade>
+        <div className="lg:col-span-2">
+          <Fade delay={600} cascade triggerOnce>
+            <CollaboratorsCity collaborators={filteredCollaborators} />
+          </Fade>
+        </div>
       </div>
     </div>
   );

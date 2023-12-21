@@ -7,11 +7,12 @@ import { Separator } from './ui/separator'
 import { Loader2 } from 'lucide-react'
 import ReactEcharts from "echarts-for-react";
 import { EChartsOption } from 'echarts';
+import { cn } from '@/lib/utils';
 
 
 
 
-export const Chart = ({option, title}: {option: object; title: string}) => {
+export const Chart = ({option, title, className}: {option: object; title: string; className?: string}) => {
   const [isChartLoaded, setIsChartLoaded] = useState(false);
 
   const onChartReady = () => {
@@ -22,7 +23,7 @@ export const Chart = ({option, title}: {option: object; title: string}) => {
 
 
   return (
-    <Card>
+    <Card className={cn(className)}>
       <CardHeader>
         <span className="font-bold text-xl">{title}</span>
       </CardHeader>

@@ -166,7 +166,7 @@ export const AddInspectionForm = ({
                           <SelectTrigger className="bg-slate-100 border-slate-300">
                             <SelectValue
                               className="text-red-500"
-                              placeholder="Selecciona la ciudad del colaborador"
+                              placeholder="Selecciona la Ciudad de la inspección"
                             />
                           </SelectTrigger>
                         </FormControl>
@@ -211,7 +211,7 @@ export const AddInspectionForm = ({
                                   { locale: es }
                                 )
                               ) : (
-                                <span>Selecciona una fecha</span>
+                                <span>Selecciona la fecha de ejecución</span>
                               )}
                               <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                             </Button>
