@@ -108,15 +108,6 @@ export function CollaboratorDataTable<TData, TValue>({
     return filteredRow;
   });
 
-  const filteredDataWin = filteredData
-    .filter((row) => row.percentage >= threshold!)
-    .map((row) => {
-      const filteredRow: any = {};
-      exportColumns.forEach((column) => {
-        filteredRow[column.data] = row[column.data];
-      });
-      return filteredRow;
-    });
 
   const handleFilterItem = (e: string) => {
     table.getColumn(itemFilter)?.setFilterValue("");
@@ -134,7 +125,7 @@ export function CollaboratorDataTable<TData, TValue>({
           </tr>
         </thead>
         <tbody>
-          {filteredDataWin.map((row, rowIndex) => (
+          {filteredData.map((row, rowIndex) => (
             <tr key={rowIndex}>
               {exportColumns.map((column) => (
                 <td key={column.data}>
