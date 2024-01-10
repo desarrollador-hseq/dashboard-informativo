@@ -1,12 +1,9 @@
 
-
-
 import React, { useState } from 'react'
 import { Card, CardContent, CardHeader } from './ui/card'
 import { Separator } from './ui/separator'
 import { Loader2 } from 'lucide-react'
 import ReactEcharts from "echarts-for-react";
-import { EChartsOption } from 'echarts';
 import { cn } from '@/lib/utils';
 
 

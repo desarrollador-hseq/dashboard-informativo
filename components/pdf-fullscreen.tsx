@@ -13,15 +13,17 @@ import { Button } from "./ui/button";
 
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
+import { cn } from "@/lib/utils";
 
 interface PdfFullscreenProps {
   fileUrl: string;
   icon?: LucideIcon;
+  btnClass?: string;
 }
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const PdfFullscreen = ({ fileUrl, icon: Icon }: PdfFullscreenProps) => {
+const PdfFullscreen = ({ fileUrl, icon: Icon, btnClass }: PdfFullscreenProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [numPages, setNumPages] = useState<number>();
 
@@ -37,7 +39,7 @@ const PdfFullscreen = ({ fileUrl, icon: Icon }: PdfFullscreenProps) => {
       }}
     >
       <AlertDialogTrigger onClick={() => setIsOpen(true)} asChild>
-        <Button variant="ghost" className="gap-1.5" aria-label="fullscreen">
+        <Button variant="ghost" className={cn("gap-1.5", btnClass)} aria-label="fullscreen">
           {Icon ? <Icon className="h-4 w-4" /> : <Expand className="h-4 w-4" />}
         </Button>
       </AlertDialogTrigger>
@@ -59,7 +61,7 @@ const PdfFullscreen = ({ fileUrl, icon: Icon }: PdfFullscreenProps) => {
               <Document
                 loading={
                   <div className="flex justify-center">
-                    <Loader2 className="my-24 h-6 w-6 animate-spin text-primary" />
+                    <Loader2 className="my-24 h-9 w-10 animate-spin text-primary/60" />
                   </div>
                 }
                 onLoadError={() => {

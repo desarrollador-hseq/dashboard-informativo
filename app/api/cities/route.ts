@@ -1,5 +1,3 @@
-
-
 import { db } from "@/lib/db"
 import { getServerSession } from "next-auth"
 import { NextResponse } from "next/server"
@@ -13,16 +11,17 @@ export async function POST(req: Request) {
 
         if(!session) return new NextResponse("Unauthorized", {status: 401})
 
-        const inspection = await db.inspection.create({
+
+        const report = await db.city.create({
             data: {
                 ...values
             }
         })
 
-        return NextResponse.json(inspection)
+        return NextResponse.json(report)
         
     } catch (error) {
-        console.log("[INSPECTION-CREATE]", error)
+        console.log("[REPORTS-CREATE]", error)
         return new NextResponse("Internal Errorr", { status: 500 })
     }
 }

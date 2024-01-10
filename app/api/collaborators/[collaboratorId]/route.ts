@@ -5,8 +5,6 @@ import { db } from "@/lib/db";
 import { UTApi } from "uploadthing/server";
 
 
-
-
 export async function PATCH(req: Request, { params }: { params: { collaboratorId: string } }) {
     try {
         const session = await getServerSession(authOptions)
@@ -33,9 +31,7 @@ export async function PATCH(req: Request, { params }: { params: { collaboratorId
     }
 }
 
-
 export async function DELETE(req: Request, { params }: { params: { collaboratorId: string } }) {
-
 
     try {
         const session = await getServerSession(authOptions)
@@ -44,9 +40,12 @@ export async function DELETE(req: Request, { params }: { params: { collaboratorI
         if (!session) return new NextResponse("Unauthorized", { status: 401 })
         if (!collaboratorId) return new NextResponse("Not Found", { status: 404 })
 
-        const collaboratorDeleted = await db.collaborator.delete({
+        const collaboratorDeleted = await db.collaborator.update({
             where: {
                 id: collaboratorId,
+            },
+            data: {
+                active: false,
             },
         })
         const utapi = new UTApi();

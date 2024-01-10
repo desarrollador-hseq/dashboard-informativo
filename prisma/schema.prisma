@@ -34,28 +34,54 @@ model Collaborator {
   name     String
   lastname String?
   docType  DocType @default(CC)
-  numDoc   String  @unique
+  numDoc   String 
 
   startDate  DateTime
   endDate    DateTime
   percentage Float    @default(0.0)
-  pdfUrl String? @db.Text
+  pdfUrl     String?  @db.Text
 
-  cityId Int?
-  city City? @relation(fields: [cityId], references: [id])
+  cityId String?
+  city   City? @relation(fields: [cityId], references: [id])
+
+  certificateUrl String?
+
+  active Boolean @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
   @@index([cityId])
 }
 
+model Regional {
+  id String @id @default(uuid())
+
+  name String?
+
+  cities City[]
+
+  active Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model City {
-  id           Int            @id @default(autoincrement())
-  realName     String
-  formated     String
-  color        String
+  id String @id @default(uuid())
+
+  realName String
+  formated String
+
+  regionalId String?
+  regional   Regional? @relation(fields: [regionalId], references: [id])
+
+  active Boolean @default(true)
+
   Collaborator Collaborator[]
-  Inspection Inspection[]
+  Inspection   Inspection[]
+
+  @@index([regionalId])
 }
 
 model FormationParameters {
@@ -75,8 +101,8 @@ enum DocType {
 model Inspection {
   id String @id @default(uuid())
 
-  cityId Int?
-  city City? @relation(fields: [cityId], references: [id])
+  cityId String?
+  city   City? @relation(fields: [cityId], references: [id])
 
   date       DateTime
   isExecuted Boolean  @default(false)
@@ -102,6 +128,6 @@ model Report {
   updatedAt DateTime @updatedAt
 
   // Relación inversa con Inspection
-  inspection Inspection @relation(fields: [inspectionId], references: [id])
-  inspectionId String @unique
+  inspection   Inspection @relation(fields: [inspectionId], references: [id])
+  inspectionId String     @unique
 }

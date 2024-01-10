@@ -13,8 +13,8 @@ export async function POST(req: Request, { params }: { params: { courseId: strin
 
         if(!session) return new NextResponse("Unauthorized", {status: 401})
 
-        const existingCollaborator = await db.collaborator.findUnique({
-            where: { numDoc: values.numDoc }
+        const existingCollaborator = await db.collaborator.findFirst({
+            where: { numDoc: values.numDoc, active: true}
         });
         
         if (existingCollaborator) {

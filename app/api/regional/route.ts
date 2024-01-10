@@ -13,16 +13,16 @@ export async function POST(req: Request) {
 
         if(!session) return new NextResponse("Unauthorized", {status: 401})
 
-        const inspection = await db.inspection.create({
+        const regional = await db.regional.create({
             data: {
                 ...values
             }
         })
 
-        return NextResponse.json(inspection)
+        return NextResponse.json(regional)
         
     } catch (error) {
-        console.log("[INSPECTION-CREATE]", error)
+        console.log("[REGIONAL-CREATE]", error)
         return new NextResponse("Internal Errorr", { status: 500 })
     }
 }
