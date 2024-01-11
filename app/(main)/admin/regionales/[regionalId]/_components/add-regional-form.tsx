@@ -22,13 +22,6 @@ import {
 } from "@/components/ui/form";
 import { IconBadge } from "@/components/ui/icon-badge";
 import { Separator } from "@/components/ui/separator";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { DeleteRegional } from "./delete-regional";
 // import { DeleteCity } from "./delete-city";

@@ -48,6 +48,7 @@ import {
 } from "@/components/ui/select";
 import { DeleteCollaborator } from "./delete-collaborator";
 import { PdfForm } from "./pdf-form";
+import { FileUploadForm } from "@/components/file-upload-form";
 
 interface AddCollaboratorFormProps {
   collaborator?: Collaborator | null;
@@ -428,10 +429,10 @@ export const AddCollaboratorForm = ({
                       <FormLabel className="font-bold" htmlFor="percentage">
                         Registro de Evaluación
                       </FormLabel>
-                      <PdfForm
+                      {/* <PdfForm
                         CollaboratorId={collaborator?.id!}
                         url={collaborator?.pdfUrl}
-                      />
+                      /> */}
                     </div>
                   )}
                 </div>
@@ -476,6 +477,15 @@ export const AddCollaboratorForm = ({
           </Button>
         </form>
       </Form>
+      {isEdit && (
+        <FileUploadForm
+          apiUrl={`/api/collaborators/${collaborator!.id}/upload`}
+          field="certificateUrl"
+          label="Certificado"
+          file={collaborator!.certificateUrl}
+          ubiPath="colaboradores/certificados"
+        />
+      )}
     </div>
   );
 };

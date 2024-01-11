@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { Download, ImageIcon, Pencil, PlusCircle, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { FileUpload } from "@/components/FileUpload";
+// import { FileUpload } from "@/components/FileUpload";
 import PdfRenderer from "@/components/pdf-renderer";
 import { cn } from "@/lib/utils";
 
@@ -115,7 +115,7 @@ export const PdfForm = ({ CollaboratorId, url }: ImageFormProps) => {
         ))}
       {isEditing && (
         <div>
-          <FileUpload
+          <FileUploadForm
             endpoint="collaboratorPdf"
             onChange={(url) => {
               if (url) {
