@@ -15,9 +15,9 @@ const InspectionsPage = async () => {
     <div className="max-w-[1500px] mx-auto p-1">
       <div className="flex justify-between gap-y-1">
         <div className="flex flex-col">
-          <h1 className="text-2xl font-semibold">Listado de informes</h1>
+          <h1 className="text-2xl font-semibold">Listado de informes de inspección</h1>
           <span className="text-sm text-slate-500 font-light">
-            Listado completo de todos los informes registrados hasta la
+            Listado completo de todos los informes de inspección registrados hasta la
             fecha
           </span>
         </div>

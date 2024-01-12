@@ -6,9 +6,11 @@ import {
   ArrowUpDown,
   Eye,
   FileX,
+  Laptop,
   Link2,
   MoreHorizontal,
   Pencil,
+  School,
   X,
 } from "lucide-react";
 import { City } from "@prisma/client";
@@ -27,13 +29,41 @@ interface CollaboratorTableProps {
   id: string;
   percentage: number;
   city: City | null;
-  pdfUrl: string | null;
+  evaluationUrl: string | null;
   certificateUrl: string | null;
+  isVirtual: boolean;
 }
 
 type CollaboratorTableType = CollaboratorTableProps;
 
 export const collaboratorColumns: ColumnDef<CollaboratorTableType>[] = [
+  {
+    accessorKey: "isVirtual",
+    header: ({ column }) => {
+      return <span> </span>;
+    },
+    size: 10,
+    cell: ({ row }) => {
+      const isVirtual = row.original.isVirtual;
+      return (
+        <span className="capitalize w-20">
+          {!isVirtual && (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              viewBox="0 0 24 24"
+            >
+              <path
+                className="fill-secondary"
+                d="M0 20v-2h2V3h20v15h2v2zm10-2h4v-1h-4zm-6-3h16V5H4zm8-5"
+              />
+            </svg>
+          )}
+        </span>
+      );
+    },
+  },
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -145,13 +175,13 @@ export const collaboratorColumns: ColumnDef<CollaboratorTableType>[] = [
     },
   },
   {
-    accessorKey: "pdfUrl",
+    accessorKey: "evaluationUrl",
     header: ({ column }) => {
       return <Button variant="ghost">Evaluación</Button>;
     },
-    accessorFn: (value) => value.pdfUrl,
+    accessorFn: (value) => value.evaluationUrl,
     cell: ({ row }) => {
-      const url = row.original.pdfUrl;
+      const url = row.original.evaluationUrl;
       const existUrl = !!url;
 
       return (
@@ -162,7 +192,13 @@ export const collaboratorColumns: ColumnDef<CollaboratorTableType>[] = [
           )}
         >
           {existUrl ? (
-            url && <PdfFullscreen icon={Eye} fileUrl={url} btnClass="p-0 h-fit hover:bg-emerald-700" />
+            url && (
+              <PdfFullscreen
+                icon={Eye}
+                fileUrl={url}
+                btnClass="p-0 h-fit hover:bg-emerald-700"
+              />
+            )
           ) : (
             <X className="w-4 h-4 text-slate-300" />
           )}
@@ -188,20 +224,13 @@ export const collaboratorColumns: ColumnDef<CollaboratorTableType>[] = [
           )}
         >
           {existUrl ? (
-            <a
-              className={cn(
-                buttonVariants({
-                  className: "p-0 bg-inherit hover:bg-inherit w-full",
-                  variant: "ghost",
-                }),
-                "h-fit"
-              )}
-              href={url!}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Link2 className="w-4 h-4" />
-            </a>
+            url && (
+              <PdfFullscreen
+                icon={Eye}
+                fileUrl={url}
+                btnClass="p-0 h-fit hover:bg-blue-700"
+              />
+            )
           ) : (
             <X className="w-4 h-4 text-slate-300" />
           )}

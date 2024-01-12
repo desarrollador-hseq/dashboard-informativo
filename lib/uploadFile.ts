@@ -56,17 +56,29 @@ export async function processAndUploadFile(req: Request) {
     }
 }
 
-export async function processAndDeleteFile(ubiPath: string, link: string) {
+export async function processAndDeleteFile(ubiPath: string, link?: string) {
 
-    let url: string | null = null;
     try {
+        let url: string | undefined = undefined;
+
+        if (link) {
+    
+            try {
+                url = new URL(link).pathname.substring(1).split("/").pop()
+            } catch (error) {
+                console.log({ error })
+            }
+        }
+        else {
+            return {error: "link no encontrado"}
+        }
 
         const input = {
             Bucket: bucket,
-            Key: `claro/${ubiPath}/${link}`,
+            Key: `claro/${ubiPath}/${url}`,
         };
 
-        console.log({pathh: `claro/${ubiPath}/${link}` })
+        console.log({ pathh: `claro/${ubiPath}/${url}` })
 
         try {
             await s3Client.deleteObject(input);

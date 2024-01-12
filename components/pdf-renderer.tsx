@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
 import SimpleBar from "simplebar-react";
 import PdfFullscreen from "./pdf-fullscreen";
-import "simplebar-react/dist/simplebar.min.css"
+import "simplebar-react/dist/simplebar.min.css";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 interface PdfRendererProps {
@@ -59,7 +59,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
   };
 
   return (
-    <div className="w-full max-w-[300px] bg-white rounded-md shadow flex flex-col items-center">
+    <div className="w-full min-w-fit bg-white rounded-md shadow flex flex-col items-center">
       <div className="h-14  w-full border-b border-zinc-200 flex items-center justify-between px-2">
         <div className="flex items-center gap-1.5  justify-center">
           <Button
@@ -122,12 +122,15 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
         </div>
       </div>
 
-      <div className="flex-1 w-full max-h-fit">
-        <SimpleBar autoHide={false} className="max-h-[calc(100vh-10rem)]">
-          <div ref={ref}>
+      <div className="flex w-full min-w-min max-h-fit">
+        <SimpleBar
+          autoHide={false}
+          className="max-h-[calc(100vh-10rem)] min-w-full"
+        >
+          <div ref={ref} className="min-w-full">
             <Document
               loading={
-                <div className="flex justify-center">
+                <div className="flex justify-center w-full">
                   <Loader2 className="my-24 h-6 w-6 animate-spin text-primary" />
                 </div>
               }
@@ -138,25 +141,26 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
               }}
               onLoadSuccess={({ numPages }) => setNumPages(numPages)}
               file={url}
-              className="max-h-fit "
+              className="max-h-fit"
             >
               {isLoading && renderedScale ? (
                 <Page
-                  width={300}
-                height={height}
+                  width={width}
+                  height={height}
                   pageNumber={currPage}
-                  scale={scale}
                   rotate={rotation}
                   key={"@" + renderedScale}
-                  className="w-full"
+                  className={`w-[${width}] max-h-[600px]`}
                 />
               ) : null}
               <Page
-                className={cn("w-full",isLoading ? "hidden" : "")}
-                width={300}
+                className={cn(
+                  `w-[${width}] max-h-[600px]`,
+                  isLoading ? "hidden" : ""
+                )}
+                width={width}
                 height={height}
                 pageNumber={currPage}
-                scale={scale}
                 rotate={rotation}
                 key={"@" + scale}
                 loading={

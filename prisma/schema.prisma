@@ -34,18 +34,19 @@ model Collaborator {
   name     String
   lastname String?
   docType  DocType @default(CC)
-  numDoc   String 
+  numDoc   String
 
   startDate  DateTime
   endDate    DateTime
   percentage Float    @default(0.0)
-  pdfUrl     String?  @db.Text
 
   cityId String?
-  city   City? @relation(fields: [cityId], references: [id])
+  city   City?   @relation(fields: [cityId], references: [id])
 
-  certificateUrl String?
+  evaluationUrl  String? @db.Text
+  certificateUrl String? @db.Text
 
+  isVirtual Boolean @default(false)
   active Boolean @default(true)
 
   createdAt DateTime @default(now())
@@ -102,7 +103,7 @@ model Inspection {
   id String @id @default(uuid())
 
   cityId String?
-  city   City? @relation(fields: [cityId], references: [id])
+  city   City?   @relation(fields: [cityId], references: [id])
 
   date       DateTime
   isExecuted Boolean  @default(false)
@@ -130,4 +131,15 @@ model Report {
   // Relación inversa con Inspection
   inspection   Inspection @relation(fields: [inspectionId], references: [id])
   inspectionId String     @unique
+}
+
+model MonthlyReports {
+  id        String   @id @default(uuid())
+  date      DateTime
+  reportUrl String?
+
+  active Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

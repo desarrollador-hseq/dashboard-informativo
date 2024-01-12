@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 
 import "simplebar-react/dist/simplebar.min.css";
+import "react-dropzone/examples/theme.css";
 
 import { DashboardProvider } from "@/components/providers/dashboard-provider";
 import { Loading } from "@/components/loading";

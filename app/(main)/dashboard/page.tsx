@@ -6,17 +6,18 @@ import { InspectionsReports } from "./_components/inspections/inspections-report
 import { Separator } from "@/components/ui/separator";
 import { ReportsChartReports } from "./_components/reports/reports-chart-reports";
 import { Dashboardtitle } from "./_components/dashboard-title";
+import { MonthlyReportsSection } from "./_components/monthly-reports/monthly-reports-section";
 
 const DashboardPage = async () => {
   const collaborators = await db.collaborator.findMany({
     where: {
-      active: true
+      active: true,
     },
     include: {
       city: {
         include: {
-          regional: true
-        }
+          regional: true,
+        },
       },
     },
   });
@@ -39,6 +40,15 @@ const DashboardPage = async () => {
     },
   });
   const report = await db.report.findMany();
+
+  const monthlyReports = await db.monthlyReports.findMany({
+    where: {
+      active: true,
+    },
+    orderBy: {
+      date: "desc",
+    },
+  });
 
   return (
     <div className="w-full">
@@ -64,6 +74,11 @@ const DashboardPage = async () => {
 
           <Separator className="h-1.5 bg-primary" />
           {report && <ReportsChartReports reports={report} />}
+
+          <Separator className="h-1.5 bg-primary flex justify-center" />
+          {monthlyReports && (
+            <MonthlyReportsSection monthlyReports={monthlyReports} />
+          )}
         </CardContent>
       </Card>
     </div>

@@ -41,6 +41,7 @@ export const InputFileForm: React.FC<InputFormProps<any>> = ({
               onChange={(e) =>
                 field.onChange(e.target.files ? e.target.files[0] : null)
               }
+              className="hidden"
             />
           </FormControl>
           <FormMessage />

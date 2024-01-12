@@ -6,35 +6,34 @@ import { processAndDeleteFile, processAndUploadFile } from "@/lib/uploadFile";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { db } from "@/lib/db";
 
-export async function POST(req: Request, { params }: { params: { collaboratorId: string } }) {
+export async function POST(req: Request, { params }: { params: { monthlyId: string } }) {
     const session = await getServerSession(authOptions)
     try {
         if(!session) return new NextResponse("Unauthorized", {status: 401})
-        const collaborator = await db.collaborator.findUnique({
+        const monthlyReport = await db.monthlyReports.findUnique({
             where: {
-                id: params.collaboratorId
+                id: params.monthlyId
             }
         })
-        if (!collaborator) return new NextResponse("Colaborador no encontrado", { status: 404 })
-
+        if (!monthlyReport) return new NextResponse("Informe mensual no encontrado", { status: 404 })
+        
         const { file, url, error, field, ubiPath } = await processAndUploadFile(req);
-
+        
         if (error) {
             return new NextResponse(error.toString(), { status: 400 });
         }
         if (!file) {
             return new NextResponse("Archivo no encontrado", { status: 400 });
         }
-        const campo = collaborator[field as keyof typeof collaborator] as string
+        const urlFile = monthlyReport[field as keyof typeof monthlyReport] as string
 
-        if (campo) {
-            const urlLastPath = new URL(campo).pathname.substring(1).split("/").pop()
-            const { ok } = await processAndDeleteFile(ubiPath, `${urlLastPath}`)
-        }
+     
+         await processAndDeleteFile(ubiPath,  urlFile)
+        
 
-        const collaboratorUpdated = await db.collaborator.update({
+        const monthlyReportUpdated = await db.monthlyReports.update({
             where: {
-                id: collaborator.id
+                id: monthlyReport.id
             },
             data: {
                 [field]: url
@@ -43,7 +42,7 @@ export async function POST(req: Request, { params }: { params: { collaboratorId:
 
 
         return NextResponse.json({
-            collaborator: collaboratorUpdated
+            collaborator: monthlyReportUpdated
         })
     } catch (error) {
         console.error(error);

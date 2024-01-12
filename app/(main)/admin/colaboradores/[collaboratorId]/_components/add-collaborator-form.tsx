@@ -5,11 +5,15 @@ import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { City, Collaborator } from "@prisma/client";
 import {
+  Backpack,
   CalendarIcon,
+  Check,
   Loader2,
+  School2,
   ThumbsUp,
   UserCog,
   UserPlus,
+  X,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -29,6 +33,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import {
   Popover,
@@ -49,6 +54,8 @@ import {
 import { DeleteCollaborator } from "./delete-collaborator";
 import { PdfForm } from "./pdf-form";
 import { FileUploadForm } from "@/components/file-upload-form";
+import { Checkbox } from "@/components/ui/checkbox";
+import { CheckedState } from "@radix-ui/react-checkbox";
 
 interface AddCollaboratorFormProps {
   collaborator?: Collaborator | null;
@@ -75,6 +82,7 @@ const formSchema = z.object({
     message: "Porcentaje debe ser un número entre 0 y 100",
   }),
   certificateUrl: z.string().optional(),
+  isVirtual: z.boolean().default(false),
   // evaluationPass: z.boolean().default(false),
 });
 
@@ -106,6 +114,7 @@ export const AddCollaboratorForm = ({
       endDate: collaborator?.endDate || undefined,
       percentage: collaborator?.percentage || 0,
       certificateUrl: collaborator?.certificateUrl || undefined,
+      isVirtual: collaborator?.isVirtual || undefined,
       // evaluationPass: !!collaborator?.evaluationPass || false,
     },
   });
@@ -163,10 +172,9 @@ export const AddCollaboratorForm = ({
     setValue("cityId", selectedCityId, { shouldValidate: true });
   };
 
-  // const handleEvaluation = (e: CheckedState) => {
-  //   setValue("evaluationPass", !!e);
-  // }
-
+  const handleEvaluation = (e: CheckedState) => {
+    setValue("isVirtual", !!e, { shouldValidate: true });
+  };
   return (
     <div className="max-w-[1500px] h-full mx-auto bg-white rounded-md shadow-sm overflow-y-hidden p-3">
       <div className="flex justify-between items-center gap-x-2 bg-white">
@@ -386,7 +394,72 @@ export const AddCollaboratorForm = ({
                 />
               </div>
 
-              <div className="mb-3 ">
+              <div className="my-6 ">
+                <FormField
+                  control={form.control}
+                  name="isVirtual"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel className="font-bold" htmlFor="evaluationPass">
+                        ¿Modalidad virtual?
+                      </FormLabel>
+                      <div
+                        // onClick={() => handleEvaluation(!!!field.value)}
+                        className={cn(
+                          "w-full h-11 flex gap-3 justify-between items-center bg-slate-100 space-y-0 rounded-md border p-4 hover:cursor-pointer",
+                          field.value && "bg-green-600"
+                        )}
+                      >
+                        <div className="flex gap-4">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value || false}
+                              // onCheckedChange={field.onChange}
+                              onCheckedChange={(e) => handleEvaluation(e)}
+                              className={cn("")}
+                            />
+                          </FormControl>
+                          <span
+                            className={cn(
+                              "font-bold",
+                              field.value && "text-white"
+                            )}
+                          >
+                            {field.value ? "Sí" : "No"}
+                          </span>
+                        </div>
+                        <div className=" space-y-1 leading-none flex justify-between">
+                          <FormDescription
+                            className={`${field.value && "text-white"}`}
+                          >
+                            {!field.value ? (
+                              <span className="w-full flex gap-3 justify-between">
+                                <Backpack className="w-6 h-6 text-primary" />{" "}
+                              </span>
+                            ) : (
+                              <span className="w-full flex gap-3 justify-between">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="25"
+                                  height="25"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    className="fill-white"
+                                    d="M0 20v-2h2V3h20v15h2v2zm10-2h4v-1h-4zm-6-3h16V5H4zm8-5"
+                                  />
+                                </svg>
+                              </span>
+                            )}
+                          </FormDescription>
+                        </div>
+                      </div>
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="mb-3">
                 {isEdit && (
                   <div>
                     <FormField
@@ -395,7 +468,7 @@ export const AddCollaboratorForm = ({
                       render={({ field }) => (
                         <FormItem className="flex flex-col">
                           <FormLabel className="font-bold" htmlFor="percentage">
-                            Porcentaje de formacion
+                            % Nota de evaluación
                           </FormLabel>
                           <div className="flex gap-3 items-center space-x-3 space-y-0 rounded-md border bg-slate-100 p-4">
                             <FormControl>
@@ -423,48 +496,9 @@ export const AddCollaboratorForm = ({
                     />
                   </div>
                 )}
-                <div>
-                  {isEdit && (
-                    <div className="relative w-full mt-2">
-                      <FormLabel className="font-bold" htmlFor="percentage">
-                        Registro de Evaluación
-                      </FormLabel>
-                      {/* <PdfForm
-                        CollaboratorId={collaborator?.id!}
-                        url={collaborator?.pdfUrl}
-                      /> */}
-                    </div>
-                  )}
-                </div>
-
-                {isEdit && collaborator && collaborator.percentage !== 0 && (
-                  <div className="mt-2">
-                    <FormField
-                      control={form.control}
-                      name="certificateUrl"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel
-                            className="font-bold"
-                            htmlFor="certificateUrl"
-                          >
-                            Link del certificado
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              id="certificateUrl"
-                              className="text-sm"
-                              disabled={isSubmitting}
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage className="ml-6 text-[0.8rem] text-red-500 font-medium" />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                )}
               </div>
+
+              
             </div>
           </div>
 
@@ -477,15 +511,6 @@ export const AddCollaboratorForm = ({
           </Button>
         </form>
       </Form>
-      {isEdit && (
-        <FileUploadForm
-          apiUrl={`/api/collaborators/${collaborator!.id}/upload`}
-          field="certificateUrl"
-          label="Certificado"
-          file={collaborator!.certificateUrl}
-          ubiPath="colaboradores/certificados"
-        />
-      )}
     </div>
   );
 };

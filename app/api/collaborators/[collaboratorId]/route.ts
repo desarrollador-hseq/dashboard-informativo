@@ -1,8 +1,8 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
+import { authOptions } from "../../auth/[...nextauth]/route";
 import { db } from "@/lib/db";
-import { UTApi } from "uploadthing/server";
+
 
 
 export async function PATCH(req: Request, { params }: { params: { collaboratorId: string } }) {
@@ -48,18 +48,6 @@ export async function DELETE(req: Request, { params }: { params: { collaboratorI
                 active: false,
             },
         })
-        const utapi = new UTApi();
-        try {
-            if (collaboratorDeleted.pdfUrl) {
-                const keyPdf = collaboratorDeleted?.pdfUrl.split("/")
-                const lastPath = keyPdf[keyPdf.length - 1]
-                if (collaboratorDeleted && collaboratorDeleted.pdfUrl) {
-                    await utapi.deleteFiles(lastPath);
-                }
-            }
-        } catch (error) {
-            console.log("[upth_error_deleting]", error)
-        }
 
         return NextResponse.json(collaboratorDeleted)
     } catch (error) {
