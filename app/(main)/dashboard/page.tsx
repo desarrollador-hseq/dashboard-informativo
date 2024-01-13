@@ -50,6 +50,20 @@ const DashboardPage = async () => {
     },
   });
 
+  const regionalFull = await db.regional.findMany({
+    where: {
+      active: true,
+    
+    },
+    include: {
+      cities: {
+        include: {
+          collaborators: true
+        }
+      }
+    }
+  })
+
   return (
     <div className="w-full">
       <Card className="relative w-full max-w-[1500px] m-auto overflow-hidden bg-slate-50 border-2 border-primary">
@@ -63,6 +77,7 @@ const DashboardPage = async () => {
             <CollaboratorsReports
               threshold={threshold}
               collaborators={collaborators}
+              regionalFull={regionalFull}
             />
           ) : (
             <div className="h-full w-full">
@@ -72,7 +87,7 @@ const DashboardPage = async () => {
           <Separator className="h-1.5 bg-primary" />
           {inspections && <InspectionsReports inspections={inspections} />}
 
-          <Separator className="h-1.5 bg-primary" />
+          {/* <Separator className="h-1.5 bg-primary" /> */}
           {report && <ReportsChartReports reports={report} />}
 
           <Separator className="h-1.5 bg-primary flex justify-center" />

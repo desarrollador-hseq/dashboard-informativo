@@ -79,8 +79,8 @@ model City {
 
   active Boolean @default(true)
 
-  Collaborator Collaborator[]
-  Inspection   Inspection[]
+  collaborators Collaborator[]
+  inspections  Inspection[]
 
   @@index([regionalId])
 }

@@ -2,17 +2,22 @@
 
 import { Collaborator, City, Regional } from "@prisma/client";
 import { Chart } from "@/components/chart";
+import { CollaboratorsRegionalMenu } from "./collaborators-regional-menu";
 
 interface CollaboratorWithFormated extends Collaborator {
-  city: City & {regional: Regional | null} | null;
+  city: (City & { regional: Regional | null }) | null;
 }
-
+interface RegionalWithCollaborator extends Regional {
+  cities: (City & { collaborators: Collaborator[] | null })[];
+}
 interface CollaboratorsReportsProps {
   collaborators: CollaboratorWithFormated[];
+  regionalsFull: RegionalWithCollaborator[];
 }
 
 export const CollaboratorsRegional = ({
   collaborators,
+  regionalsFull,
 }: CollaboratorsReportsProps) => {
   const processDataForBarChart = () => {
     const regionalData = collaborators.map((collaborator) => {
@@ -24,10 +29,13 @@ export const CollaboratorsRegional = ({
       };
     });
 
-    const countsByRegional = regionalData.reduce((acc: any, { regionalName, count }) => {
-      acc[regionalName] = (acc[regionalName] || 0) + count;
-      return acc;
-    }, {});
+    const countsByRegional = regionalData.reduce(
+      (acc: any, { regionalName, count }) => {
+        acc[regionalName] = (acc[regionalName] || 0) + count;
+        return acc;
+      },
+      {}
+    );
 
     const regionals = Object.keys(countsByRegional);
     const counts = Object.values(countsByRegional);
@@ -38,8 +46,13 @@ export const CollaboratorsRegional = ({
   const { regionals, counts } = processDataForBarChart();
 
   const col = [
-     "#FF8E33", "#33FF8B",
-    "#8833FF", "#FF3363", "#33FF70", "#FF5733", "#33FF57"
+    "#FF8E33",
+    "#33FF8B",
+    "#8833FF",
+    "#FF3363",
+    "#33FF70",
+    "#FF5733",
+    "#33FF57",
   ];
 
   const option = {
@@ -83,7 +96,7 @@ export const CollaboratorsRegional = ({
           itemStyle: { color: col[index] },
           name: regional,
         })),
-        barMaxWidth: regionals.length > 6 ? '' : '30%',
+        barMaxWidth: regionals.length > 6 ? "" : "30%",
         type: "bar",
         color: "#fff",
       },
@@ -100,6 +113,16 @@ export const CollaboratorsRegional = ({
     },
   };
 
-
-  return <Chart option={option} title="Número de colaboradores por regionales" />;
+  return (
+    <Chart
+      option={option}
+      title={
+        <div className="flex justify-between">
+          <CollaboratorsRegionalMenu regionals={regionalsFull} />{" "}
+          <span>Número de colaboradores por regional</span>
+          <div />
+        </div>
+      }
+    />
+  );
 };

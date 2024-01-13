@@ -39,7 +39,7 @@ const PdfFullscreen = ({ fileUrl, icon: Icon, btnClass }: PdfFullscreenProps) =>
       }}
     >
       <AlertDialogTrigger onClick={() => setIsOpen(true)} asChild>
-        <Button variant="ghost" className={cn("gap-1.5", btnClass)} aria-label="fullscreen">
+        <Button variant="ghost" className={cn("p-0", btnClass)} aria-label="fullscreen">
           {Icon ? <Icon className="h-4 w-4" /> : <Expand className="h-4 w-4" />}
         </Button>
       </AlertDialogTrigger>

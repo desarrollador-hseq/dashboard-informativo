@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { Card, CardContent, CardHeader } from './ui/card'
 import { Separator } from './ui/separator'
 import { Loader2 } from 'lucide-react'
@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 
 
 
-export const Chart = ({option, title, className}: {option: object; title: string; className?: string}) => {
+export const Chart = ({option, title, className}: {option: object; title: string | ReactNode; className?: string}) => {
   const [isChartLoaded, setIsChartLoaded] = useState(false);
 
   const onChartReady = () => {

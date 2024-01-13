@@ -1,19 +1,16 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { City, Collaborator } from "@prisma/client";
 import {
   Backpack,
   CalendarIcon,
-  Check,
   Loader2,
-  School2,
   ThumbsUp,
   UserCog,
   UserPlus,
-  X,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -52,8 +49,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DeleteCollaborator } from "./delete-collaborator";
-import { PdfForm } from "./pdf-form";
-import { FileUploadForm } from "@/components/file-upload-form";
 import { Checkbox } from "@/components/ui/checkbox";
 import { CheckedState } from "@radix-ui/react-checkbox";
 

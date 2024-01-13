@@ -47,7 +47,7 @@ export const collaboratorColumns: ColumnDef<CollaboratorTableType>[] = [
       const isVirtual = row.original.isVirtual;
       return (
         <span className="capitalize w-20">
-          {!isVirtual && (
+          {isVirtual && (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="25"
