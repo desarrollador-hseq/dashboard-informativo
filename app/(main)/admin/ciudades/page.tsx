@@ -8,6 +8,7 @@ import { CitiesDataTable } from "./_components/cities-datatable";
 import { citiesColumns } from "./_components/cities-datatable-columns";
 import { RegionalDataTable } from "./_components/regional-datatable";
 import { regionalColumns } from "./_components/regional-datatable-columns";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 const InspectionsPage = async () => {
   const session = await getServerSession(authOptions);
@@ -36,8 +37,8 @@ const InspectionsPage = async () => {
   return (
     <div className="max-w-[1500px] mx-auto p-1">
       <div className="grid lg:grid-cols-3 gap-3">
-        <div className="col-span-2">
-          <div className="flex justify-between gap-y-1">
+        <Card className="col-span-2 rounded-sm">
+          <CardHeader className="flex flex-row justify-between gap-y-1">
             <div className="flex flex-col">
               <h1 className="text-2xl font-semibold">Listado de ciudades</h1>
               <span className="text-sm text-slate-500 font-light">
@@ -53,13 +54,15 @@ const InspectionsPage = async () => {
                 </Button>
               </Link>
             )}
-          </div>
-          <CitiesDataTable columns={citiesColumns} data={cities} />
-        </div>
+          </CardHeader>
+          <CardContent>
+            <CitiesDataTable columns={citiesColumns} data={cities} />
+          </CardContent>
+        </Card>
 
         {/* Regionales */}
-        <div className="bg-slate-100/50 border border-primary p-2 col-span-2 lg:col-span-1">
-          <div className="flex justify-between gap-y-1">
+        <Card className="col-span-2 lg:col-span-1 rounded-sm">
+          <CardHeader className="flex flex-row justify-between gap-y-1">
             <div className="flex flex-col">
               <h1 className="text-2xl font-semibold">Listado de regionales</h1>
               <span className="text-sm text-slate-500 font-light">
@@ -75,9 +78,11 @@ const InspectionsPage = async () => {
                 </Button>
               </Link>
             )}
-          </div>
-          <RegionalDataTable columns={regionalColumns} data={regional} />
-        </div>
+          </CardHeader>
+          <CardContent>
+            <RegionalDataTable columns={regionalColumns} data={regional} />
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

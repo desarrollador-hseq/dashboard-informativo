@@ -108,12 +108,12 @@ export function CitiesDataTable<TData, TValue>({
       </div>
       <div className="rounded-md border bg-white">
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-secondary hover:bg-secondary">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className=" hover:bg-secondary">
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className="text-white">
                       {header.isPlaceholder
                         ? null
                         : flexRender(

@@ -42,7 +42,8 @@ export const collaboratorColumns: ColumnDef<CollaboratorTableType>[] = [
     header: ({ column }) => {
       return <span> </span>;
     },
-    size: 10,
+    accessorFn: (value) => <div>`Si`</div>,
+    size: 5,
     cell: ({ row }) => {
       const isVirtual = row.original.isVirtual;
       return (
@@ -177,7 +178,7 @@ export const collaboratorColumns: ColumnDef<CollaboratorTableType>[] = [
   {
     accessorKey: "evaluationUrl",
     header: ({ column }) => {
-      return <Button variant="ghost">Evaluación</Button>;
+      return <div>Evaluación</div>;
     },
     accessorFn: (value) => value.evaluationUrl,
     cell: ({ row }) => {
@@ -209,7 +210,7 @@ export const collaboratorColumns: ColumnDef<CollaboratorTableType>[] = [
   {
     accessorKey: "certificateUrl",
     header: ({ column }) => {
-      return <Button variant="ghost">Certificado</Button>;
+      return <div>Certificado</div>;
     },
     accessorFn: (value) => value.certificateUrl,
     cell: ({ row }) => {
@@ -242,7 +243,6 @@ export const collaboratorColumns: ColumnDef<CollaboratorTableType>[] = [
     id: "actions",
     cell: ({ row }) => {
       const { id } = row.original;
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

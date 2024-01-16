@@ -11,8 +11,6 @@ import { CollaboratorDataTable } from "@/app/(main)/admin/colaboradores/_compone
 import { collaboratorColumns } from "@/app/(main)/admin/colaboradores/_components/collaborator-datatable-column";
 import { CollaboratorsRegional } from "./collaborators-regional";
 
-import { Card, CardContent } from "@/components/ui/card";
-import { CollaboratorsRegionalMenu } from "./collaborators-regional-menu";
 
 interface CollaboratorWithFormated extends Collaborator {
   city: (City & { regional: Regional | null }) | null;

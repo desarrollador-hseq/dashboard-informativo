@@ -7,23 +7,24 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 const CollaboratorPage = async () => {
   const session = await getServerSession(authOptions);
   const collaborators = await db.collaborator.findMany({
     where: {
-      active: true
+      active: true,
     },
     include: {
-      city: true
+      city: true,
     },
     orderBy: {
       name: "asc",
     },
   });
   return (
-    <div className="max-w-[1500px] h-fit mx-auto p-1">
-      <div className="flex justify-between gap-y-1">
+    <Card className="max-w-[1500px] h-fit mx-auto p-1 rounded-sm">
+      <CardHeader className="flex flex-row justify-between gap-y-1">
         <div className="flex flex-col">
           <h1 className="text-2xl font-semibold">Listado de colaboradores</h1>
           <span className="text-sm text-slate-500 font-light">
@@ -40,12 +41,14 @@ const CollaboratorPage = async () => {
             </Button>
           </Link>
         )}
-      </div>
-      <CollaboratorDataTable
-        columns={collaboratorColumns}
-        data={collaborators}
-      />
-    </div>
+      </CardHeader>
+      <CardContent>
+        <CollaboratorDataTable
+          columns={collaboratorColumns}
+          data={collaborators}
+        />
+      </CardContent>
+    </Card>
   );
 };
 

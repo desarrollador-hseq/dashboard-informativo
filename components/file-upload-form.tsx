@@ -23,6 +23,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { useDropzone } from "react-dropzone";
 import { Progress } from "./ui/progress";
+import { Card, CardContent, CardHeader } from "./ui/card";
 
 interface fileFormProps {
   file?: string | null;
@@ -61,7 +62,10 @@ export const FileUploadForm = ({
 }: fileFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const router = useRouter();
-  const toggleEdit = () => setIsEditing((current) => !current);
+  const toggleEdit = () => {
+    setSelectedFile(null);
+    setIsEditing((current) => !current);
+  };
   const [isUploading, setIsUploading] = useState<boolean | null>(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [progressInterval, setProgressInterval] = useState<any | null>();
@@ -106,7 +110,7 @@ export const FileUploadForm = ({
 
     const progressInterval = startSimulatedProgress();
     try {
-      await new Promise((resolve) => setTimeout(resolve, 6000));
+      await new Promise((resolve) => setTimeout(resolve, 3000));
 
       await axios.post(apiUrl, formData, {
         headers: {
@@ -139,131 +143,169 @@ export const FileUploadForm = ({
         }
         return prevProgress + 5;
       });
-    }, 500);
+    }, 200);
 
     return interval;
   };
 
   return (
-    <div className="mt-6 bg-slate-50 rounded-md p-4 border-4 border-primary/20  overflow-hidden">
-      <div className="font-medium flex items-center justify-between">
-        {label}
-        <Button
-          onClick={toggleEdit}
-          variant="secondary"
-          className={cn(
-            "text-white",
-            isEditing && "bg-slate-500 hover:bg-slate-700"
-          )}
-        >
-          {isEditing && <>Cancelar</>}
-          {!isEditing && !file && (
-            <>
-              <PlusCircle className="h-4 w-4 mr-2" />
-              Agregar
-            </>
-          )}
-          {!isEditing && file && (
-            <>
-              <Pencil className="h-4 w-4 mr-2" />
-              Actualizar
-            </>
-          )}
-        </Button>
-      </div>
-      {!isEditing &&
-        (!file ? (
-          <div className="flex items-center justify-center h-60 bg-slate-200 rounded-md w-full">
-            <ImageIcon className="w-10 h-10 text-slate-500" />
-          </div>
-        ) : (
-          <div className="mt-2 min-w-full flex justify-center">
-            {isPdf ? (
-              <div className="min-w-fit">
-                <PdfRenderer url={file} />
-              </div>
-            ) : (
-              <div className="object-cover">
-                <ModalImage
-                  small={file}
-                  large={file}
-                  alt={label}
-                  className="object-cover"
-                />
-              </div>
+    <Card className="mt-6 bg-slate-200 rounded-md p-1 border border-primary/20  overflow-hidden">
+      <CardHeader className="bg-slate-100 rounded-sm shadow-sm border border-slate-300">
+        <div className="font-medium flex items-center justify-between">
+          <h3 className="font-semibold text-lg text-primary/80 ml-2">
+            {" "}
+            {label}
+          </h3>
+          <Button
+            onClick={toggleEdit}
+            variant="secondary"
+            className={cn(
+              "text-white mr-2",
+              isEditing && "bg-slate-500 hover:bg-slate-700"
             )}
-          </div>
-        ))}
-      {isEditing && (
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className={"flex flex-col items-center mt-8 p-2 w-full"}
           >
-            <div
-              {...getRootProps()}
-              className={"dropzone w-full focus:border-red-600"}
-            >
-              <div
-                className={cn(
-                  "flex flex-col items-center justify-center pt-5 pb-6 mb-3 max-w-full"
-                )}
-              >
-                {uploadProgress !== 100 ? (
-                  <div className="flex flex-col gap-3 items-center">
-                    <Cloud className="h-6 w-6 text-zinc-500 mb-2" />
-                    <p className="mb-2 text-sm text-zinc-700">
-                      <span className="font-semibold">Click para subir</span> o
-                      arrastra el archivo aquí
-                    </p>
-                    <p className="text-xs text-zinc-500">
-                      Formatos aceptados: jpg, jpeg, png y pdf
-                    </p>
-                    {selectedFile ? (
-                      <div className="flex max-w-xs bg-white items-center rounded-md overflow-hidden outline outline-[1px] outline-zinc-200 divide-x divide-zinc-200">
-                        <div className="px-3 py-2 h-full grid place-items-center">
-                          <File className="h-4 w-4 text-blue-500" />
-                        </div>
-                        <div className="px-3 py-2 h-full text-sm truncate">
-                          {selectedFile.name}
-                        </div>
-                      </div>
-                    ) : null}
-                  </div>
-                ) : (
-                  <>
-                    <p className="mb-2 text-sm font-semibold flex flex-col items-center text-emerald-500">
-                      <UploadCloud className="w-16 h-16 " />
-                      Archivo subido correctamente
-                    </p>
-                  </>
-                )}
-              </div>
+            {isEditing && <>Cancelar</>}
+            {!isEditing && !file && (
+              <>
+                <PlusCircle className="h-4 w-4 mr-2" />
+                Agregar
+              </>
+            )}
+            {!isEditing && file && (
+              <>
+                <Pencil className="h-4 w-4 mr-2" />
+                Actualizar
+              </>
+            )}
+          </Button>
+        </div>
+      </CardHeader>
 
-              {!!uploadProgress && (
-                <Progress
-                  indicatorColor={uploadProgress === 100 ? "bg-green-500" : ""}
-                  value={uploadProgress}
-                  className="h-1 w-full bg-zinc-200"
-                />
-              )}
-
-              <input {...getInputProps()} />
-              {!selectedFile && isDragActive && (
-                <p>Haga clic o arrastre un archivo para cargarlo</p>
+      <CardContent className="flex items-start">
+        {!isEditing &&
+          (!file ? (
+            <div className="flex items-center justify-center h-60 bg-slate-200 rounded-md w-full">
+              <ImageIcon className="w-10 h-10 text-slate-500" />
+            </div>
+          ) : (
+            <div className="mt-2 min-w-full flex justify-center">
+              {isPdf ? (
+                <div className="min-w-fit">
+                  <PdfRenderer url={file} />
+                </div>
+              ) : (
+                <div className="object-cover">
+                  <ModalImage
+                    small={file}
+                    large={file}
+                    alt={label}
+                    className="object-cover"
+                  />
+                </div>
               )}
             </div>
-
-            <Button
-              disabled={isSubmitting || !isValid}
-              className="w-full max-w-fit gap-3"
+          ))}
+        {isEditing && (
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className={"flex flex-col items-center mt-2 p-1 w-full"}
             >
-              {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
-              {isEditing && file ? "Actualizar" : "Subir"}
-            </Button>
-          </form>
-        </Form>
-      )}
-    </div>
+              <div
+                {...getRootProps()}
+                className={"dropzone w-full"}
+                style={{
+                  background: "#4e71b185",
+                  borderRadius: "7px",
+                  border: "3px dashed #4e71b1",
+                  color: "white",
+                }}
+              >
+                <div
+                  className={cn(
+                    "flex flex-col items-center justify-center pb-6 mb-3 w-full"
+                  )}
+                >
+                  {uploadProgress !== 100 ? (
+                    <div className="min-h-[100px] max-w-max flex flex-col gap-3 items-center justify-center">
+                      {selectedFile ? (
+                        <div className="flex max-w-max  bg-secondary items-center justify-center rounded-md overflow-hidden outline outline-[1px] outline-zinc-200 divide-x divide-zinc-200 p-4">
+                          <div className="px-3 py-2 h-full grid place-items-center">
+                            {selectedFile.type === "application/pdf" ? (
+                              // <File className="h-6 w-6 text-white" />
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="25"
+                                height="25"
+                                viewBox="0 0 256 256"
+                              >
+                                <path
+                                  fill="#ffffff"
+                                  d="M200 164v8h12a12 12 0 0 1 0 24h-12v12a12 12 0 0 1-24 0v-56a12 12 0 0 1 12-12h32a12 12 0 0 1 0 24Zm-108 8a32 32 0 0 1-32 32h-4v4a12 12 0 0 1-24 0v-56a12 12 0 0 1 12-12h16a32 32 0 0 1 32 32m-24 0a8 8 0 0 0-8-8h-4v16h4a8 8 0 0 0 8-8m100 8a40 40 0 0 1-40 40h-16a12 12 0 0 1-12-12v-56a12 12 0 0 1 12-12h16a40 40 0 0 1 40 40m-24 0a16 16 0 0 0-16-16h-4v32h4a16 16 0 0 0 16-16M36 108V40a20 20 0 0 1 20-20h96a12 12 0 0 1 8.49 3.52l56 56A12 12 0 0 1 220 88v20a12 12 0 0 1-24 0v-4h-48a12 12 0 0 1-12-12V44H60v64a12 12 0 0 1-24 0m124-51v23h23Z"
+                                />
+                              </svg>
+                            ) : (
+                              <ImageIcon className="h-6 w-6 text-white" />
+                            )}
+                          </div>
+                          <p className="px-3 py-2 h-full text-sm truncate text-white font-semibold max-w-[300px] text-ellipsis">
+                            {selectedFile.name}
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="flex flex-col items-center">
+                          <Cloud className="h-10 w-10 text-white mb-2" />
+                          <p className="mb-2 text-sm text-white">
+                            <span className="font-semibold text-base">
+                              Click para subir
+                            </span>{" "}
+                            o arrastra el archivo aquí
+                          </p>
+                          <p className="text-sm text-zinc-200">
+                            Formatos aceptados: jpg, jpeg, png y pdf
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <>
+                      <p className="mb-2 text-sm font-semibold flex flex-col items-center text-emerald-300">
+                        <UploadCloud className="w-16 h-16 " />
+                        Archivo subido correctamente
+                      </p>
+                    </>
+                  )}
+                </div>
+
+                {!!uploadProgress && (
+                  <Progress
+                    indicatorColor={
+                      uploadProgress === 100 ? "bg-green-300" : ""
+                    }
+                    value={uploadProgress}
+                    className="h-1 w-full bg-zinc-200"
+                  />
+                )}
+
+                <input {...getInputProps()} />
+                {!selectedFile && isDragActive && (
+                  <p>Haga clic o arrastre un archivo para cargarlo</p>
+                )}
+              </div>
+
+              <Button
+                disabled={isSubmitting || !isValid}
+                className={`w-full max-w-full gap-3 mt-2 ${
+                  !selectedFile && "hidden"
+                }`}
+              >
+                {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
+                {selectedFile && (isEditing && file ? "Actualizar" : "Subir")}
+              </Button>
+            </form>
+          </Form>
+        )}
+      </CardContent>
+    </Card>
   );
 };

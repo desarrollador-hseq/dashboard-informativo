@@ -24,6 +24,7 @@ import { IconBadge } from "@/components/ui/icon-badge";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { DeleteRegional } from "./delete-regional";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 // import { DeleteCity } from "./delete-city";
 
 interface RegionalWithCity extends Regional {
@@ -72,8 +73,8 @@ export const AddRegionalForm = ({ regional }: AddRegionalFormProps) => {
   };
 
   return (
-    <div className=" max-w-[1500px] mx-auto shadow-sm bg-white overflow-hidden p-3 ">
-      <div className="flex justify-between items-center gap-x-2 bg-white">
+    <Card className=" max-w-[1500px] mx-auto shadow-sm bg-white overflow-hidden p-3 rounded-sm">
+      <CardHeader className="flex gap-x-1 bg-white">
         <div className="flex items-center">
           <IconBadge icon={isEdit ? ClipboardList : Clipboard} />
           <h2 className="text-2xl font-semibold">
@@ -92,63 +93,69 @@ export const AddRegionalForm = ({ regional }: AddRegionalFormProps) => {
           </h2>
         </div>
         <div>{isEdit && <DeleteRegional regional={regional!} />}</div>
-      </div>
-      <Separator />
+        <Separator />
+      </CardHeader>
 
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col items-center mt-8 px-2"
-        >
-          <div className="grid grid-cols-1  gap-6 mt-1 mb-7 w-full max-w-[900px]">
-            <div className="space-y-8 ">
-              <div>
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-bold" htmlFor="lastname">
-                        Nombre
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          id="lastname"
-                          disabled={isSubmitting}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage className="ml-6 text-[0.8rem] text-red-500 font-medium" />
-                    </FormItem>
-                  )}
-                />
+      <CardContent>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex flex-col items-center mt-8 px-2"
+          >
+            <div className="grid grid-cols-1  gap-6 mt-1 mb-7 w-full max-w-[900px]">
+              <div className="space-y-8 ">
+                <div>
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-bold" htmlFor="lastname">
+                          Nombre
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            id="lastname"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="ml-6 text-[0.8rem] text-red-500 font-medium" />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          <Button
-            disabled={isSubmitting || !isValid}
-            className="w-full max-w-[500px] gap-3"
-          >
-            {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
-            {isEdit ? "Actualizar" : "Crear"}
-          </Button>
-        </form>
-      </Form>
-
-      <div className="w-[300px] mt-8">
-        <h2 className="text-xl font-bold text-center">Ciudades relacionas</h2>
-        <div>
-          {regional?.cities?.map((reg) => (
-            <div
-              key={reg.id}
-              className="border border-r-primary-100 border-l-primary-100 border-t-primary-100 p-2 flex justify-center"
+            <Button
+              disabled={isSubmitting || !isValid}
+              className="w-full max-w-[500px] gap-3"
             >
-              {reg.realName}
+              {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
+              {isEdit ? "Actualizar" : "Crear"}
+            </Button>
+          </form>
+        </Form>
+
+        {regional?.cities && (
+          <div className="w-[300px] mt-8">
+            <h2 className="text-xl font-bold text-center">
+              Ciudades relacionas
+            </h2>
+            <div>
+              {regional?.cities?.map((reg) => (
+                <div
+                  key={reg.id}
+                  className="border border-r-primary-100 border-l-primary-100 border-t-primary-100 p-2 flex justify-center"
+                >
+                  {reg.realName}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
-    </div>
+          </div>
+        )}
+      </CardContent>
+    </Card>
   );
 };

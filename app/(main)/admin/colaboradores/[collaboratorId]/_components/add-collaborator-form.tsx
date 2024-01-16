@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { City, Collaborator } from "@prisma/client";
@@ -9,7 +9,7 @@ import {
   CalendarIcon,
   Loader2,
   ThumbsUp,
-  UserCog,
+  User,
   UserPlus,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -87,6 +87,7 @@ export const AddCollaboratorForm = ({
 }: AddCollaboratorFormProps) => {
   const router = useRouter();
   const isEdit = useMemo(() => collaborator, [collaborator]);
+  const [calendarOpen, setCalendarOpen] = useState(false);
   const [date, setDate] = useState<DateRange | undefined>({
     from: collaborator ? collaborator.startDate : undefined,
     to: collaborator ? collaborator.endDate : addDays(new Date(), 1),
@@ -154,13 +155,12 @@ export const AddCollaboratorForm = ({
     }
   };
 
-  const handleDate = (e: DateRange) => {
-    if (!e) return;
-    setDate(e);
-    setValue("startDate", e.from!, { shouldValidate: true });
-    setValue("endDate", e.to!, { shouldValidate: true });
-    return true;
-  };
+  useEffect(() => {
+    if (date?.from !== undefined && date.to !== undefined) {
+      setValue("startDate", date.from!, { shouldValidate: true });
+      setValue("endDate", date.to!, { shouldValidate: true });
+    }
+  }, [calendarOpen, setDate]);
 
   const handleCityChange = (event: string) => {
     const selectedCityId = event;
@@ -174,13 +174,13 @@ export const AddCollaboratorForm = ({
     <div className="max-w-[1500px] h-full mx-auto bg-white rounded-md shadow-sm overflow-y-hidden p-3">
       <div className="flex justify-between items-center gap-x-2 bg-white">
         <div className="flex items-center">
-          <IconBadge icon={isEdit ? UserCog : UserPlus} />
+          <IconBadge icon={isEdit ? User : UserPlus} />
           <h2 className="text-2xl font-semibold">
             {isEdit ? (
               <>
                 <p>
                   Editar usuario:{" "}
-                  <span className="font-normal">
+                  <span className="font-semibold text-lg text-primary/70">
                     {collaborator?.name} {collaborator?.lastname}
                   </span>
                 </p>
@@ -333,8 +333,8 @@ export const AddCollaboratorForm = ({
               </div>
             </div>
 
-            <div>
-              <div className="mb-3 ">
+            <div className="space-y-4">
+              <div className="mb-3">
                 <FormField
                   control={form.control}
                   name="startDate"
@@ -343,7 +343,10 @@ export const AddCollaboratorForm = ({
                       <FormLabel className="font-bold">
                         Fechas de formación
                       </FormLabel>
-                      <Popover>
+                      <Popover
+                        open={calendarOpen}
+                        onOpenChange={setCalendarOpen}
+                      >
                         <PopoverTrigger asChild>
                           <Button
                             id="date"
@@ -377,7 +380,7 @@ export const AddCollaboratorForm = ({
                             mode="range"
                             defaultMonth={new Date()}
                             selected={date}
-                            onSelect={(e) => handleDate(e!)}
+                            onSelect={setDate}
                             numberOfMonths={2}
                             locale={es}
                           />
@@ -492,8 +495,6 @@ export const AddCollaboratorForm = ({
                   </div>
                 )}
               </div>
-
-              
             </div>
           </div>
 

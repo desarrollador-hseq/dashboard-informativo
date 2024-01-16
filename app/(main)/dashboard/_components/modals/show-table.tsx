@@ -37,7 +37,7 @@ export const ShowTableModal = ({ children, title }: ConfirmModalProps) => {
               Resumen de{title ? ` ${title}` : " datos"}{" "}
             </AlertDialogTitle>
             <Button
-              className="w-fit h-fit mt-0 flex rounded-md bg-primary p-1 absolute top-0 left-0"
+              className="w-fit h-fit mt-0 flex rounded-md bg-primary p-1 absolute top-0 left-2"
               variant="outline"
               onClick={() => setOpen(false)}
             >

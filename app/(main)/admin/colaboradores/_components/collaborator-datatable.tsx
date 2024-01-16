@@ -35,8 +35,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FileDown, Loader2 } from "lucide-react";
 import { format } from "date-fns";
-import { unknown } from "zod";
-import { useDashboard } from "@/components/providers/dashboard-provider";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -51,8 +49,6 @@ export function CollaboratorDataTable<TData, TValue>({
   const [itemFilter, setItemFilter] = useState("name");
   const [pageLoaded, setPageLoaded] = useState(false);
   const tableRef = useRef(null);
-
-  const { threshold } = useDashboard();
 
   useEffect(() => {
     setPageLoaded(true);
@@ -91,10 +87,7 @@ export function CollaboratorDataTable<TData, TValue>({
   });
 
   const exportColumns = columns
-    .filter(
-      (column) =>
-        !column?.id?.includes("actions") && !column?.id?.includes("pdfUrl")
-    )
+    .filter((column) => !column?.id?.includes("actions"))
     .map((column: any) => ({
       title: column?.header({ column }).props.children,
       data: column?.accessorKey,
@@ -108,7 +101,6 @@ export function CollaboratorDataTable<TData, TValue>({
     return filteredRow;
   });
 
-
   const handleFilterItem = (e: string) => {
     table.getColumn(itemFilter)?.setFilterValue("");
     setItemFilter(e);
@@ -116,7 +108,7 @@ export function CollaboratorDataTable<TData, TValue>({
 
   return (
     <div>
-      <table ref={tableRef} className="hidden">
+      <table ref={tableRef} style={{ display: "none" }}>
         <thead>
           <tr>
             {exportColumns.map((item) => (
@@ -180,14 +172,17 @@ export function CollaboratorDataTable<TData, TValue>({
               </Select>
             </div>
           </div>
-          <div className="rounded-md border bg-white">
+          <div className="rounded-md border">
             <Table>
-              <TableHeader>
+              <TableHeader className="bg-secondary hover:bg-secondary">
                 {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id}>
+                  <TableRow
+                    key={headerGroup.id}
+                    className=" hover:bg-secondary"
+                  >
                     {headerGroup.headers.map((header) => {
                       return (
-                        <TableHead key={header.id}>
+                        <TableHead key={header.id} className="text-white">
                           {header.isPlaceholder
                             ? null
                             : flexRender(
@@ -230,40 +225,43 @@ export function CollaboratorDataTable<TData, TValue>({
               </TableBody>
             </Table>
           </div>
-          <div className="flex items-center justify-between space-x-2 py-4">
-            <div>
-              <DownloadTableExcel
-                filename={`Colaboradores ${format(
-                  new Date(),
-                  "dd/MM/yyyy-HH:mm:ss"
-                )}`}
-                sheet="colaboradores"
-                currentTableRef={tableRef.current}
-              >
-                <Button className="bg-slate-200 rounded-full hover:text-white">
-                  <FileDown className="w-6 h-6 text-secondary hover:text-white" />
+          {table.getRowModel().rows.length > 0 && (
+            <div className="flex items-center justify-between space-x-2 py-4">
+              <div>
+                <DownloadTableExcel
+                  filename={`Colaboradores ${format(
+                    new Date(),
+                    "dd/MM/yyyy-HH:mm:ss"
+                  )}`}
+                  sheet="colaboradores"
+                  currentTableRef={tableRef.current}
+                >
+                  <Button className="bg-slate-200 rounded-full hover:text-white">
+                    <FileDown className="w-6 h-6 text-secondary hover:text-white" />
+                  </Button>
+                </DownloadTableExcel>
+              </div>
+
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => table.previousPage()}
+                  disabled={!table.getCanPreviousPage()}
+                >
+                  Anterior
                 </Button>
-              </DownloadTableExcel>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => table.nextPage()}
+                  disabled={!table.getCanNextPage()}
+                >
+                  Siguiente
+                </Button>
+              </div>
             </div>
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => table.previousPage()}
-                disabled={!table.getCanPreviousPage()}
-              >
-                Anterior
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => table.nextPage()}
-                disabled={!table.getCanNextPage()}
-              >
-                Siguiente
-              </Button>
-            </div>
-          </div>
+          )}
         </div>
       )}
     </div>

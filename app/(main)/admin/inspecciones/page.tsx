@@ -6,21 +6,22 @@ import { InspectionsDataTable } from "./_components/inspections-datatable";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { InspectionColumns } from "./_components/inspections-datatable-column";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 const InspectionsPage = async () => {
   const session = await getServerSession(authOptions);
 
   const collaborators = await db.inspection.findMany({
     include: {
-      city: true
+      city: true,
     },
     orderBy: {
       createdAt: "desc",
     },
   });
   return (
-    <div className="max-w-[1500px] mx-auto p-1">
-      <div className="flex justify-between gap-y-1">
+    <Card className="max-w-[1500px] h-fit mx-auto p-1 rounded-sm">
+      <CardHeader className="flex flex-row justify-between gap-y-1">
         <div className="flex flex-col">
           <h1 className="text-2xl font-semibold">Listado de inspecciones</h1>
           <span className="text-sm text-slate-500 font-light">
@@ -37,12 +38,14 @@ const InspectionsPage = async () => {
             </Button>
           </Link>
         )}
-      </div>
-      <InspectionsDataTable
-        columns={InspectionColumns}
-        data={collaborators}
-      />
-    </div>
+      </CardHeader>
+      <CardContent>
+        <InspectionsDataTable
+          columns={InspectionColumns}
+          data={collaborators}
+        />
+      </CardContent>
+    </Card>
   );
 };
 

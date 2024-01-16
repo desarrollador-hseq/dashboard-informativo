@@ -12,7 +12,7 @@ interface RegionalWithCollaborator extends Regional {
 }
 interface CollaboratorsReportsProps {
   collaborators: CollaboratorWithFormated[];
-  regionalsFull: RegionalWithCollaborator[];
+  regionalsFull: RegionalWithCollaborator[] | null | undefined;
 }
 
 export const CollaboratorsRegional = ({
@@ -118,7 +118,7 @@ export const CollaboratorsRegional = ({
       option={option}
       title={
         <div className="flex justify-between">
-          <CollaboratorsRegionalMenu regionals={regionalsFull} />{" "}
+          <CollaboratorsRegionalMenu regionals={regionalsFull} />
           <span>Número de colaboradores por regional</span>
           <div />
         </div>

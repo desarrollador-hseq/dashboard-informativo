@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 // import { FileUpload } from "@/components/FileUpload";
 import PdfRenderer from "@/components/pdf-renderer";
 import { cn } from "@/lib/utils";
+import { FileUploadForm } from "@/components/file-upload-form";
 
 interface ImageFormProps {
   CollaboratorId: string;
@@ -115,14 +116,14 @@ export const PdfForm = ({ CollaboratorId, url }: ImageFormProps) => {
         ))}
       {isEditing && (
         <div>
-          <FileUploadForm
+          {/* <FileUploadForm
             endpoint="collaboratorPdf"
             onChange={(url) => {
               if (url) {
                 onSubmit({ pdfUrl: url });
               }
             }}
-          />
+          /> */}
           {/* <div className="text-xs text-muted-foreground mt-4">
             El archivo debe pesar menos de 1MB en formato PDF
           </div> */}
