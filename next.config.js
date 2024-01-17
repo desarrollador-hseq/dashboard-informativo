@@ -4,7 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "utfs.io",
+        hostname: "sfo2.digitaloceanspaces.com",
         pathname: "**",
       },
     ],
