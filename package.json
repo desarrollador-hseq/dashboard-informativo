@@ -47,6 +47,7 @@
     "react-datepicker": "^4.25.0",
     "react-day-picker": "^8.9.1",
     "react-dom": "^18",
+    "react-download": "^0.0.1",
     "react-dropzone": "^14.2.3",
     "react-export-table-to-excel": "^1.0.6",
     "react-hook-form": "^7.47.0",

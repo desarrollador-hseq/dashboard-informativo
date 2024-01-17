@@ -153,7 +153,6 @@ export const FileUploadForm = ({
       <CardHeader className="bg-slate-100 rounded-sm shadow-sm border border-slate-300">
         <div className="font-medium flex items-center justify-between">
           <h3 className="font-semibold text-lg text-primary/80 ml-2">
-            {" "}
             {label}
           </h3>
           <Button

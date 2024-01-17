@@ -32,6 +32,7 @@ interface CollaboratorTableProps {
   city: City | null;
   evaluationUrl: string | null;
   certificateUrl: string | null;
+  archivesLink: string | null;
   isVirtual: boolean;
 }
 
@@ -269,6 +270,45 @@ export const collaboratorColumns: ColumnDef<CollaboratorTableType>[] = [
                 </div>
               )}
             </div>
+          ) : (
+            <X className="w-4 h-4 text-slate-300" />
+          )}
+        </Badge>
+      );
+    },
+  },
+  {
+    accessorKey: "archivesLink",
+    header: ({ column }) => {
+      return <Button variant="ghost">Evidencias</Button>;
+    },
+    accessorFn: (value) => value.archivesLink,
+    cell: ({ row }) => {
+      const url = row.original.archivesLink;
+      const existUrl = !!url;
+
+      return (
+        <Badge
+          className={cn(
+            "bg-inherit hover:bg-inherit",
+            existUrl && "bg-red-400 hover:bg-red-500"
+          )}
+        >
+          {existUrl ? (
+            <a
+              className={cn(
+                buttonVariants({
+                  className: "p-0 bg-inherit hover:bg-inherit w-full",
+                  variant: "ghost",
+                }),
+                "h-fit"
+              )}
+              href={url!}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Link2 className="w-4 h-4" />
+            </a>
           ) : (
             <X className="w-4 h-4 text-slate-300" />
           )}

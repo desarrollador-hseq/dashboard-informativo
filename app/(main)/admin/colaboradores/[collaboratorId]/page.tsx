@@ -6,6 +6,7 @@ import { FileUploadForm } from "@/components/file-upload-form";
 import { Card, CardContent } from "@/components/ui/card";
 import { Info, LockKeyhole } from "lucide-react";
 import { TooltipInfo } from "@/components/tooltip-info";
+import { ArchivesLinkForm } from "./_components/archives-link-form";
 
 const CreateCollaborator = async ({
   params,
@@ -92,6 +93,9 @@ const CreateCollaborator = async ({
                           file={collaborator!.evaluationUrl}
                           ubiPath="colaboradores/evaluaciones"
                         />
+                      </div>
+                      <div>
+                        <ArchivesLinkForm archivesLink={collaborator.archivesLink} collaboratorId={collaborator.id} />
                       </div>
                     </CardContent>
                   </Card>

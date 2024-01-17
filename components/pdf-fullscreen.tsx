@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { pdfjs, Document, Page } from "react-pdf";
-import { Expand, Loader2, LucideIcon, X } from "lucide-react";
+import { Download, Expand, Loader2, LucideIcon, X } from "lucide-react";
 import SimpleBar from "simplebar-react";
 import { toast } from "sonner";
 import { useResizeDetector } from "react-resize-detector";
@@ -9,7 +9,7 @@ import {
   AlertDialogTrigger,
   AlertDialogContent,
 } from "@/components/ui/alert-dialog";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -51,19 +51,29 @@ const PdfFullscreen = ({
           {Icon ? <Icon className="h-4 w-4" /> : <Expand className="h-4 w-4" />}
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent className="max-w-7xl w-full overflow-y-auto">
+      <AlertDialogContent className="max-w-7xl w-full overflow-y-auto pt-1">
         <div>
-          <Button
-            variant="destructive"
-            className=" absolute top-0 right-0"
-            onClick={() => setIsOpen(false)}
-          >
-            <X className="w-3 h-3 text-white" />
-          </Button>
+          <div className="flex justify-between my-1">
+            <a
+              href={fileUrl}
+              download="Example-PDF-document"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Button><Download className="w-4 h-4" /></Button>
+            </a>
+            <Button
+              variant="destructive"
+              className=""
+              onClick={() => setIsOpen(false)}
+            >
+              <X className="w-3 h-3 text-white" />
+            </Button>
+          </div>
 
           <SimpleBar
             autoHide={false}
-            className="max-h-[calc(100vh-10rem)] mt-6"
+            className="max-h-[calc(100vh-10rem)] border border-slate-300"
           >
             <div ref={ref} className="">
               <Document

@@ -45,6 +45,7 @@ model Collaborator {
 
   evaluationUrl  String? @db.Text
   certificateUrl String? @db.Text
+  archivesLink String? @db.Text
 
   isVirtual Boolean @default(false)
   active Boolean @default(true)
