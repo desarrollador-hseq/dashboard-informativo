@@ -69,7 +69,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
         const response = await axios.get(url,  {
           responseType: 'arraybuffer',
           headers: {
-            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Origin': 'https://dashboard.grupohseq.com/',
             Accept: 'application/json',
             'Content-Type': 'application/json',
           },
