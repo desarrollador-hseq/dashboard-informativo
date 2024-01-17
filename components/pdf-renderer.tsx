@@ -149,7 +149,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
           className="max-h-[calc(100vh-10rem)] min-w-full"
         >
           <div ref={ref} className="min-w-full">
-            {file ? (
+            {!!url ? (
               <Document
                 externalLinkRel=""
                 loading={
