@@ -8,7 +8,7 @@ interface CollaboratorWithFormated extends Collaborator {
   city: (City & { regional: Regional | null }) | null;
 }
 interface RegionalWithCollaborator extends Regional {
-  cities: (City & { collaborators: Collaborator[] | null })[];
+  cities: (City & { collaborators: Collaborator[] | null | undefined } | null | undefined)[];
 }
 interface CollaboratorsReportsProps {
   collaborators: CollaboratorWithFormated[];

@@ -60,8 +60,6 @@ export const CollaboratorsReports = ({
           })),
         }));
 
-  console.log({ filteredRegionalFull });
-
   return (
     <div
       className="w-full flex flex-col justify-center mb-6 "

@@ -14,7 +14,7 @@ import { SimpleModal } from "@/components/simple-modal";
 import { Chart } from "@/components/chart";
 
 interface RegionalWithCollaborator extends Regional {
-  cities: (City & { collaborators: Collaborator[] | null })[];
+  cities: (City & { collaborators: Collaborator[] | null | undefined} | null | undefined)[];
 }
 
 interface CollaboratorsRegionalMenuProps {
@@ -35,17 +35,17 @@ export function CollaboratorsRegionalMenu({
             <NavigationMenuContent className="">
               <ul className="grid gap-3 p-6 md:w-[400px] grid-cols-2 lg:w-[500px] ">
                 {reg?.cities?.map((city) => (
-                  <li key={city.id} className="">
+                  <li key={city?.id} className="">
                     <NavigationMenuLink asChild>
                       <SimpleModal
-                        title={`Datos de la ciudad de: ${city.realName}`}
-                        textBtn={city.realName}
+                        title={`Datos de la ciudad de: ${city?.realName}`}
+                        textBtn={city?.realName}
                         btnClass="flex h-full w-full select-none flex-col justify-end rounded-md bg-primary p-6 no-underline outline-none focus:shadow-md"
                       >
                         <div className="grid grid-cols-1 gap-2">
                           <ContentRegionalModal
                             title="Estados por Formación presencial"
-                            city={reg.cities.find((ct) => ct.id === city.id)}
+                            city={reg.cities.find((ct) => ct?.id === city?.id)}
                             virtual={false}
                           />
                         </div>
@@ -67,7 +67,7 @@ interface CityWithCollaborators extends City {
 }
 
 interface ContentRegionalModalProps {
-  city: CityWithCollaborators | undefined;
+  city?: CityWithCollaborators | undefined | null;
   title: string;
   virtual: boolean;
 }
