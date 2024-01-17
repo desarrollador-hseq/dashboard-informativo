@@ -42,8 +42,6 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
       .refine((num) => Number(num) > 0 && Number(num) <= numPages!),
   });
 
-  
-
   type TCustomPageValidator = z.infer<typeof CustomPageValidator>;
 
   const {
@@ -63,25 +61,23 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
     setValue("page", String(page));
   };
 
-  useEffect(() => {
-    if(url) {
-      const getPdf = async () => {
-        const response = await axios.get(url,  {
-          responseType: 'arraybuffer',
-          headers: {
-            'Access-Control-Allow-Origin': 'https://dashboard.grupohseq.com/',
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-        })
-        const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
-        const pdfUrl = URL.createObjectURL(pdfBlob);
-        setFile(pdfUrl)
-      }
-      getPdf()
-    }
-  }, [url])
-  
+  // useEffect(() => {
+  //   if (url) {
+  //     console.log({url})
+  //     const getPdf = async () => {
+  //       fetch(url, {
+  //         mode: "no-cors",
+  //       })
+  //         .then((res) => res.blob())
+  //         .then((blob) => {
+  //           const pdfBlob = new Blob([blob], { type: "application/pdf" });
+  //           const pdfUrl = URL.createObjectURL(pdfBlob);
+  //           setFile(pdfUrl);
+  //         });
+  //     };
+  //     getPdf();
+  //   }
+  // }, [url]);
 
   return (
     <div className="w-full min-w-fit bg-white rounded-md shadow flex flex-col items-center">
@@ -153,50 +149,54 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
           className="max-h-[calc(100vh-10rem)] min-w-full"
         >
           <div ref={ref} className="min-w-full">
-            {file ? <Document
-              externalLinkRel=""
-              loading={
-                <div className="flex justify-center w-full">
-                  <Loader2 className="my-24 h-6 w-6 animate-spin text-primary" />
-                </div>
-              }
-              onError={() => {
-                toast.error("Error al cargar PDF", {
-                  description: "Por favor intentelo nuevamente",
-                });
-              }}
-              onLoadSuccess={({ numPages }) => setNumPages(numPages)}
-              file={file}
-              className="max-h-fit"
-            >
-              {isLoading && renderedScale ? (
+            {file ? (
+              <Document
+                externalLinkRel=""
+                loading={
+                  <div className="flex justify-center w-full">
+                    <Loader2 className="my-24 h-6 w-6 animate-spin text-primary" />
+                  </div>
+                }
+                onError={() => {
+                  toast.error("Error al cargar PDF", {
+                    description: "Por favor intentelo nuevamente",
+                  });
+                }}
+                onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+                file={url}
+                className="max-h-fit"
+              >
+                {isLoading && renderedScale ? (
+                  <Page
+                    width={width}
+                    height={height}
+                    pageNumber={currPage}
+                    rotate={rotation}
+                    key={"@" + renderedScale}
+                    className={`w-[${width}] max-h-[600px]`}
+                  />
+                ) : null}
                 <Page
+                  className={cn(
+                    `w-[${width}] max-h-[600px]`,
+                    isLoading ? "hidden" : ""
+                  )}
                   width={width}
                   height={height}
                   pageNumber={currPage}
                   rotate={rotation}
-                  key={"@" + renderedScale}
-                  className={`w-[${width}] max-h-[600px]`}
+                  key={"@" + scale}
+                  loading={
+                    <div className="flex justify-center ">
+                      <Loader2 className="my-24 h-6 w-6 animate-spin" />
+                    </div>
+                  }
+                  onRenderSuccess={() => setRenderedScale(scale)}
                 />
-              ) : null}
-              <Page
-                className={cn(
-                  `w-[${width}] max-h-[600px]`,
-                  isLoading ? "hidden" : ""
-                )}
-                width={width}
-                height={height}
-                pageNumber={currPage}
-                rotate={rotation}
-                key={"@" + scale}
-                loading={
-                  <div className="flex justify-center ">
-                    <Loader2 className="my-24 h-6 w-6 animate-spin" />
-                  </div>
-                }
-                onRenderSuccess={() => setRenderedScale(scale)}
-              />
-            </Document> : <Loader2 className="w-5 h-5 animate-spin" />}
+              </Document>
+            ) : (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            )}
           </div>
         </SimpleBar>
       </div>
