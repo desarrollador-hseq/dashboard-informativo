@@ -25,15 +25,15 @@ export function CollaboratorsRegionalMenu({
   regionals,
 }: CollaboratorsRegionalMenuProps) {
   return (
-    <NavigationMenu className="z-20">
-      <NavigationMenuList>
+    <NavigationMenu className="z-20 p-1">
+      <NavigationMenuList className="">
         {regionals?.map((reg) => (
           <NavigationMenuItem key={reg.id}>
             <NavigationMenuTrigger className="uppercase">
               {reg.name}
             </NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="grid gap-3 p-6 md:w-[400px] grid-cols-2 lg:w-[500px]">
+            <NavigationMenuContent className="">
+              <ul className="grid gap-3 p-6 md:w-[400px] grid-cols-2 lg:w-[500px] ">
                 {reg?.cities?.map((city) => (
                   <li key={city.id} className="">
                     <NavigationMenuLink asChild>
@@ -42,16 +42,11 @@ export function CollaboratorsRegionalMenu({
                         textBtn={city.realName}
                         btnClass="flex h-full w-full select-none flex-col justify-end rounded-md bg-primary p-6 no-underline outline-none focus:shadow-md"
                       >
-                        <div className="grid md:grid-cols-2 gap-2">
+                        <div className="grid grid-cols-1 gap-2">
                           <ContentRegionalModal
                             title="Estados por Formación presencial"
                             city={reg.cities.find((ct) => ct.id === city.id)}
                             virtual={false}
-                          />
-                          <ContentRegionalModal
-                            title="Estados por Formación virtual"
-                            city={reg.cities.find((ct) => ct.id === city.id)}
-                            virtual={true}
                           />
                         </div>
                       </SimpleModal>
@@ -98,11 +93,7 @@ const ContentRegionalModal = ({
     return [formadoCount, formacionCount];
   };
 
-  const [formadoCount, formacionCount] = countCollaborators(
-    city?.collaborators
-      ? city?.collaborators.filter((col) => col.isVirtual === virtual)
-      : []
-  );
+  const [formadoCount, formacionCount] = countCollaborators(city?.collaborators ? city?.collaborators : []);
 
   const option = {
     tooltip: {},
@@ -117,12 +108,12 @@ const ContentRegionalModal = ({
         },
         data: [
           {
-            value: formadoCount,
+            value: formadoCount === 0 ? [] : formadoCount,
             name: "Formado",
             itemStyle: { color: "#4e71b1" },
           },
           {
-            value: formacionCount,
+            value: formacionCount === 0 ? [] : formadoCount,
             name: "Formación",
             itemStyle: { color: "#bae0fc" },
           },

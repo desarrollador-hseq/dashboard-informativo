@@ -70,7 +70,7 @@ export const CollaboratorsRegional = ({
     },
     xAxis: {
       type: "category",
-      data: regionals,
+      data: regionals.map((r) => r.toUpperCase()),
       axisTick: {
         alignWithLabel: true,
       },
@@ -117,9 +117,9 @@ export const CollaboratorsRegional = ({
     <Chart
       option={option}
       title={
-        <div className="flex justify-between">
-          <CollaboratorsRegionalMenu regionals={regionalsFull} />
+        <div className="flex flex-col items-center gap-3">
           <span>Número de colaboradores por regional</span>
+          <CollaboratorsRegionalMenu regionals={regionalsFull} />
           <div />
         </div>
       }

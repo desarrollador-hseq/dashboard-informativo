@@ -11,7 +11,6 @@ import { CollaboratorDataTable } from "@/app/(main)/admin/colaboradores/_compone
 import { collaboratorColumns } from "@/app/(main)/admin/colaboradores/_components/collaborator-datatable-column";
 import { CollaboratorsRegional } from "./collaborators-regional";
 
-
 interface CollaboratorWithFormated extends Collaborator {
   city: (City & { regional: Regional | null }) | null;
 }
@@ -43,6 +42,25 @@ export const CollaboratorsReports = ({
             (!date.to || startDate <= date.to)
           );
         });
+
+  const filteredRegionalFull =
+    !date || (date.from === undefined && date.to === undefined)
+      ? regionalFull
+      : regionalFull?.map((reg) => ({
+          ...reg,
+          cities: reg.cities.map((ct) => ({
+            ...ct,
+            collaborators: ct.collaborators?.filter((col) => {
+              const startDate = new Date(col.startDate);
+              return (
+                (!date.from || startDate >= date.from) &&
+                (!date.to || startDate <= date.to)
+              );
+            }),
+          })),
+        }));
+
+  console.log({ filteredRegionalFull });
 
   return (
     <div
@@ -87,7 +105,10 @@ export const CollaboratorsReports = ({
         </div>
         <div className="lg:col-span-2">
           <Fade delay={650} cascade triggerOnce>
-            <CollaboratorsRegional collaborators={filteredCollaborators} regionalsFull={regionalFull} />
+            <CollaboratorsRegional
+              collaborators={filteredCollaborators}
+              regionalsFull={filteredRegionalFull}
+            />
           </Fade>
         </div>
       </div>
