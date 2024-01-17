@@ -23,7 +23,11 @@ interface PdfFullscreenProps {
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const PdfFullscreen = ({ fileUrl, icon: Icon, btnClass }: PdfFullscreenProps) => {
+const PdfFullscreen = ({
+  fileUrl,
+  icon: Icon,
+  btnClass,
+}: PdfFullscreenProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [numPages, setNumPages] = useState<number>();
 
@@ -39,7 +43,11 @@ const PdfFullscreen = ({ fileUrl, icon: Icon, btnClass }: PdfFullscreenProps) =>
       }}
     >
       <AlertDialogTrigger onClick={() => setIsOpen(true)} asChild>
-        <Button variant="ghost" className={cn("p-0", btnClass)} aria-label="fullscreen">
+        <Button
+          variant="ghost"
+          className={cn("p-0", btnClass)}
+          aria-label="fullscreen"
+        >
           {Icon ? <Icon className="h-4 w-4" /> : <Expand className="h-4 w-4" />}
         </Button>
       </AlertDialogTrigger>

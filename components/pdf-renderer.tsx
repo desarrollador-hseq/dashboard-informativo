@@ -2,7 +2,7 @@
 
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 
 import { toast } from "sonner";
@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import SimpleBar from "simplebar-react";
 import PdfFullscreen from "./pdf-fullscreen";
 import "simplebar-react/dist/simplebar.min.css";
+import axios from "axios";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 interface PdfRendererProps {
@@ -26,6 +27,8 @@ interface PdfRendererProps {
 const PdfRenderer = ({ url }: PdfRendererProps) => {
   const [numPages, setNumPages] = useState<number>();
   const [currPage, setCurrPage] = useState<number>(1);
+  const [file, setFile] = useState<string | undefined>();
+
   const [scale, setScale] = useState<number>(1);
   const [rotation, setRotation] = useState<number>(0);
   const [renderedScale, setRenderedScale] = useState<number | null>(null);
@@ -38,6 +41,8 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
       .string()
       .refine((num) => Number(num) > 0 && Number(num) <= numPages!),
   });
+
+  
 
   type TCustomPageValidator = z.infer<typeof CustomPageValidator>;
 
@@ -57,6 +62,26 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
     setCurrPage(Number(page));
     setValue("page", String(page));
   };
+
+  useEffect(() => {
+    if(url) {
+      const getPdf = async () => {
+        const response = await axios.get(url,  {
+          responseType: 'arraybuffer',
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        })
+        const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
+        const pdfUrl = URL.createObjectURL(pdfBlob);
+        setFile(pdfUrl)
+      }
+      getPdf()
+    }
+  }, [url])
+  
 
   return (
     <div className="w-full min-w-fit bg-white rounded-md shadow flex flex-col items-center">
@@ -128,7 +153,8 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
           className="max-h-[calc(100vh-10rem)] min-w-full"
         >
           <div ref={ref} className="min-w-full">
-            <Document
+            {file ? <Document
+              externalLinkRel=""
               loading={
                 <div className="flex justify-center w-full">
                   <Loader2 className="my-24 h-6 w-6 animate-spin text-primary" />
@@ -140,7 +166,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
                 });
               }}
               onLoadSuccess={({ numPages }) => setNumPages(numPages)}
-              file={url}
+              file={file}
               className="max-h-fit"
             >
               {isLoading && renderedScale ? (
@@ -170,7 +196,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
                 }
                 onRenderSuccess={() => setRenderedScale(scale)}
               />
-            </Document>
+            </Document> : <Loader2 className="w-5 h-5 animate-spin" />}
           </div>
         </SimpleBar>
       </div>
