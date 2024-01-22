@@ -36,7 +36,7 @@ export const DeleteCollaborator = ({
     }
   };
 
-  const title =  <p className="font-normal inline">el colaborador de nombre:  <span className="font-bold "> {collaborator.name} {collaborator.lastname} </span></p>;
+  const title =  <p className="font-normal inline">el colaborador de nombre:  <span className="font-bold "> {collaborator.fullname} </span></p>;
 
   return (
     <div>

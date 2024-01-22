@@ -19,7 +19,7 @@ const CollaboratorPage = async () => {
       city: true,
     },
     orderBy: {
-      name: "asc",
+      fullname: "asc",
     },
   });
   return (

@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 
 
 
+
 export async function PATCH(req: Request, { params }: { params: { collaboratorId: string } }) {
     try {
         const session = await getServerSession(authOptions)
@@ -26,7 +27,7 @@ export async function PATCH(req: Request, { params }: { params: { collaboratorId
         return NextResponse.json(collaborator)
 
     } catch (error) {
-        console.log("[COURSES_ID]", error)
+        console.log("[COLLABORATOR_PATCH_ID]", error)
         return new NextResponse("Internal Errorr", { status: 500 })
     }
 }

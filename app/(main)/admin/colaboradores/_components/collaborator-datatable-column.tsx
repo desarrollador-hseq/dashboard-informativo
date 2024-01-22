@@ -5,12 +5,9 @@ import { ColumnDef } from "@tanstack/react-table";
 import {
   ArrowUpDown,
   Eye,
-  FileX,
-  Laptop,
   Link2,
   MoreHorizontal,
   Pencil,
-  School,
   X,
 } from "lucide-react";
 import { City } from "@prisma/client";
@@ -78,7 +75,7 @@ export const collaboratorColumns: ColumnDef<CollaboratorTableType>[] = [
     },
   },
   {
-    accessorKey: "name",
+    accessorKey: "fullname",
     header: ({ column }) => {
       return (
         <Button
@@ -86,20 +83,6 @@ export const collaboratorColumns: ColumnDef<CollaboratorTableType>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Nombres
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: "lastname",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Apellidos
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );

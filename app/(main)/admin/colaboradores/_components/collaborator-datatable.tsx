@@ -46,7 +46,7 @@ export function CollaboratorDataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const { data: session } = useSession();
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [itemFilter, setItemFilter] = useState("name");
+  const [itemFilter, setItemFilter] = useState("fullname");
   const [pageLoaded, setPageLoaded] = useState(false);
   const tableRef = useRef(null);
 
@@ -162,8 +162,7 @@ export function CollaboratorDataTable<TData, TValue>({
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="name">Nombres</SelectItem>
-                    <SelectItem value="lastname">Apellidos</SelectItem>
+                    <SelectItem value="fullname">Nombres</SelectItem>
                     <SelectItem value="numDoc">N° documento</SelectItem>
                     <SelectItem value="city">Ciudad</SelectItem>
                     <SelectItem value="percentage">Evaluacion</SelectItem>

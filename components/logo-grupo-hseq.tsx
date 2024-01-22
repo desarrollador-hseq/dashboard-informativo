@@ -27,7 +27,7 @@ export const LogoGrupoHseq = ({ goRoot, className, height=40, width=65 }: { goRo
       alt="logo de Grupo HSEQ"
       height={height}
       width={width}
-      style={{ width: '80%', height: 'auto' }}
+      style={{ width: '70%', height: 'auto' }}
     />
   );
 };

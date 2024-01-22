@@ -58,14 +58,8 @@ interface AddCollaboratorFormProps {
 }
 
 const formSchema = z.object({
-  name: z.string().min(1, {
+  fullname: z.string().min(1, {
     message: "Nombre requerido",
-  }),
-  lastname: z.string().min(1, {
-    message: "Apellido requerido",
-  }),
-  docType: z.string().min(1, {
-    message: "Tipo de documento requerido",
   }),
   numDoc: z.string().min(1, {
     message: "Número de documento requerido",
@@ -101,9 +95,7 @@ export const AddCollaboratorForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: collaborator?.name || "",
-      lastname: collaborator?.lastname || "",
-      docType: collaborator?.docType || "",
+      fullname: collaborator?.fullname || "",
       numDoc: collaborator?.numDoc || "",
       cityId: collaborator?.cityId || "",
       startDate: collaborator?.startDate || undefined,
@@ -160,7 +152,7 @@ export const AddCollaboratorForm = ({
       setValue("startDate", date.from!, { shouldValidate: true });
       setValue("endDate", date.to!, { shouldValidate: true });
     }
-  }, [calendarOpen, setDate]);
+  }, [calendarOpen, setDate, date?.from, date?.to, setValue]);
 
   const handleCityChange = (event: string) => {
     const selectedCityId = event;
@@ -181,7 +173,7 @@ export const AddCollaboratorForm = ({
                 <p>
                   Editar usuario:{" "}
                   <span className="font-semibold text-lg text-primary/70">
-                    {collaborator?.name} {collaborator?.lastname}
+                    {collaborator?.fullname}
                   </span>
                 </p>
               </>
@@ -205,33 +197,16 @@ export const AddCollaboratorForm = ({
               <div>
                 <FormField
                   control={form.control}
-                  name="name"
+                  name="fullname"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-bold" htmlFor="name">
-                        Nombres
+                      <FormLabel className="font-bold" htmlFor="fullName">
+                        Nombre completo
                       </FormLabel>
 
                       <FormControl>
-                        <Input id="name" disabled={isSubmitting} {...field} />
-                      </FormControl>
-                      <FormMessage className="ml-6 text-[0.8rem] text-red-500 font-medium" />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div>
-                <FormField
-                  control={form.control}
-                  name="lastname"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-bold" htmlFor="lastname">
-                        Apellidos
-                      </FormLabel>
-                      <FormControl>
                         <Input
-                          id="lastname"
+                          id="fullName"
                           disabled={isSubmitting}
                           {...field}
                         />
@@ -241,42 +216,7 @@ export const AddCollaboratorForm = ({
                   )}
                 />
               </div>
-              <div>
-                <FormField
-                  control={form.control}
-                  name="docType"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Tipo de documento</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="bg-slate-100 border-slate-300">
-                            <SelectValue
-                              className="text-red-500"
-                              placeholder="Selecciona el tipo de documento"
-                            />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="CC">
-                            Cédula de Ciudadanía
-                          </SelectItem>
-                          <SelectItem value="CE">
-                            Cédula de Extranjería
-                          </SelectItem>
-                          <SelectItem value="TI">
-                            Tarjeta de Identidad
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage className="ml-6 text-[0.8rem] text-red-500 font-medium" />
-                    </FormItem>
-                  )}
-                />
-              </div>
+
               <div>
                 <FormField
                   control={form.control}

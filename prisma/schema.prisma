@@ -31,9 +31,7 @@ enum Role {
 model Collaborator {
   id String @id @default(uuid())
 
-  name     String
-  lastname String?
-  docType  DocType @default(CC)
+  fullname     String
   numDoc   String
 
   startDate  DateTime
@@ -92,12 +90,6 @@ model FormationParameters {
   threshold Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-enum DocType {
-  CC
-  TI
-  CE
 }
 
 model Inspection {
