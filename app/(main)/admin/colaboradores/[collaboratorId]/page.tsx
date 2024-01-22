@@ -23,7 +23,11 @@ const CreateCollaborator = async ({
     params.collaboratorId = "crear";
   }
 
-  const cities = await db.city.findMany({});
+  const cities = await db.city.findMany({
+    orderBy: {
+      realName: "asc",
+    },
+  });
 
   return (
     <div className="h-fit">
@@ -95,7 +99,10 @@ const CreateCollaborator = async ({
                         />
                       </div>
                       <div>
-                        <ArchivesLinkForm archivesLink={collaborator.archivesLink} collaboratorId={collaborator.id} />
+                        <ArchivesLinkForm
+                          archivesLink={collaborator.archivesLink}
+                          collaboratorId={collaborator.id}
+                        />
                       </div>
                     </CardContent>
                   </Card>
