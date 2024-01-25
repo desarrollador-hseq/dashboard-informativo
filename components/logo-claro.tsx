@@ -21,12 +21,16 @@ export const LogoClaro = ({ goRoot, className, height=20, width=50 }: { goRoot?:
 
   return (
     <Image
-      className={cn(goRoot && "cursor-pointer" , className)}
+      className={cn("inline",goRoot && "cursor-pointer" , className)}
       onClick={navigate}
       src="/logo-claro.png"
       alt="logo de Claro"
       height={height}
       width={width}
+      style={{
+        width: 'auto',
+        height: 'auto',
+      }}
     />
   );
 };

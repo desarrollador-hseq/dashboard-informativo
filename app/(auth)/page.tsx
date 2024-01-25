@@ -4,12 +4,13 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { LoginForm } from "./_components/login-form";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { LogoGrupoHseq } from "@/components/logo-grupo-hseq";
+import { TitleApp } from "@/components/title-app";
 
 export default async function LoginPage() {
   const session = await getServerSession(authOptions);
 
   if (session && session.user?.role) {
-    console.log(session.user.role)
+    console.log(session.user.role);
     redirect("/dashboard");
   }
 
@@ -19,12 +20,15 @@ export default async function LoginPage() {
         <div className="mx-auto w-full max-w-[1500px] mt-1">
           <div className="mx-3 flex items-center justify-between">
             <div className="p-2 flex gap-1">
-              <LogoGrupoHseq  />
+              <LogoGrupoHseq />
             </div>
           </div>
         </div>
       </div>
-      <div className="container w-full flex items-start justify-center pt-14 h-fit">
+      <div className="container w-full flex flex-col items-center justify-start pt-14 h-fit">
+        <div className="mb-4">
+          <TitleApp />
+        </div>
         <Card className="p-3 w-[350px] space-y-4 md:space-y-6 rounded-sm">
           <CardHeader>
             <h1 className="text-2xl  font-bold leading-tight tracking-tight text-slate-500 text-center dark:text-white">

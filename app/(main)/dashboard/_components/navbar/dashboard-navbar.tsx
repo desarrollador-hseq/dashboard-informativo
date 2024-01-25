@@ -6,6 +6,7 @@ import { LogoGrupoHseq } from "@/components/logo-grupo-hseq";
 import { DashboardSidebar } from "./dashboard-sidebar";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Button } from "@/components/ui/button";
+import { TitleApp } from "@/components/title-app";
 
 export const DashboardNavbar = async () => {
   const session = await getServerSession(authOptions);
@@ -19,6 +20,8 @@ export const DashboardNavbar = async () => {
             <LogoGrupoHseq goRoot className="flex" />
             {/* <LogoClaro goRoot className="flex" /> */}
           </div>
+
+          <TitleApp isNav={true} />
 
           {session && session.user.role === "ADMIN" && (
             <div className="hidden md:flex ">
