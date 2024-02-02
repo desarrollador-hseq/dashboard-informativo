@@ -110,9 +110,18 @@ export const AddCollaboratorForm = ({
   const { setValue, setError } = form;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const { fullname, numDoc, ...valuesRes } = values;
+    const fullnameClean = fullname.trim();
+    const numDocClean = numDoc.replaceAll(".", "").trim();
+  setValue("fullname", fullnameClean, {shouldValidate: true});
+   setValue("numDoc", numDocClean, {shouldValidate: true});
     try {
       if (isEdit) {
-        await axios.patch(`/api/collaborators/${collaborator?.id}`, values);
+        await axios.patch(`/api/collaborators/${collaborator?.id}`, {
+          ...valuesRes,
+          fullname: fullnameClean,
+          numDoc: numDocClean,
+        });
         toast.success("Colaborador actualizado");
       } else {
         const { data } = await axios.post(`/api/collaborators/`, values);
