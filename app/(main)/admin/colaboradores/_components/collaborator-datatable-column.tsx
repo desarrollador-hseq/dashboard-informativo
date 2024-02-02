@@ -43,7 +43,6 @@ const isPdf = (value: string) => {
     ? urlParcial?.split(".").pop()
     : undefined;
   const ispdf = fileExt === "pdf";
-  console.log({ fileExt });
   return ispdf;
 };
 
@@ -238,7 +237,7 @@ export const collaboratorColumns: ColumnDef<
         >
           {win ? (
             <div>
-              <SimpleModal textBtn="abrir" title="Certificado de">
+              <SimpleModal btnClass="p-0 h-5 flex items-center bg-blue-500 hover:bg-blue-700" textBtn={<Eye className="w-4 h-4 text-white" />} title="Certificado">
                 <GenerateCertificate collaborator={row.original} />
               </SimpleModal>
             </div>
