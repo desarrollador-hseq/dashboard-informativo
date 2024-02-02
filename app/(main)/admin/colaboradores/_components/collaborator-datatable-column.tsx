@@ -10,7 +10,7 @@ import {
   Pencil,
   X,
 } from "lucide-react";
-import { City } from "@prisma/client";
+import { City, Collaborator } from "@prisma/client";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenuContent,
@@ -22,6 +22,8 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import PdfFullscreen from "@/components/pdf-fullscreen";
 import ModalImage from "react-modal-image";
+import { SimpleModal } from "@/components/simple-modal";
+import { GenerateCertificate } from "../[collaboratorId]/_components/generate-certificate";
 
 interface CollaboratorTableProps {
   id: string;
@@ -45,7 +47,9 @@ const isPdf = (value: string) => {
   return ispdf;
 };
 
-export const collaboratorColumns: ColumnDef<CollaboratorTableType>[] = [
+export const collaboratorColumns: ColumnDef<
+  Collaborator & { city: { realName: string | undefined } | null }
+>[] = [
   {
     accessorKey: "isVirtual",
     header: ({ column }) => {
@@ -222,36 +226,21 @@ export const collaboratorColumns: ColumnDef<CollaboratorTableType>[] = [
     },
     accessorFn: (value) => value.certificateUrl,
     cell: ({ row }) => {
-      const url = row.original.certificateUrl;
-      const existUrl = !!url;
+      const percentage = row.original.percentage;
+      const win = percentage >= 80;
 
       return (
         <Badge
           className={cn(
             "bg-inherit hover:bg-inherit",
-            existUrl && "bg-blue-500 hover:bg-blue-700"
+            win && "bg-blue-500 hover:bg-blue-700"
           )}
         >
-          {existUrl ? (
+          {win ? (
             <div>
-              {isPdf(url) ? (
-                <PdfFullscreen
-                  icon={Eye}
-                  fileUrl={url}
-                  btnClass="p-0 h-fit hover:bg-blue-700"
-                />
-              ) : (
-                <div style={{ width: "15px", height: "15px" }}>
-                  <ModalImage
-                    showRotate
-                    small={
-                      "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNSIgaGVpZ2h0PSIyNSIgdmlld0JveD0iMCAwIDI1NiAyNTYiPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik0yNTEgMTIzLjEzYy0uMzctLjgxLTkuMTMtMjAuMjYtMjguNDgtMzkuNjFDMTk2LjYzIDU3LjY3IDE2NCA0NCAxMjggNDRTNTkuMzcgNTcuNjcgMzMuNTEgODMuNTJDMTQuMTYgMTAyLjg3IDUuNCAxMjIuMzIgNSAxMjMuMTNhMTIuMDggMTIuMDggMCAwIDAgMCA5Ljc1Yy4zNy44MiA5LjEzIDIwLjI2IDI4LjQ5IDM5LjYxQzU5LjM3IDE5OC4zNCA5MiAyMTIgMTI4IDIxMnM2OC42My0xMy42NiA5NC40OC0zOS41MWMxOS4zNi0xOS4zNSAyOC4xMi0zOC43OSAyOC40OS0zOS42MWExMi4wOCAxMi4wOCAwIDAgMCAuMDMtOS43NW0tNDYuMDYgMzNDMTgzLjQ3IDE3Ny4yNyAxNTcuNTkgMTg4IDEyOCAxODhzLTU1LjQ3LTEwLjczLTc2LjkxLTMxLjg4QTEzMC4zNiAxMzAuMzYgMCAwIDEgMjkuNTIgMTI4YTEzMC40NSAxMzAuNDUgMCAwIDEgMjEuNTctMjguMTFDNzIuNTQgNzguNzMgOTguNDEgNjggMTI4IDY4czU1LjQ2IDEwLjczIDc2LjkxIDMxLjg5QTEzMC4zNiAxMzAuMzYgMCAwIDEgMjI2LjQ4IDEyOGExMzAuNDUgMTMwLjQ1IDAgMCAxLTIxLjU3IDI4LjEyWk0xMjggODRhNDQgNDQgMCAxIDAgNDQgNDRhNDQuMDUgNDQuMDUgMCAwIDAtNDQtNDRtMCA2NGEyMCAyMCAwIDEgMSAyMC0yMGEyMCAyMCAwIDAgMS0yMCAyMCIvPjwvc3ZnPg=="
-                    }
-                    color="white"
-                    large={url}
-                  />
-                </div>
-              )}
+              <SimpleModal textBtn="abrir" title="Certificado de">
+                <GenerateCertificate collaborator={row.original} />
+              </SimpleModal>
             </div>
           ) : (
             <X className="w-4 h-4 text-slate-300" />

@@ -13,8 +13,8 @@ import { ClientCookiesProvider } from "@/components/providers/cookies-provider";
 import { NextAuthProvider } from "@/components/providers/nextauth-provider";
 
 export const metadata: Metadata = {
-  title: "Dashboard",
-  description: "Dashboard sobre el avance del proyecto",
+  title: "Dashboard Claro - electrico | GrupoHSEQ",
+  description: "Dashboard - avances del proyecto claro - electrico",
 };
 
 export default function RootLayout({

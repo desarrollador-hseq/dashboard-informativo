@@ -149,7 +149,7 @@ export const FileUploadForm = ({
   };
 
   return (
-    <Card className="mt-6 bg-slate-200 rounded-md p-1 border border-primary/20  overflow-hidden">
+    <Card className="mt-6 bg-slate-200 rounded-md p-1 border border-primary/20 overflow-hidden">
       <CardHeader className="bg-slate-100 rounded-sm shadow-sm border border-slate-300">
         <div className="font-medium flex items-center justify-between">
           <h3 className="font-semibold text-lg text-primary/80 ml-2">

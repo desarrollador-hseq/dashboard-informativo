@@ -1,12 +1,13 @@
 import React from "react";
 import { db } from "@/lib/db";
+import { Info, LockKeyhole } from "lucide-react";
 import { AddCollaboratorForm } from "./_components/add-collaborator-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FileUploadForm } from "@/components/file-upload-form";
 import { Card, CardContent } from "@/components/ui/card";
-import { Info, LockKeyhole } from "lucide-react";
 import { TooltipInfo } from "@/components/tooltip-info";
 import { ArchivesLinkForm } from "./_components/archives-link-form";
+import { GenerateCertificate } from "./_components/generate-certificate";
 
 const CreateCollaborator = async ({
   params,
@@ -16,6 +17,13 @@ const CreateCollaborator = async ({
   const collaborator = await db.collaborator.findUnique({
     where: {
       id: params.collaboratorId,
+    },
+    include: {
+      city: {
+        select: {
+          realName: true,
+        },
+      },
     },
   });
 
@@ -32,7 +40,7 @@ const CreateCollaborator = async ({
   return (
     <div className="h-fit">
       {collaborator ? (
-        <div className="w-full ">
+        <div className="w-full flex flex-col gap-5">
           <Tabs
             defaultValue="info"
             className="w-full flex flex-col items-center "
@@ -62,7 +70,7 @@ const CreateCollaborator = async ({
                   ) : (
                     <div />
                   )}
-                  Archivos
+                  Evidencias
                   <div />
                 </div>
               </TabsTrigger>
@@ -83,22 +91,11 @@ const CreateCollaborator = async ({
                           apiUrl={`/api/collaborators/${
                             collaborator!.id
                           }/upload`}
-                          field="certificateUrl"
-                          label="Certificado"
-                          file={collaborator!.certificateUrl}
-                          ubiPath="colaboradores/certificados"
-                        />
-                        <FileUploadForm
-                          apiUrl={`/api/collaborators/${
-                            collaborator!.id
-                          }/upload`}
                           field="evaluationUrl"
                           label="Registro de evaluación"
                           file={collaborator!.evaluationUrl}
                           ubiPath="colaboradores/evaluaciones"
                         />
-                      </div>
-                      <div>
                         <ArchivesLinkForm
                           archivesLink={collaborator.archivesLink}
                           collaboratorId={collaborator.id}
@@ -110,6 +107,9 @@ const CreateCollaborator = async ({
               </div>
             </TabsContent>
           </Tabs>
+          {collaborator.percentage >= 80 && (
+            <GenerateCertificate collaborator={collaborator} />
+          )}
         </div>
       ) : (
         <AddCollaboratorForm cities={cities} />
