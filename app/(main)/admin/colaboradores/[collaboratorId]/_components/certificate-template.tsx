@@ -255,13 +255,13 @@ export const CertificateTemplate = ({
               <View>
                 <Image
                   style={{
-                    width: 160,
-                    height: 70,
+                    width: 130,
+                    height: 28,
                     position: "absolute",
-                    top: -45,
-                    left: 80,
+                    top: -25,
+                    left: 94,
                   }}
-                  src={`/jose-firma.png`}
+                  src={`/jose-firma2.png`}
                 />
                 <Text style={{ fontWeight: "semibold", fontSize: 16 }}>
                   JOSE CRISTANCHO DURAN Ing. Área electrotecnia
