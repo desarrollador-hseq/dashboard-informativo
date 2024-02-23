@@ -264,7 +264,7 @@ export const CertificateTemplate = ({
                   src={`/jose-firma2.png`}
                 />
                 <Text style={{ fontWeight: "semibold", fontSize: 16 }}>
-                  JOSE CRISTANCHO DURAN Ing. Área electrotecnia
+                  JOSE CRISTANCHO DURAN Ing. Electromecánico
                 </Text>
               </View>
               <Text style={{ fontSize: 12, fontWeight: "semibold" }}>
