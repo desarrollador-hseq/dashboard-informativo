@@ -13,11 +13,10 @@ export async function GET(
         numDoc: docId,
         active: true,
       },
-      select: {
-        fullname: true,
-        certificateUrl: true,
-        numDoc: true,
+      include: {
+        city: true,
       },
+    
     });
 
     return NextResponse.json(collaborator);

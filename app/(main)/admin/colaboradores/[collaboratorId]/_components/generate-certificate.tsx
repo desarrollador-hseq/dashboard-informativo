@@ -19,11 +19,13 @@ export const GenerateCertificate = ({
     city: { realName: string | undefined } | null;
   };
 }) => {
-  const endDateFormated = format(collaborator.endDate, "PPP", { locale: es });
+  console.log({collaboratorsdf: collaborator.endDate})
+
   const path = usePathname();
   const lastPath = path.split("/").pop();
   const [isClient, setIsClient] = useState(false);
   const isRoot = useMemo(() => lastPath === "dashboard", [lastPath]);
+  const [endDateformat, setEndDateFormat] = useState(format(new Date(collaborator.endDate), "PPP", {locale: es}))
 
   const nameandNumFormated = `${
     collaborator.numDoc
@@ -45,7 +47,7 @@ export const GenerateCertificate = ({
                     collaboratorName={collaborator.fullname}
                     city={collaborator.city?.realName}
                     collaboratorDoc={collaborator.numDoc}
-                    endDate={endDateFormated}
+                    endDate={endDateformat}
                   />
                 }
                 fileName={`${nameandNumFormated}`}
@@ -85,7 +87,7 @@ export const GenerateCertificate = ({
                 collaboratorName={collaborator.fullname}
                 city={collaborator.city?.realName}
                 collaboratorDoc={collaborator.numDoc}
-                endDate={endDateFormated}
+                endDate={endDateformat}
               />
             </PDFViewer>
           )}

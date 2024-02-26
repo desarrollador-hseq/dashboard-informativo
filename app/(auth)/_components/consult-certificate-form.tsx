@@ -1,6 +1,8 @@
 "use client";
 
+import { GenerateCertificate } from "@/app/(main)/admin/colaboradores/[collaboratorId]/_components/generate-certificate";
 import PdfFullscreen from "@/components/pdf-fullscreen";
+import { SimpleModal } from "@/components/simple-modal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Collaborator } from "@prisma/client";
+import { City, Collaborator } from "@prisma/client";
 import axios from "axios";
 import { Ban, Eye, Loader2, X } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -32,7 +34,7 @@ const formSchema = z.object({
 export const ConsultCertificateForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [consulted, setConsulted] = useState(false);
-  const [collaborator, setCollaborator] = useState<Collaborator | null>();
+  const [collaborator, setCollaborator] = useState<Collaborator & {city: City} | null>();
 
   const router = useRouter();
 
@@ -52,7 +54,6 @@ export const ConsultCertificateForm = () => {
       );
 
       setCollaborator(data);
-      console.log({ data });
 
       router.refresh();
     } catch (error) {
@@ -126,7 +127,14 @@ export const ConsultCertificateForm = () => {
                     <p className="w-full border-2 border-b-primary h-[50%] text-sm p-2 font-bold text-center ">
                       Certificado
                     </p>
-                    <Badge
+                    <SimpleModal
+                      btnClass="p-3 h-5 mt-1 flex items-center bg-blue-500 hover:bg-blue-700"
+                      textBtn={<Eye className="w-4 h-4 text-white" />}
+                      title="Certificado"
+                    >
+                      <GenerateCertificate collaborator={collaborator} />
+                    </SimpleModal>
+                    {/* <Badge
                       className={cn(
                         "bg-inherit hover:bg-inherit max-w-[30px] flex justify-center items-center mt-2",
                         collaborator.certificateUrl &&
@@ -157,7 +165,7 @@ export const ConsultCertificateForm = () => {
                       ) : (
                         <X className="w-4 h-4 text-slate-300" />
                       )}
-                    </Badge>
+                    </Badge> */}
                   </div>
                 </div>
               )
