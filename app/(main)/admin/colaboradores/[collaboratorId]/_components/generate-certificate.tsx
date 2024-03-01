@@ -19,17 +19,19 @@ export const GenerateCertificate = ({
     city: { realName: string | undefined } | null;
   };
 }) => {
-  console.log({collaboratorsdf: collaborator.endDate})
+  console.log({ collaboratorsdf: collaborator.endDate });
 
   const path = usePathname();
   const lastPath = path.split("/").pop();
   const [isClient, setIsClient] = useState(false);
   const isRoot = useMemo(() => lastPath === "dashboard", [lastPath]);
-  const [endDateformat, setEndDateFormat] = useState(format(new Date(collaborator.endDate), "PPP", {locale: es}))
+  const [endDateformat, setEndDateFormat] = useState(
+    format(new Date(collaborator.endDate), "PPP", { locale: es })
+  );
 
-  const nameandNumFormated = `${
+  const nameandNumFormated = `${collaborator.fullname.replace(" ", "-")}-${
     collaborator.numDoc
-  }-${collaborator.fullname.replace(" ", "-")}`;
+  }`;
 
   useEffect(() => {
     setIsClient(true);
