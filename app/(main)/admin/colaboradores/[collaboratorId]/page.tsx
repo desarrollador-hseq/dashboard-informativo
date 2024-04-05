@@ -33,6 +33,9 @@ const CreateCollaborator = async ({
   }
 
   const cities = await db.city.findMany({
+    where: {
+      active: true,
+    },
     orderBy: {
       realName: "asc",
     },
