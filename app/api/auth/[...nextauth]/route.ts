@@ -12,7 +12,7 @@ declare module 'next-auth' {
       role: Role;
       createdAt: Date;
       updatedAt: Date;
-      // No incluyas 'password' aquí si no quieres que esté en la sesión
+   
     }
 
     interface Session {

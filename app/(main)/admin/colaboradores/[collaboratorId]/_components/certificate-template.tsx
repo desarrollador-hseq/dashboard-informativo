@@ -8,8 +8,6 @@ import {
   View,
   Image,
   Font,
-  Link,
-  PDFDownloadLink,
 } from "@react-pdf/renderer";
 
 Font.register({

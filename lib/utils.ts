@@ -22,3 +22,14 @@ export function capitalizeFirstLetter(string: string): string {
 export const formatDate = (date: Date): string => {
   return format(date, "dd 'de' MMMM 'de' yyyy", { locale: es });
 };
+
+export const formatDateCert = (date: Date) => {
+  let formattedDate = format(date, "'día' dd' de' MMMM 'de' yyyy", {
+    locale: es,
+  });
+
+  if (date.getDate() === 1) {
+    formattedDate = formattedDate.replace("días", "día");
+  }
+  return formattedDate;
+};

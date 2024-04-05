@@ -46,6 +46,8 @@ model Collaborator {
   archivesLink String? @db.Text
 
   isVirtual Boolean @default(false)
+  byArl Boolean @default(false)
+
   active Boolean @default(true)
 
   createdAt DateTime @default(now())

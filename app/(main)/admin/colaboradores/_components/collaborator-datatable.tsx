@@ -35,6 +35,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FileDown, Loader2 } from "lucide-react";
 import { format } from "date-fns";
+import TableColumnFiltering from "@/components/table-column-filtering";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -181,14 +182,27 @@ export function CollaboratorDataTable<TData, TValue>({
                   >
                     {headerGroup.headers.map((header) => {
                       return (
-                        <TableHead key={header.id} className="text-white">
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
-                        </TableHead>
+                        <TableHead
+                      key={header.id}
+                      className="py-2 text-secondary-foreground"
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                      {header.column.getCanFilter() ? (
+                        <div className=" flex flex-col justify-around">
+                          <TableColumnFiltering
+                            column={header.column}
+                            table={table}
+                          />
+                        </div>
+                      ) : (
+                        <div className="h-6"></div>
+                      )}
+                    </TableHead>
                       );
                     })}
                   </TableRow>

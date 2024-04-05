@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { TooltipInfo } from "@/components/tooltip-info";
 import { ArchivesLinkForm } from "./_components/archives-link-form";
 import { GenerateCertificate } from "./_components/generate-certificate";
+import { GenerateCertificateBolivar } from "./_components/generate-certificate-bolivar";
 
 const CreateCollaborator = async ({
   params,
@@ -108,7 +109,13 @@ const CreateCollaborator = async ({
             </TabsContent>
           </Tabs>
           {collaborator.percentage >= 80 && (
-            <GenerateCertificate collaborator={collaborator} />
+            <div>
+              {!collaborator.byArl ? (
+                <GenerateCertificate collaborator={collaborator} />
+              ) : (
+                <GenerateCertificateBolivar collaborator={collaborator} />
+              )}
+            </div>
           )}
         </div>
       ) : (

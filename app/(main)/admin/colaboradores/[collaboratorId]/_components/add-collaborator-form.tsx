@@ -11,6 +11,7 @@ import {
   ThumbsUp,
   User,
   UserPlus,
+  Activity,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -72,6 +73,7 @@ const formSchema = z.object({
   }),
   certificateUrl: z.string().optional(),
   isVirtual: z.boolean().default(false),
+  byArl: z.boolean().default(false),
   // evaluationPass: z.boolean().default(false),
 });
 
@@ -103,6 +105,7 @@ export const AddCollaboratorForm = ({
       percentage: collaborator?.percentage || 0,
       certificateUrl: collaborator?.certificateUrl || undefined,
       isVirtual: collaborator?.isVirtual || undefined,
+      byArl: collaborator?.byArl || undefined,
       // evaluationPass: !!collaborator?.evaluationPass || false,
     },
   });
@@ -170,6 +173,9 @@ export const AddCollaboratorForm = ({
 
   const handleEvaluation = (e: CheckedState) => {
     setValue("isVirtual", !!e, { shouldValidate: true });
+  };
+  const handleArl = (e: CheckedState) => {
+    setValue("byArl", !!e, { shouldValidate: true });
   };
   return (
     <div className="max-w-[1500px] h-full mx-auto bg-white rounded-md shadow-sm overflow-y-hidden p-3">
@@ -341,69 +347,96 @@ export const AddCollaboratorForm = ({
                 />
               </div>
 
-              <div className="my-6 ">
-                <FormField
-                  control={form.control}
-                  name="isVirtual"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel className="font-bold" htmlFor="evaluationPass">
-                        ¿Modalidad virtual?
-                      </FormLabel>
-                      <div
-                        // onClick={() => handleEvaluation(!!!field.value)}
-                        className={cn(
-                          "w-full h-11 flex gap-3 justify-between items-center bg-slate-100 space-y-0 rounded-md border p-4 hover:cursor-pointer",
-                          field.value && "bg-green-600"
-                        )}
-                      >
-                        <div className="flex gap-4">
-                          <FormControl>
-                            <Checkbox
-                              checked={field.value || false}
-                              // onCheckedChange={field.onChange}
-                              onCheckedChange={(e) => handleEvaluation(e)}
-                              className={cn("")}
-                            />
-                          </FormControl>
-                          <span
-                            className={cn(
-                              "font-bold",
-                              field.value && "text-white"
-                            )}
-                          >
-                            {field.value ? "Sí" : "No"}
-                          </span>
+              <div className="my-6 flex border-2 p-2 gap-2">
+                {/* <div className="w-1/2">
+                  <FormField
+                    control={form.control}
+                    name="isVirtual"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel
+                          className="font-bold"
+                          htmlFor="evaluationPass"
+                        >
+                          ¿Modalidad virtual?
+                        </FormLabel>
+                        <div
+                          // onClick={() => handleEvaluation(!!!field.value)}
+                          className={cn(
+                            "w-full h-11 flex gap-3 justify-between items-center bg-slate-100 space-y-0 rounded-md border p-4 hover:cursor-pointer",
+                            field.value && "bg-blue-600"
+                          )}
+                        >
+                          <div className="flex gap-4">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value || false}
+                                // onCheckedChange={field.onChange}
+                                onCheckedChange={(e) => handleEvaluation(e)}
+                                className={cn("")}
+                              />
+                            </FormControl>
+                            <span
+                              className={cn(
+                                "font-semibold text-sm",
+
+                                field.value && "text-white"
+                              )}
+                            >
+                              {field.value
+                                ? "La formación es virtual"
+                                : "La Formación no es virtual"}
+                            </span>
+                          </div>
                         </div>
-                        <div className=" space-y-1 leading-none flex justify-between">
-                          <FormDescription
-                            className={`${field.value && "text-white"}`}
-                          >
-                            {!field.value ? (
-                              <span className="w-full flex gap-3 justify-between">
-                                <Backpack className="w-6 h-6 text-primary" />{" "}
-                              </span>
-                            ) : (
-                              <span className="w-full flex gap-3 justify-between">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="25"
-                                  height="25"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    className="fill-white"
-                                    d="M0 20v-2h2V3h20v15h2v2zm10-2h4v-1h-4zm-6-3h16V5H4zm8-5"
-                                  />
-                                </svg>
-                              </span>
-                            )}
-                          </FormDescription>
+                      </FormItem>
+                    )}
+                  />
+                </div> */}
+                <div className="w-full">
+                  <FormField
+                    control={form.control}
+                    name="byArl"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel
+                          className="font-bold"
+                          htmlFor="evaluationPass"
+                        >
+                          ¿Por ARL?
+                        </FormLabel>
+                        <div
+                          // onClick={() => handleEvaluation(!!!field.value)}
+                          className={cn(
+                            "w-full h-11 flex gap-3 justify-between items-center bg-slate-100 space-y-0 rounded-md border p-4 hover:cursor-pointer",
+                            field.value && "bg-green-600"
+                          )}
+                        >
+                          <div className="flex gap-4">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value || false}
+                                // onCheckedChange={field.onChange}
+                                onCheckedChange={(e) => handleArl(e)}
+                                className={cn("")}
+                              />
+                            </FormControl>
+                            <span
+                              className={cn(
+                                "font-semibold text-sm",
+                                field.value && "text-white"
+                              )}
+                            >
+                              {field.value
+                                ? "Este colaborador está por ARL"
+                                : "Este colaborador no está por ARL"}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    </FormItem>
-                  )}
-                />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
 
               <div className="mb-3">

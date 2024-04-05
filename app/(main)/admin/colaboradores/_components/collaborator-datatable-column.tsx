@@ -19,11 +19,12 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import PdfFullscreen from "@/components/pdf-fullscreen";
 import ModalImage from "react-modal-image";
 import { SimpleModal } from "@/components/simple-modal";
 import { GenerateCertificate } from "../[collaboratorId]/_components/generate-certificate";
+import { format } from "date-fns";
 
 interface CollaboratorTableProps {
   id: string;
@@ -33,6 +34,7 @@ interface CollaboratorTableProps {
   certificateUrl: string | null;
   archivesLink: string | null;
   isVirtual: boolean;
+  endDate: Date;
 }
 
 type CollaboratorTableType = CollaboratorTableProps;
@@ -50,29 +52,53 @@ export const collaboratorColumns: ColumnDef<
   Collaborator & { city: { realName: string | undefined } | null }
 >[] = [
   {
-    accessorKey: "isVirtual",
+    accessorKey: "virtual",
     header: ({ column }) => {
-      return <span> </span>;
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Virtual
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
     },
-    accessorFn: (value) => <div>`Si`</div>,
+    enableColumnFilter: false,
+    accessorFn: value => value.city?.realName === "Virtual",
     size: 5,
     cell: ({ row }) => {
-      const isVirtual = row.original.isVirtual;
+      const city = "" + (row.original.city?.realName);
+      const isVirtual = (city == "Virtual" ? "Sí" : "No" );
       return (
         <span className="capitalize w-20">
-          {isVirtual && (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="25"
-              height="25"
-              viewBox="0 0 24 24"
-            >
-              <path
-                className="fill-secondary"
-                d="M0 20v-2h2V3h20v15h2v2zm10-2h4v-1h-4zm-6-3h16V5H4zm8-5"
-              />
-            </svg>
-          )}
+           {isVirtual}
+        </span>
+      );
+    },
+  },
+  // ARL
+  {
+    accessorKey: "byArl",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          ARL
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    size: 5,
+    enableColumnFilter: false,
+    cell: ({ row }) => {
+      const byArl =  (row.original.byArl);
+      const isByArl = byArl ? "Sí" : "No"
+      return (
+        <span className="capitalize w-20">
+           {isByArl}
         </span>
       );
     },
@@ -125,7 +151,26 @@ export const collaboratorColumns: ColumnDef<
       return <span className="capitalize">{cityName}</span>;
     },
   },
-
+  {
+    accessorKey: "afd",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Capacitación
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+     accessorFn: (value) => value.endDate ? formatDate(value.endDate) : "Sin dato",
+    cell: ({ row }) => {
+      const date = row.original.endDate;
+     const dateFormated = date ? formatDate(date) : "Sin dato" ;
+      return <span className="">{dateFormated}</span>;
+    },
+  },
   {
     accessorKey: "percentage",
     header: ({ column }) => {
@@ -141,6 +186,7 @@ export const collaboratorColumns: ColumnDef<
     },
     id: "percentage",
     accessorFn: (value) => `${value.percentage}`,
+    enableColumnFilter: false,
     cell: ({ row }) => {
       const numPerc = row.getValue("percentage") || 0;
       const onFormation = numPerc === "0" ? true : false;
@@ -178,6 +224,7 @@ export const collaboratorColumns: ColumnDef<
     header: ({ column }) => {
       return <div>Evaluación</div>;
     },
+    enableColumnFilter: false,
     accessorFn: (value) => value.evaluationUrl,
     cell: ({ row }) => {
       const url = row.original.evaluationUrl;
@@ -223,6 +270,7 @@ export const collaboratorColumns: ColumnDef<
     header: ({ column }) => {
       return <div>Certificado</div>;
     },
+    enableColumnFilter: false,
     accessorFn: (value) => value.certificateUrl,
     cell: ({ row }) => {
       const percentage = row.original.percentage;
@@ -253,6 +301,7 @@ export const collaboratorColumns: ColumnDef<
     header: ({ column }) => {
       return <Button variant="ghost">Evidencias</Button>;
     },
+    enableColumnFilter: false,
     accessorFn: (value) => value.archivesLink,
     cell: ({ row }) => {
       const url = row.original.archivesLink;

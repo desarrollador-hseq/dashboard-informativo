@@ -1,6 +1,7 @@
 "use client";
 
 import { GenerateCertificate } from "@/app/(main)/admin/colaboradores/[collaboratorId]/_components/generate-certificate";
+import { GenerateCertificateBolivar } from "@/app/(main)/admin/colaboradores/[collaboratorId]/_components/generate-certificate-bolivar";
 import PdfFullscreen from "@/components/pdf-fullscreen";
 import { SimpleModal } from "@/components/simple-modal";
 import { Badge } from "@/components/ui/badge";
@@ -34,7 +35,9 @@ const formSchema = z.object({
 export const ConsultCertificateForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [consulted, setConsulted] = useState(false);
-  const [collaborator, setCollaborator] = useState<Collaborator & {city: City} | null>();
+  const [collaborator, setCollaborator] = useState<
+    (Collaborator & { city: City }) | null
+  >();
 
   const router = useRouter();
 
@@ -132,7 +135,13 @@ export const ConsultCertificateForm = () => {
                       textBtn={<Eye className="w-4 h-4 text-white" />}
                       title="Certificado"
                     >
-                      <GenerateCertificate collaborator={collaborator} />
+                      {!collaborator.byArl ? (
+                        <GenerateCertificate collaborator={collaborator} />
+                      ) : (
+                        <GenerateCertificateBolivar
+                          collaborator={collaborator}
+                        />
+                      )}
                     </SimpleModal>
                     {/* <Badge
                       className={cn(

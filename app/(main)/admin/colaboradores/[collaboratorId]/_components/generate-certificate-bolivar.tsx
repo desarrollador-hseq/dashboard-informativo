@@ -7,12 +7,13 @@ import { Collaborator } from "@prisma/client";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { Download, Loader2 } from "lucide-react";
-import { CertificateTemplate } from "./certificate-template";
+
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
+import { BolivarCertificateTemplate } from "./bolivar-certificate-template";
 
-export const GenerateCertificate = ({
+export const GenerateCertificateBolivar = ({
   collaborator,
 }: {
   collaborator: Collaborator & {
@@ -44,11 +45,12 @@ export const GenerateCertificate = ({
             {!isRoot && isClient && (
               <PDFDownloadLink
                 document={
-                  <CertificateTemplate
+                  <BolivarCertificateTemplate
                     collaboratorName={collaborator.fullname}
                     city={collaborator.city?.realName}
                     collaboratorDoc={collaborator.numDoc}
-                    endDate={endDateformat}
+                    endDate={collaborator.endDate}
+                    collaboratorByArl={collaborator.byArl}
                   />
                 }
                 fileName={`${nameandNumFormated}`}
@@ -84,11 +86,12 @@ export const GenerateCertificate = ({
         <CardContent>
           {isClient && (
             <PDFViewer className="w-full h-full min-h-screen">
-              <CertificateTemplate
+              <BolivarCertificateTemplate
                 collaboratorName={collaborator.fullname}
                 city={collaborator.city?.realName}
                 collaboratorDoc={collaborator.numDoc}
-                endDate={endDateformat}
+                endDate={collaborator.endDate}
+                collaboratorByArl={collaborator.byArl}
               />
             </PDFViewer>
           )}
