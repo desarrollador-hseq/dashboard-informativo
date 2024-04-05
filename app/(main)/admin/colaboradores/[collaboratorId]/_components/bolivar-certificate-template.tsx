@@ -62,6 +62,15 @@ export const BolivarCertificateTemplate = ({
 
   const dateParse = endDate ? new Date(endDate) : null
 
+  const numberWithCommas = (num: string) => {
+    // Verifica si number es una cadena de texto y conviértela a número
+    let number: number = 0;
+    if (typeof num === 'string' && num !== "") {
+      number = parseFloat(num);
+    }
+    return number ? number.toLocaleString() : ""
+  };
+
   return (
     <Document style={{ height: "100%", width: "100%" }}>
       <Page size="A4" orientation="landscape" style={styles.page}>
@@ -167,7 +176,7 @@ export const BolivarCertificateTemplate = ({
                   color: "#595959",
                 }}
               >
-                {collaboratorDoc}
+                {numberWithCommas(collaboratorDoc || "")}
               </Text>
             </View>
           </View>

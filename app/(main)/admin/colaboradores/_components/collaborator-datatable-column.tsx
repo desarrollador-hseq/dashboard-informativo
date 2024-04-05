@@ -57,6 +57,7 @@ export const collaboratorColumns: ColumnDef<
       return (
         <Button
           variant="ghost"
+          className=" text-xs"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Virtual
@@ -71,7 +72,7 @@ export const collaboratorColumns: ColumnDef<
       const city = "" + (row.original.city?.realName);
       const isVirtual = (city == "Virtual" ? "Sí" : "No" );
       return (
-        <span className="capitalize w-20">
+        <span className="capitalize w-[15px]">
            {isVirtual}
         </span>
       );
@@ -84,6 +85,7 @@ export const collaboratorColumns: ColumnDef<
       return (
         <Button
           variant="ghost"
+          className=" text-xs"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           ARL
@@ -97,7 +99,7 @@ export const collaboratorColumns: ColumnDef<
       const byArl =  (row.original.byArl);
       const isByArl = byArl ? "Sí" : "No"
       return (
-        <span className="capitalize w-20">
+        <span className="capitalize w-[15px]">
            {isByArl}
         </span>
       );
@@ -296,46 +298,46 @@ export const collaboratorColumns: ColumnDef<
       );
     },
   },
-  {
-    accessorKey: "archivesLink",
-    header: ({ column }) => {
-      return <Button variant="ghost">Evidencias</Button>;
-    },
-    enableColumnFilter: false,
-    accessorFn: (value) => value.archivesLink,
-    cell: ({ row }) => {
-      const url = row.original.archivesLink;
-      const existUrl = !!url;
+  // {
+  //   accessorKey: "archivesLink",
+  //   header: ({ column }) => {
+  //     return <Button variant="ghost">Evidencias</Button>;
+  //   },
+  //   enableColumnFilter: false,
+  //   accessorFn: (value) => value.archivesLink,
+  //   cell: ({ row }) => {
+  //     const url = row.original.archivesLink;
+  //     const existUrl = !!url;
 
-      return (
-        <Badge
-          className={cn(
-            "bg-inherit hover:bg-inherit",
-            existUrl && "bg-red-400 hover:bg-red-500"
-          )}
-        >
-          {existUrl ? (
-            <a
-              className={cn(
-                buttonVariants({
-                  className: "p-0 bg-inherit hover:bg-inherit w-full",
-                  variant: "ghost",
-                }),
-                "h-fit"
-              )}
-              href={url!}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Link2 className="w-4 h-4" />
-            </a>
-          ) : (
-            <X className="w-4 h-4 text-slate-300" />
-          )}
-        </Badge>
-      );
-    },
-  },
+  //     return (
+  //       <Badge
+  //         className={cn(
+  //           "bg-inherit hover:bg-inherit",
+  //           existUrl && "bg-red-400 hover:bg-red-500"
+  //         )}
+  //       >
+  //         {existUrl ? (
+  //           <a
+  //             className={cn(
+  //               buttonVariants({
+  //                 className: "p-0 bg-inherit hover:bg-inherit w-full",
+  //                 variant: "ghost",
+  //               }),
+  //               "h-fit"
+  //             )}
+  //             href={url!}
+  //             target="_blank"
+  //             rel="noopener noreferrer"
+  //           >
+  //             <Link2 className="w-4 h-4" />
+  //           </a>
+  //         ) : (
+  //           <X className="w-4 h-4 text-slate-300" />
+  //         )}
+  //       </Badge>
+  //     );
+  //   },
+  // },
   {
     id: "actions",
     cell: ({ row }) => {
