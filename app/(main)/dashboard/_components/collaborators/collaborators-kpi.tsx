@@ -25,6 +25,8 @@ export const CollaboratorsKpi = ({
   const formedCount = countFormedCollaborators();
   let PercentageFormed;
 
+  const checkedCertificates = collaborators.filter(col => col.checkCertificate === true)
+
   if (collaborators.length > 0) {
     PercentageFormed = (formedCount / collaborators.length) * 100;
   } else {
@@ -57,13 +59,24 @@ export const CollaboratorsKpi = ({
             </CardContent>
           </Card>
           {/* =============== 3 =============== */}
-          <Card className={` h-full md:col-span-2 ${collaborators.length > 0 ? "bg-secondary" : "bg-zinc-400"} rounded-lg text-white`}>
+          <Card className={` h-full  ${collaborators.length > 0 ? "bg-secondary" : "bg-zinc-400"} rounded-lg text-white`}>
             <CardHeader className="flex justify-center font-semibold ">
               <h4 className="text-center">Porcentaje de formación</h4>
             </CardHeader>
             <CardContent className="flex justify-center">
               <p className="text-4xl font-bold">
                 {PercentageFormed.toFixed(0)}%
+              </p>
+            </CardContent>
+          </Card>
+          {/* =============== 3 =============== */}
+          <Card className={` h-full  ${collaborators.length > 0 ? "bg-secondary" : "bg-zinc-400"} rounded-lg text-white`}>
+            <CardHeader className="flex justify-center font-semibold ">
+              <h4 className="text-center">Certificados descargados</h4>
+            </CardHeader>
+            <CardContent className="flex justify-center">
+              <p className="text-4xl font-bold">
+                {checkedCertificates.length}
               </p>
             </CardContent>
           </Card>
