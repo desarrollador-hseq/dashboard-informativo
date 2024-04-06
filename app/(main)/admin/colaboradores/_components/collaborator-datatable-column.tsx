@@ -11,7 +11,8 @@ import {
   X,
 } from "lucide-react";
 import { City, Collaborator } from "@prisma/client";
-import { Button, buttonVariants } from "@/components/ui/button";
+import ModalImage from "react-modal-image";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenuContent,
   DropdownMenu,
@@ -21,10 +22,10 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn, formatDate } from "@/lib/utils";
 import PdfFullscreen from "@/components/pdf-fullscreen";
-import ModalImage from "react-modal-image";
 import { SimpleModal } from "@/components/simple-modal";
 import { GenerateCertificate } from "../[collaboratorId]/_components/generate-certificate";
-import { format } from "date-fns";
+import { GenerateCertificateBolivar } from "../[collaboratorId]/_components/generate-certificate-bolivar";
+
 
 interface CollaboratorTableProps {
   id: string;
@@ -48,6 +49,7 @@ const isPdf = (value: string) => {
   return ispdf;
 };
 
+
 export const collaboratorColumns: ColumnDef<
   Collaborator & { city: { realName: string | undefined } | null }
 >[] = [
@@ -57,7 +59,7 @@ export const collaboratorColumns: ColumnDef<
       return (
         <Button
           variant="ghost"
-          className=" text-xs"
+          className="w-[10px] text-xs"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Virtual
@@ -72,7 +74,7 @@ export const collaboratorColumns: ColumnDef<
       const city = "" + (row.original.city?.realName);
       const isVirtual = (city == "Virtual" ? "Sí" : "No" );
       return (
-        <span className="capitalize w-[15px]">
+        <span className="capitalize w-[7px]">
            {isVirtual}
         </span>
       );
@@ -99,7 +101,7 @@ export const collaboratorColumns: ColumnDef<
       const byArl =  (row.original.byArl);
       const isByArl = byArl ? "Sí" : "No"
       return (
-        <span className="capitalize w-[15px]">
+        <span className="capitalize w-[7px]">
            {isByArl}
         </span>
       );
@@ -170,7 +172,7 @@ export const collaboratorColumns: ColumnDef<
     cell: ({ row }) => {
       const date = row.original.endDate;
      const dateFormated = date ? formatDate(date) : "Sin dato" ;
-      return <span className="">{dateFormated}</span>;
+      return <span className="text-xs">{dateFormated}</span>;
     },
   },
   {
@@ -287,8 +289,13 @@ export const collaboratorColumns: ColumnDef<
         >
           {win ? (
             <div>
-              <SimpleModal btnClass="p-0 h-5 flex items-center bg-blue-500 hover:bg-blue-700" textBtn={<Eye className="w-4 h-4 text-white" />} title="Certificado">
+              <SimpleModal  btnClass="p-0 h-5 flex items-center bg-blue-500 hover:bg-blue-700" textBtn={<Eye className="w-4 h-4 text-white" />} title="Certificado">
+               
+                {!row.original.byArl ? (
                 <GenerateCertificate collaborator={row.original} />
+              ) : (
+                <GenerateCertificateBolivar collaborator={row.original} />
+              )}
               </SimpleModal>
             </div>
           ) : (

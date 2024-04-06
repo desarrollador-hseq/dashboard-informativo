@@ -1,6 +1,7 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+
+
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -81,6 +82,8 @@ const ContentRegionalModal = ({
     let formadoCount = 0;
     let formacionCount = 0;
 
+    // console.log({collaborators: collaborators})
+
     collaborators.forEach(({ percentage }) => {
       // traer threshold de la db
       if (percentage === 80) {
@@ -89,7 +92,6 @@ const ContentRegionalModal = ({
         formacionCount += 1;
       }
     });
-
     return [formadoCount, formacionCount];
   };
 

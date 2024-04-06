@@ -1,10 +1,19 @@
 "use client";
 
+import React, { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { City, Collaborator } from "@prisma/client";
+import axios from "axios";
+import { Ban, Eye, Loader2, X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+
 import { GenerateCertificate } from "@/app/(main)/admin/colaboradores/[collaboratorId]/_components/generate-certificate";
 import { GenerateCertificateBolivar } from "@/app/(main)/admin/colaboradores/[collaboratorId]/_components/generate-certificate-bolivar";
-import PdfFullscreen from "@/components/pdf-fullscreen";
+
 import { SimpleModal } from "@/components/simple-modal";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,17 +23,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { City, Collaborator } from "@prisma/client";
-import axios from "axios";
-import { Ban, Eye, Loader2, X } from "lucide-react";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import ModalImage from "react-modal-image";
-import { toast } from "sonner";
-import { z } from "zod";
 
 const formSchema = z.object({
   numDoc: z.string().min(1, {
@@ -81,6 +79,17 @@ export const ConsultCertificateForm = () => {
     return ispdf;
   };
 
+  const checkedCertificate = async (id: string) => {
+    console.log({checkedCert: id})
+   try {
+    await axios.patch(`/api/collaborators/${id}`, {
+      checkCertificate: true,
+    });
+   } catch (error) {
+    console.log("errorr", error);
+   }
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-4">
@@ -134,6 +143,7 @@ export const ConsultCertificateForm = () => {
                       btnClass="p-3 h-5 mt-1 flex items-center bg-blue-500 hover:bg-blue-700"
                       textBtn={<Eye className="w-4 h-4 text-white" />}
                       title="Certificado"
+                      onAcept={() => checkedCertificate(collaborator.id)}
                     >
                       {!collaborator.byArl ? (
                         <GenerateCertificate collaborator={collaborator} />

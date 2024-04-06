@@ -83,7 +83,7 @@ export const CollaboratorsRegional = ({
       axisLabel: {
         formatter: (value: any) => Math.round(value),
       },
-      interval: 1,
+      show: false,
     },
 
     series: [

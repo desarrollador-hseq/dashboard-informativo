@@ -251,7 +251,7 @@ export const BolivarCertificateTemplate = ({
                 fontStyle: "italic",
               }}
             >
-              <Text>Olga Cecilia Hernández</Text>
+              <Text style={{textTransform: "uppercase"}}>Olga Cecilia Hernández</Text>
               <Text>Subgerente Nacional de Prevención y Bienestar</Text>
               <Text>Empresarial</Text>
             </View>

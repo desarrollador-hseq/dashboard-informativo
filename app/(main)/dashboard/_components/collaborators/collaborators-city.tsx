@@ -18,7 +18,6 @@ export const CollaboratorsCity = ({
     const cityData = collaborators.map((collaborator) => {
       const cityName = collaborator.city?.realName || "Desconocida";
 
-      
       return {
         cityName,
         count: 1, 
@@ -74,10 +73,10 @@ export const CollaboratorsCity = ({
     },
     yAxis: {
       type: "value",
+      show: false,
       axisLabel: {
         formatter: (value: any) => Math.round(value),
       },
-      interval: 1,
     },
   
     series: [

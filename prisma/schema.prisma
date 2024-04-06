@@ -48,6 +48,8 @@ model Collaborator {
   isVirtual Boolean @default(false)
   byArl Boolean @default(false)
 
+  checkCertificate Boolean @default(false)
+
   active Boolean @default(true)
 
   createdAt DateTime @default(now())

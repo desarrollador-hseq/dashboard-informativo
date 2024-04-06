@@ -139,7 +139,7 @@ export function CollaboratorDataTable<TData, TValue>({
       ) : (
         <div>
           <div className="flex items-center justify-between py-4">
-            <div className="flex gap-2 w-full">
+            {/* <div className="flex gap-2 w-full">
               <Input
                 placeholder={`Buscar`}
                 value={
@@ -170,7 +170,7 @@ export function CollaboratorDataTable<TData, TValue>({
                   </SelectGroup>
                 </SelectContent>
               </Select>
-            </div>
+            </div> */}
           </div>
           <div className="rounded-md border">
             <Table>
@@ -183,26 +183,26 @@ export function CollaboratorDataTable<TData, TValue>({
                     {headerGroup.headers.map((header) => {
                       return (
                         <TableHead
-                      key={header.id}
-                      className="py-2 text-secondary-foreground"
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
+                          key={header.id}
+                          className="py-2 text-white"
+                        >
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                          {header.column.getCanFilter() ? (
+                            <div className=" flex flex-col justify-around">
+                              <TableColumnFiltering
+                                column={header.column}
+                                table={table}
+                              />
+                            </div>
+                          ) : (
+                            <div className="h-6"></div>
                           )}
-                      {header.column.getCanFilter() ? (
-                        <div className=" flex flex-col justify-around">
-                          <TableColumnFiltering
-                            column={header.column}
-                            table={table}
-                          />
-                        </div>
-                      ) : (
-                        <div className="h-6"></div>
-                      )}
-                    </TableHead>
+                        </TableHead>
                       );
                     })}
                   </TableRow>

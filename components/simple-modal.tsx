@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface ConfirmModalProps {
@@ -18,6 +18,8 @@ interface ConfirmModalProps {
   title?: string;
   textBtn?: ReactNode;
   btnClass?: string;
+  onAcept?: () => void | Promise<void> | undefined;
+  onClose?: () => void | undefined;
 }
 
 export const SimpleModal = ({
@@ -25,11 +27,24 @@ export const SimpleModal = ({
   title,
   textBtn,
   btnClass,
+  onAcept,
+  onClose,
 }: ConfirmModalProps) => {
   const [open, setOpen] = useState(false);
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  useEffect(() => {
+    if (open === false) return;
+    onAcept && onAcept();
+  }, [open]);
+
+  const onClickAcept = () => {
+    setOpen(false);
+    onAcept && onAcept();
+    onClose && onClose();
   };
 
   return (
@@ -60,6 +75,17 @@ export const SimpleModal = ({
           </AlertDialogHeader>
           <AlertDialogDescription className="w-full"></AlertDialogDescription>
           <span className="w-full">{children}</span>
+          <AlertDialogFooter className="gap-3">
+            {onAcept && (
+              <Button
+                className="bg-zinc-400 hover:bg-zinc-600"
+                onClick={handleClose}
+              >
+                Cancelar
+              </Button>
+            )}
+            {onAcept && <Button onClick={onClickAcept}>Aceptar</Button>}
+          </AlertDialogFooter>
           <AlertDialogFooter></AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
