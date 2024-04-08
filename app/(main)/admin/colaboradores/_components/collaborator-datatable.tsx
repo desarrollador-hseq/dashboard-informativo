@@ -36,6 +36,7 @@ import { Input } from "@/components/ui/input";
 import { FileDown, Loader2 } from "lucide-react";
 import { format } from "date-fns";
 import TableColumnFiltering from "@/components/table-column-filtering";
+import { DataTablePagination } from "@/components/datatable-pagination";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -255,7 +256,9 @@ export function CollaboratorDataTable<TData, TValue>({
                 </DownloadTableExcel>
               </div>
 
-              <div className="flex gap-2">
+              <DataTablePagination table={table} />
+
+              {/* <div className="flex gap-2">
                 <Button
                   variant="outline"
                   size="sm"
@@ -272,7 +275,7 @@ export function CollaboratorDataTable<TData, TValue>({
                 >
                   Siguiente
                 </Button>
-              </div>
+              </div> */}
             </div>
           )}
         </div>

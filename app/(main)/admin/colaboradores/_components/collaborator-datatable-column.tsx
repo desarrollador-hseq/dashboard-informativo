@@ -129,7 +129,7 @@ export const collaboratorColumns: ColumnDef<
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          N° documento
+          Documento
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
