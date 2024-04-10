@@ -237,11 +237,11 @@ export const BolivarCertificateTemplate = ({
             >
                 <Image
                   style={{
-                    width: 100,
-                    height: 27,
+                    width: 130,
+                    height: 37,
                     position: "absolute",
-                    top: -25,
-                    left: 45,
+                    top: -32,
+                    left: 37,
                   }}
                   src={`/jose-firma2.png`}
                 />
