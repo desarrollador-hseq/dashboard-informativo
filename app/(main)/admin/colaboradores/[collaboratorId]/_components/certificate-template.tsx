@@ -250,7 +250,8 @@ export const CertificateTemplate = ({
                 height: "100%",
               }}
             >
-              <View>
+              <View >
+
                 <Image
                   style={{
                     width: 130,

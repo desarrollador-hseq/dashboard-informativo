@@ -235,7 +235,18 @@ export const BolivarCertificateTemplate = ({
                 fontStyle: "italic",
               }}
             >
+                <Image
+                  style={{
+                    width: 100,
+                    height: 27,
+                    position: "absolute",
+                    top: -25,
+                    left: 45,
+                  }}
+                  src={`/jose-firma2.png`}
+                />
               <Text style={{ color: "#595959" }}>JOSE CRISTANCHO DURAN</Text>
+            
               <Text>Grupo HSEQ Consultoría En Gestión</Text>
               <Text>Integral De Riesgo</Text>
             </View>
