@@ -113,7 +113,7 @@ export function CollaboratorDataTable<TData, TValue>({
 
   return (
     <div>
-      {/* <table ref={tableRef} style={{ display: "none" }}>
+      <table ref={tableRef} style={{ display: "none" }}>
         <thead>
           <tr>
             {exportColumns.map((item) => (
@@ -132,69 +132,18 @@ export function CollaboratorDataTable<TData, TValue>({
                     ? row[column.data]
                       ? "Sí"
                       : "No"
-                    : column.data === "virtual"
-                    ? row[column.data]
-                      ? "Sí"
-                      : "No"
-                    : column.data === "date"
-                    ? row[column.data]
-                      ?  row[column.data]
-                      : "No registrado"
-                    : row[column.data]}
+                    : column.data === "isVirtual" && row.city?.realName === "Virtual"
+                    ? "Sí"
+                    : column.data === "isVirtual" && row.city?.realName !== "Virtual"
+                    ? "No"
+                    : column.data === "endDate" ?  (row.endDate ? formatDate(row.endDate) : "")
+                    : row[column.data] ?? ""}
                 </td>
               ))}
             </tr>
           ))}
         </tbody>
-      </table> */}
-
-      <Table className="hidden" ref={tableRef}>
-        <TableHeader className="bg-secondary hover:bg-secondary">
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id} className=" hover:bg-secondary">
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead key={header.id} className="py-2 text-white">
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                );
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {row.getVisibleCells().map((cell) => {
-                  return (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  );
-                })}
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No hay resultados.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+      </table>
 
       {!pageLoaded ? (
         <div className="w-full min-h-screen flex justify-center items-start">
@@ -303,9 +252,9 @@ export function CollaboratorDataTable<TData, TValue>({
             <div className="flex items-center justify-between space-x-2 py-4">
               <div>
                 <DownloadTableExcel
-                  filename={`Colaboradores ${format(
+                  filename={`Colaboradores-${format(
                     new Date(),
-                    "dd/MM/yyyy-HH:mm:ss"
+                    "dd-MM-yyyy"
                   )}`}
                   sheet="colaboradores"
                   currentTableRef={tableRef.current}

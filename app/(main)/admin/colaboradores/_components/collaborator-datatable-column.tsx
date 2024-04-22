@@ -54,7 +54,7 @@ export const collaboratorColumns: ColumnDef<
   Collaborator & { city: { realName: string | undefined } | null }
 >[] = [
   {
-    accessorKey: "virtual",
+    accessorKey: "isVirtual",
     header: ({ column }) => {
       return (
         <Button
@@ -68,7 +68,7 @@ export const collaboratorColumns: ColumnDef<
       );
     },
     enableColumnFilter: false,
-    accessorFn: value => value.city?.realName === "Virtual" ? true : false,
+    accessorFn: value => value.city?.realName === "Virtual" ? "Sí" : "No",
     size: 5,
     cell: ({ row }) => {
       const city = "" + (row.original.city?.realName);
@@ -156,7 +156,7 @@ export const collaboratorColumns: ColumnDef<
     },
   },
   {
-    accessorKey: "date",
+    accessorKey: "endDate",
     header: ({ column }) => {
       return (
         <Button
