@@ -68,7 +68,7 @@ export const collaboratorColumns: ColumnDef<
       );
     },
     enableColumnFilter: false,
-    accessorFn: value => value.city?.realName === "Virtual",
+    accessorFn: value => value.city?.realName === "Virtual" ? true : false,
     size: 5,
     cell: ({ row }) => {
       const city = "" + (row.original.city?.realName);
@@ -156,7 +156,7 @@ export const collaboratorColumns: ColumnDef<
     },
   },
   {
-    accessorKey: "afd",
+    accessorKey: "date",
     header: ({ column }) => {
       return (
         <Button
@@ -168,7 +168,7 @@ export const collaboratorColumns: ColumnDef<
         </Button>
       );
     },
-     accessorFn: (value) => value.endDate ? formatDate(value.endDate) : "Sin dato",
+    accessorFn: (value) => value.endDate ? formatDate(value.endDate) : "Sin dato",
     cell: ({ row }) => {
       const date = row.original.endDate;
      const dateFormated = date ? formatDate(date) : "Sin dato" ;

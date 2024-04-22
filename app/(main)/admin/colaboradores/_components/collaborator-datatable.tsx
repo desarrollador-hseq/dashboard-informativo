@@ -37,6 +37,7 @@ import { FileDown, Loader2 } from "lucide-react";
 import { format } from "date-fns";
 import TableColumnFiltering from "@/components/table-column-filtering";
 import { DataTablePagination } from "@/components/datatable-pagination";
+import { formatDate } from "@/lib/utils";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -108,9 +109,11 @@ export function CollaboratorDataTable<TData, TValue>({
     setItemFilter(e);
   };
 
+  console.log({ exportColumns, filteredData });
+
   return (
     <div>
-      <table ref={tableRef} style={{ display: "none" }}>
+      {/* <table ref={tableRef} style={{ display: "none" }}>
         <thead>
           <tr>
             {exportColumns.map((item) => (
@@ -125,13 +128,73 @@ export function CollaboratorDataTable<TData, TValue>({
                 <td key={column.data}>
                   {column.data === "city"
                     ? row[column.data]?.realName || "Desconocida"
+                    : column.data === "byArl"
+                    ? row[column.data]
+                      ? "Sí"
+                      : "No"
+                    : column.data === "virtual"
+                    ? row[column.data]
+                      ? "Sí"
+                      : "No"
+                    : column.data === "date"
+                    ? row[column.data]
+                      ?  row[column.data]
+                      : "No registrado"
                     : row[column.data]}
                 </td>
               ))}
             </tr>
           ))}
         </tbody>
-      </table>
+      </table> */}
+
+      <Table className="hidden" ref={tableRef}>
+        <TableHeader className="bg-secondary hover:bg-secondary">
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id} className=" hover:bg-secondary">
+              {headerGroup.headers.map((header) => {
+                return (
+                  <TableHead key={header.id} className="py-2 text-white">
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                );
+              })}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => (
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
+              >
+                {row.getVisibleCells().map((cell) => {
+                  return (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={columns.length} className="h-24 text-center">
+                No hay resultados.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
 
       {!pageLoaded ? (
         <div className="w-full min-h-screen flex justify-center items-start">
@@ -183,10 +246,7 @@ export function CollaboratorDataTable<TData, TValue>({
                   >
                     {headerGroup.headers.map((header) => {
                       return (
-                        <TableHead
-                          key={header.id}
-                          className="py-2 text-white"
-                        >
+                        <TableHead key={header.id} className="py-2 text-white">
                           {header.isPlaceholder
                             ? null
                             : flexRender(

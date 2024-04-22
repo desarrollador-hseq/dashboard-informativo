@@ -16,7 +16,6 @@ export async function GET(
       include: {
         city: true,
       },
-    
     });
 
     return NextResponse.json(collaborator);

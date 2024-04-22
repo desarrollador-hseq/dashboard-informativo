@@ -5,7 +5,6 @@ import { db } from "@/lib/db";
 
 
 
-
 export async function PATCH(req: Request, { params }: { params: { collaboratorId: string } }) {
     try {
         // const session = await getServerSession(authOptions)
@@ -22,7 +21,6 @@ export async function PATCH(req: Request, { params }: { params: { collaboratorId
                 ...values
             }
         })
-
 
         return NextResponse.json(collaborator)
 
