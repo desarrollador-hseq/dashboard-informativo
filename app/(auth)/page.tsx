@@ -5,6 +5,7 @@ import { LoginForm } from "./_components/login-form";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { LogoGrupoHseq } from "@/components/logo-grupo-hseq";
 import { TitleApp } from "@/components/title-app";
+import { db } from "@/lib/db";
 
 export default async function LoginPage() {
   const session = await getServerSession(authOptions);
@@ -13,6 +14,15 @@ export default async function LoginPage() {
     console.log(session.user.role);
     redirect("/dashboard");
   }
+
+  const data = await db.city.findMany({
+    select: {
+      // id: true,
+      realName: true,
+    },
+  })
+
+  console.log({data})
 
   return (
     <div className="bg-slate-50 h-screen">
