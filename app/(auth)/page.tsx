@@ -11,18 +11,16 @@ export default async function LoginPage() {
   const session = await getServerSession(authOptions);
 
   if (session && session.user?.role) {
-    console.log(session.user.role);
+
     redirect("/dashboard");
   }
 
-  const data = await db.city.findMany({
-    select: {
-      // id: true,
-      realName: true,
-    },
-  })
-
-  console.log({data})
+  // const data = await db.city.findMany({
+  //   select: {
+  //     // id: true,
+  //     realName: true,
+  //   },
+  // });
 
   return (
     <div className="bg-slate-50 h-screen">

@@ -17,6 +17,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { Loading } from "@/components/loading";
 
 const formSchema = z.object({
   username: z.string().min(1, {
@@ -28,18 +29,22 @@ const formSchema = z.object({
 });
 
 export const LoginForm = () => {
+  const [isClient, setIsClient] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [viewPass, setViewPass] = useState(false);
 
   const router = useRouter();
   const toggleEdit = () => setIsEditing((current) => !current);
 
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: { username: "", password: "" },
   });
   const { isSubmitting, isValid } = form.formState;
-
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsEditing(true);
@@ -68,6 +73,13 @@ export const LoginForm = () => {
       setIsEditing(false);
     }
   };
+
+  if (!isClient)
+    return (
+      <div className="w-full h-full flex justify-center items-center">
+        <Loader2 className="w-7 h-7 animate-spin text-primary" />
+      </div>
+    );
 
   return (
     <Form {...form}>
@@ -106,11 +118,18 @@ export const LoginForm = () => {
                     {...field}
                   />
                 </FormControl>
-                  {
-                    field.value && <div onClick={() => setViewPass(!viewPass)} className="absolute top-1 right-2 ">
-                    {!viewPass ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
+                {field.value && (
+                  <div
+                    onClick={() => setViewPass(!viewPass)}
+                    className="absolute top-1 right-2 "
+                  >
+                    {!viewPass ? (
+                      <Eye className="w-5 h-5" />
+                    ) : (
+                      <EyeOff className="w-5 h-5" />
+                    )}
                   </div>
-                  }
+                )}
                 <FormMessage />
               </FormItem>
             )}

@@ -98,7 +98,11 @@ export const AddCollaboratorForm = ({
     resolver: zodResolver(formSchema),
     defaultValues: {
       fullname: collaborator?.fullname || "",
-      numDoc: collaborator?.numDoc || "",
+      numDoc: collaborator?.numDoc
+        ? new Intl.NumberFormat("es-ES").format(
+            Number(collaborator.numDoc.toString().replace(/\./g, ""))
+          )
+        : "",
       cityId: collaborator?.cityId || "",
       startDate: collaborator?.startDate || undefined,
       endDate: collaborator?.endDate || undefined,
@@ -178,7 +182,7 @@ export const AddCollaboratorForm = ({
     setValue("byArl", !!e, { shouldValidate: true });
   };
   return (
-    <div className="max-w-[1500px] h-full mx-auto bg-white rounded-md shadow-sm overflow-y-hidden p-3">
+    <div className="max-w-[1500px] h-full mx-auto bg-white rounded-md shadow-sm overflow-y-hidden p-3 ">
       <div className="flex justify-between items-center gap-x-2 bg-white">
         <div className="flex items-center">
           <IconBadge icon={isEdit ? User : UserPlus} />
@@ -223,6 +227,7 @@ export const AddCollaboratorForm = ({
                         <Input
                           id="fullName"
                           disabled={isSubmitting}
+                          className="text-lg font-semibold"
                           {...field}
                         />
                       </FormControl>
@@ -233,7 +238,7 @@ export const AddCollaboratorForm = ({
               </div>
 
               <div>
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="numDoc"
                   render={({ field }) => (
@@ -247,6 +252,81 @@ export const AddCollaboratorForm = ({
                       <FormMessage className="ml-6 text-[0.8rem] text-red-500 font-medium" />
                     </FormItem>
                   )}
+                /> */}
+                <FormField
+                  control={form.control}
+                  name="numDoc"
+                  render={({ field }) => {
+                    const [displayValue, setDisplayValue] = useState(
+                      field.value
+                        ? new Intl.NumberFormat("es-ES").format(
+                            Number(field.value.toString().replace(/\./g, ""))
+                          )
+                        : ""
+                    );
+
+                    return (
+                      <FormItem>
+                        <FormLabel>Número de Cédula</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="text"
+                            value={displayValue}
+                            className="text-lg font-semibold"
+                            onChange={(e) => {
+                              // Primero eliminamos todos los puntos del valor actual
+                              const rawValue = e.target.value.replace(
+                                /\./g,
+                                ""
+                              );
+
+                              // Verificamos si el valor limpio contiene solo dígitos
+                              if (/^\d*$/.test(rawValue)) {
+                                // Actualizamos el valor a mostrar con formato
+                                setDisplayValue(
+                                  rawValue
+                                    ? new Intl.NumberFormat("es-ES").format(
+                                        Number(rawValue)
+                                      )
+                                    : ""
+                                );
+
+                                // Guardamos el valor sin puntos en el formulario
+                                field.onChange(rawValue);
+                              }
+                            }}
+                            onPaste={(e) => {
+                              // Prevenimos el comportamiento por defecto
+                              e.preventDefault();
+
+                              // Obtenemos el texto pegado
+                              const pastedText =
+                                e.clipboardData.getData("text");
+
+                              // Eliminamos todos los puntos y otros caracteres no numéricos
+                              const cleanValue = pastedText.replace(
+                                /[^\d]/g,
+                                ""
+                              );
+
+                              // Si el valor limpio contiene solo dígitos, actualizamos
+                              if (/^\d*$/.test(cleanValue)) {
+                                setDisplayValue(
+                                  cleanValue
+                                    ? new Intl.NumberFormat("es-ES").format(
+                                        Number(cleanValue)
+                                      )
+                                    : ""
+                                );
+                                field.onChange(cleanValue);
+                              }
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
                 />
               </div>
               <div>
@@ -263,7 +343,7 @@ export const AddCollaboratorForm = ({
                         }
                       >
                         <FormControl>
-                          <SelectTrigger className="bg-slate-100 border-slate-300">
+                          <SelectTrigger className="bg-slate-100 border-slate-300 text-lg font-semibold">
                             <SelectValue
                               className="text-red-500"
                               placeholder="Selecciona la ciudad del colaborador"
@@ -275,6 +355,7 @@ export const AddCollaboratorForm = ({
                             <SelectItem
                               key={city.id}
                               value={city.id.toString()}
+                                 className="text-lg font-semibold"
                             >
                               {city.realName}
                             </SelectItem>
@@ -307,7 +388,7 @@ export const AddCollaboratorForm = ({
                             id="date"
                             variant={"outline"}
                             className={cn(
-                              "h-11 w-full justify-start text-left font-normal bg-slate-100 hover:bg-slate-200",
+                              "h-11 w-full justify-start text-left bg-slate-100 hover:bg-slate-200 text-lg font-semibold",
                               !date && "text-muted-foreground"
                             )}
                           >
@@ -338,6 +419,7 @@ export const AddCollaboratorForm = ({
                             onSelect={setDate}
                             numberOfMonths={2}
                             locale={es}
+
                           />
                         </PopoverContent>
                       </Popover>

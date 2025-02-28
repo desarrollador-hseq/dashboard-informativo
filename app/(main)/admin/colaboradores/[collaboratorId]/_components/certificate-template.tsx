@@ -217,27 +217,28 @@ export const CertificateTemplate = ({
           {/* -------- Signature --------- */}
           <View
             style={{
-              width: "75%",
+              width: "80%",
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-around",
-              marginLeft: 35,
+              marginLeft: 30,
               marginBottom: 15,
             }}
           >
+            
             <View
               style={{
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                marginLeft: 55,
-                marginRight: 40,
+                marginLeft: 35,
+                marginRight: 5,
               }}
             >
-              <Text style={{ fontWeight: "semibold", fontSize: 16 }}>
+              <Text style={{ fontWeight: "semibold", fontSize: 13 }}>
                 FERNANDO FORERO NAVARRETE
               </Text>
-              <Text style={{ fontSize: 14 }}>JEFE SST&A</Text>
+              <Text style={{ fontSize: 10 }}>JEFE SST&A</Text>
             </View>
             {/* --------------------------------------------------- */}
             <View
@@ -250,9 +251,8 @@ export const CertificateTemplate = ({
                 height: "100%",
               }}
             >
-              <View >
-
-                <Image
+              <View>
+                {/* <Image
                   style={{
                     width: 130,
                     height: 28,
@@ -261,18 +261,53 @@ export const CertificateTemplate = ({
                     left: 94,
                   }}
                   src={`/jose-firma2.png`}
-                />
-                <Text style={{ fontWeight: "semibold", fontSize: 16 }}>
-                  JOSE CRISTANCHO DURAN Ing. Electromecánico
+                /> */}
+                <Text
+                  style={{
+                    fontWeight: "semibold",
+                    fontSize: 13,
+                  }}
+                >
+                  JOHN MERIÑO HERRÁN - Ing. Eléctrico.
                 </Text>
               </View>
-              <Text style={{ fontSize: 12, fontWeight: "semibold" }}>
-                M.P: SN250 - 152628
+              <Text style={{ fontSize: 10, fontWeight: "semibold" }}>
+                M. P AT205-178689
               </Text>
-              <Text style={{ fontSize: 16, fontWeight: "semibold" }}>
+              {/* <Text style={{ fontSize: 10, fontWeight: "semibold" }}>
                 Licencia SST 3084 DE 2023
+              </Text> */}
+              <Text style={{ fontSize: 10 }}>Instructor</Text>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative",
+                height: "100%",
+              }}
+            >
+              <View>
+                <Text
+                  style={{
+                    fontWeight: "semibold",
+                    fontSize: 13,
+                  }}
+                >
+                  YEHIDERT GARIZABALO MENDOZA
+                </Text>
+              </View>
+              <Text style={{ fontSize: 10, fontWeight: "semibold" }}>
+                Licencia SST 0797 DE 2019
               </Text>
-              <Text style={{ fontSize: 14 }}>Instructor</Text>
+              <Text style={{ fontSize: 10, fontWeight: "semibold" }}>
+                HSEQ-CGIR SAS Licencia SST 560 DE 2023
+              </Text>
+              <Text style={{ fontSize: 10 }}>
+                Jefe Operativo - Líder de formación.
+              </Text>
             </View>
           </View>
           {/* -------- Footer --------- */}
