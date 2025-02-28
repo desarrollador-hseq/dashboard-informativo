@@ -52,6 +52,7 @@ import {
 import { DeleteCollaborator } from "./delete-collaborator";
 import { Checkbox } from "@/components/ui/checkbox";
 import { CheckedState } from "@radix-ui/react-checkbox";
+import { FormattedNumberInput } from "./formatted-input-form";
 
 interface AddCollaboratorFormProps {
   collaborator?: Collaborator | null;
@@ -256,77 +257,18 @@ export const AddCollaboratorForm = ({
                 <FormField
                   control={form.control}
                   name="numDoc"
-                  render={({ field }) => {
-                    const [displayValue, setDisplayValue] = useState(
-                      field.value
-                        ? new Intl.NumberFormat("es-ES").format(
-                            Number(field.value.toString().replace(/\./g, ""))
-                          )
-                        : ""
-                    );
-
-                    return (
-                      <FormItem>
-                        <FormLabel>Número de Cédula</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="text"
-                            value={displayValue}
-                            className="text-lg font-semibold"
-                            onChange={(e) => {
-                              // Primero eliminamos todos los puntos del valor actual
-                              const rawValue = e.target.value.replace(
-                                /\./g,
-                                ""
-                              );
-
-                              // Verificamos si el valor limpio contiene solo dígitos
-                              if (/^\d*$/.test(rawValue)) {
-                                // Actualizamos el valor a mostrar con formato
-                                setDisplayValue(
-                                  rawValue
-                                    ? new Intl.NumberFormat("es-ES").format(
-                                        Number(rawValue)
-                                      )
-                                    : ""
-                                );
-
-                                // Guardamos el valor sin puntos en el formulario
-                                field.onChange(rawValue);
-                              }
-                            }}
-                            onPaste={(e) => {
-                              // Prevenimos el comportamiento por defecto
-                              e.preventDefault();
-
-                              // Obtenemos el texto pegado
-                              const pastedText =
-                                e.clipboardData.getData("text");
-
-                              // Eliminamos todos los puntos y otros caracteres no numéricos
-                              const cleanValue = pastedText.replace(
-                                /[^\d]/g,
-                                ""
-                              );
-
-                              // Si el valor limpio contiene solo dígitos, actualizamos
-                              if (/^\d*$/.test(cleanValue)) {
-                                setDisplayValue(
-                                  cleanValue
-                                    ? new Intl.NumberFormat("es-ES").format(
-                                        Number(cleanValue)
-                                      )
-                                    : ""
-                                );
-                                field.onChange(cleanValue);
-                              }
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    );
-                  }}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Número de Cédula</FormLabel>
+                      <FormControl>
+                        <FormattedNumberInput
+                          field={field}
+                          className="text-lg font-semibold"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
               </div>
               <div>
@@ -355,7 +297,7 @@ export const AddCollaboratorForm = ({
                             <SelectItem
                               key={city.id}
                               value={city.id.toString()}
-                                 className="text-lg font-semibold"
+                              className="text-lg font-semibold"
                             >
                               {city.realName}
                             </SelectItem>
@@ -419,7 +361,6 @@ export const AddCollaboratorForm = ({
                             onSelect={setDate}
                             numberOfMonths={2}
                             locale={es}
-
                           />
                         </PopoverContent>
                       </Popover>
