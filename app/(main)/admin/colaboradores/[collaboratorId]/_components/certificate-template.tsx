@@ -182,8 +182,7 @@ export const CertificateTemplate = ({
                 }}
               >
                 <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                  Cumpliendo los Requerimientos de la Resolución 5018 de 2019 y
-                  40293 de 2021
+                  Cumpliendo los Requerimientos de la Resolución 5018 de 2019
                 </Text>
                 <Text
                   style={{
@@ -225,7 +224,6 @@ export const CertificateTemplate = ({
               marginBottom: 15,
             }}
           >
-            
             <View
               style={{
                 display: "flex",
@@ -357,7 +355,7 @@ export const CertificateTemplate = ({
               <Text
                 style={{ fontSize: 12, color: "000000", fontStyle: "italic" }}
               >
-                correo riesgoelectrico@claro.com.co
+                correo seguridadeneltrabajo@claro.com.co
               </Text>
             </View>
           </View>
