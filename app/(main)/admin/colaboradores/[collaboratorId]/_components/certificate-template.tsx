@@ -168,7 +168,7 @@ export const CertificateTemplate = ({
                 <Text
                   style={{ fontSize: 17, fontWeight: "bold", color: "#ff0000" }}
                 >
-                  (Cuatro horas)
+                  (Ocho horas)
                 </Text>
               </View>
               {/* --------Date and Resolution--------- */}
