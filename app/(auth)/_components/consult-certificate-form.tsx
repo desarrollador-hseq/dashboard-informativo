@@ -23,6 +23,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { cn } from "@/lib/utils";
+import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
 
 const formSchema = z.object({
   numDoc: z.string().min(1, {
@@ -80,15 +91,17 @@ export const ConsultCertificateForm = () => {
   };
 
   const checkedCertificate = async (id: string) => {
-    console.log({checkedCert: id})
-   try {
-    await axios.patch(`/api/collaborators/${id}`, {
-      checkCertificate: true,
-    });
-   } catch (error) {
-    console.log("errorr", error);
-   }
-  }
+    try {
+      const {data} =  await axios.patch(`/api/collaborators/${id}`, {
+        checkCertificate: true,
+      });
+      
+      console.log({ checkedCert: id });
+      console.log({data})
+    } catch (error) {
+      console.log("errorr", error);
+    }
+  };
 
   return (
     <Form {...form}>
@@ -139,20 +152,64 @@ export const ConsultCertificateForm = () => {
                     <p className="w-full border-2 border-b-primary h-[50%] text-sm p-2 font-bold text-center ">
                       Certificado
                     </p>
-                    <SimpleModal
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button
+                          onClick={() => checkedCertificate(collaborator.id)}
+                          className={cn("bg-accent")}
+                        >
+                          <Eye className="w-4 h-4 text-white" />
+                        </Button>
+                      </AlertDialogTrigger>
+
+                      <AlertDialogContent
+                        className={
+                          " lg:max-w-screen-lg overflow-y-scroll max-h-screen min-h-[300px]"
+                        }
+                      >
+                        <AlertDialogHeader className="flex justify-between flex-row">
+                          <AlertDialogTitle className="text-2xl inline">
+                            <div className="">
+                              Certificado de{" "}
+                              <span className="uppercase">
+                                {collaborator?.fullname}
+                              </span>
+                              .
+                              {/* <Button
+                                className="w-fit h-fit flex rounded-md justify-center items-center p-1 hover:bg-slate-50"
+                                variant="outline"
+                                onClick={handleClose}
+                              >
+                                <X className="text-red-500" />
+                              </Button> */}
+                            </div>
+                          </AlertDialogTitle>
+                          <AlertDialogCancel className="inline">
+                            <X className="text-red-500" />
+                          </AlertDialogCancel>
+                        </AlertDialogHeader>
+                        <AlertDialogDescription className="w-full"></AlertDialogDescription>
+                        <span className="w-full">
+                          {!collaborator.byArl ? (
+                            <GenerateCertificate collaborator={collaborator} />
+                          ) : (
+                            <GenerateCertificateBolivar
+                              collaborator={collaborator}
+                            />
+                          )}
+                        </span>
+                        <AlertDialogFooter className="gap-3"></AlertDialogFooter>
+                        <AlertDialogFooter></AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                    {/* <SimpleModal
                       btnClass="p-3 h-5 mt-1 flex items-center bg-blue-500 hover:bg-blue-700"
                       textBtn={<Eye className="w-4 h-4 text-white" />}
                       title="Certificado"
                       onAcept={() => checkedCertificate(collaborator.id)}
                     >
-                      {!collaborator.byArl ? (
-                        <GenerateCertificate collaborator={collaborator} />
-                      ) : (
-                        <GenerateCertificateBolivar
-                          collaborator={collaborator}
-                        />
-                      )}
-                    </SimpleModal>
+                    
+                    </SimpleModal> */}
                     {/* <Badge
                       className={cn(
                         "bg-inherit hover:bg-inherit max-w-[30px] flex justify-center items-center mt-2",

@@ -231,6 +231,7 @@ export const CertificateTemplate = ({
                 alignItems: "center",
                 marginLeft: 35,
                 marginRight: 5,
+                paddingTop: "5px",
               }}
             >
               <Text style={{ fontWeight: "semibold", fontSize: 13 }}>
@@ -250,16 +251,16 @@ export const CertificateTemplate = ({
               }}
             >
               <View>
-                {/* <Image
+                <Image
                   style={{
-                    width: 130,
-                    height: 28,
+                    width: 100,
+                    height: 35,
                     position: "absolute",
-                    top: -25,
-                    left: 94,
+                    top: -32,
+                    left: 50,
                   }}
-                  src={`/jose-firma2.png`}
-                /> */}
+                  src={`/jhonm.jpeg`}
+                />
                 <Text
                   style={{
                     fontWeight: "semibold",
@@ -272,9 +273,7 @@ export const CertificateTemplate = ({
               <Text style={{ fontSize: 10, fontWeight: "semibold" }}>
                 M. P AT205-178689
               </Text>
-              {/* <Text style={{ fontSize: 10, fontWeight: "semibold" }}>
-                Licencia SST 3084 DE 2023
-              </Text> */}
+              <Text style={{ fontSize: 10, fontWeight: "semibold" }}></Text>
               <Text style={{ fontSize: 10 }}>Instructor</Text>
             </View>
             <View
@@ -285,9 +284,20 @@ export const CertificateTemplate = ({
                 justifyContent: "center",
                 position: "relative",
                 height: "100%",
+                paddingTop: "5px",
               }}
             >
               <View>
+                <Image
+                  style={{
+                    width: 80,
+                    height: 38,
+                    position: "absolute",
+                    top: -35,
+                    left: 60,
+                  }}
+                  src={`/yehidert-2.png`}
+                />
                 <Text
                   style={{
                     fontWeight: "semibold",

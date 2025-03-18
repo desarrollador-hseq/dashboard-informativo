@@ -3,8 +3,6 @@ import { NextResponse } from "next/server";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { db } from "@/lib/db";
 
-
-
 export async function PATCH(req: Request, { params }: { params: { collaboratorId: string } }) {
     try {
         // const session = await getServerSession(authOptions)
@@ -22,13 +20,17 @@ export async function PATCH(req: Request, { params }: { params: { collaboratorId
         }
 
         // Verificar duplicado de número de documento solo si cambió
-        if (currentCollaborator.numDoc !== values.numDoc) {
-            const duplicateDoc = await db.collaborator.findFirst({
-                where: { numDoc: values.numDoc, active: true }
-            });
 
-            if (duplicateDoc) {
-                return new NextResponse("Número de documento ya registrado", { status: 400 });
+        if (!!values.numDoc) {
+
+            if (currentCollaborator.numDoc !== values.numDoc) {
+                const duplicateDoc = await db.collaborator.findFirst({
+                    where: { numDoc: values.numDoc, active: true }
+                });
+
+                if (duplicateDoc) {
+                    return new NextResponse("Número de documento ya registrado", { status: 400 });
+                }
             }
         }
 
@@ -44,6 +46,7 @@ export async function PATCH(req: Request, { params }: { params: { collaboratorId
             certificateUrl: values.certificateUrl,
             isVirtual: values.isVirtual,
             byArl: values.byArl,
+            checkCertificate: values.checkCertificate,
             // Agrega aquí solo los campos que quieres permitir actualizar
         };
 
