@@ -20,6 +20,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -34,6 +35,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { cn } from "@/lib/utils";
 import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
+import { FormattedNumberInput } from "@/app/(main)/admin/colaboradores/[collaboratorId]/_components/formatted-input-form";
 
 const formSchema = z.object({
   numDoc: z.string().min(1, {
@@ -92,12 +94,12 @@ export const ConsultCertificateForm = () => {
 
   const checkedCertificate = async (id: string) => {
     try {
-      const {data} =  await axios.patch(`/api/collaborators/${id}`, {
+      const { data } = await axios.patch(`/api/collaborators/${id}`, {
         checkCertificate: true,
       });
-      
+
       console.log({ checkedCert: id });
-      console.log({data})
+      console.log({ data });
     } catch (error) {
       console.log("errorr", error);
     }
@@ -112,11 +114,11 @@ export const ConsultCertificateForm = () => {
             name="numDoc"
             render={({ field }) => (
               <FormItem>
+                <FormLabel>Número de documento</FormLabel>
                 <FormControl>
-                  <Input
-                    disabled={isSubmitting}
-                    placeholder="Número de documento"
-                    {...field}
+                  <FormattedNumberInput
+                    field={field}
+                    className="text-lg font-semibold"
                   />
                 </FormControl>
                 <FormMessage />
